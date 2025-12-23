@@ -15,11 +15,9 @@ function App() {
         {/* Personajes favoritos y personajes */}
         <main className="sidebar-main">
           <section className="sidebar-section-starred">
-            Starred Characters (2)
+            Starred Characters
           </section>
-          <section className="sidebar-section-characters">
-            Characters (4)
-          </section>
+          <section className="sidebar-section-characters">Characters</section>
         </main>
       </aside>
 
