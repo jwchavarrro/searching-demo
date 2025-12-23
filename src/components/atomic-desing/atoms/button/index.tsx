@@ -59,7 +59,7 @@ export const Button = ({
         baseClasses,
         variantClasses[variant],
         sizeClasses[size],
-        disabled && 'opacity-50 cursor-not-allowed',
+        disabled && 'cursor-not-allowed opacity-50',
         className
       )}
       disabled={disabled}

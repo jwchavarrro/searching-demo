@@ -31,11 +31,11 @@ export const AvatarButton = ({
       {icon && (
         <div
           className={cn(
-            'absolute right-0 bottom-0 translate-x-1/6 translate-y-1/12 bg-white rounded-full md:size-8 size-6 flex items-center justify-center',
+            'absolute right-0 bottom-0 flex size-6 translate-x-1/6 translate-y-1/12 items-center justify-center rounded-full bg-white md:size-8',
             iconClassName
           )}
         >
-          <Icon icon={icon} className="md:size-6 size-4 text-secondary-600" />
+          <Icon icon={icon} className="text-secondary-600 size-4 md:size-6" />
         </div>
       )}
     </div>

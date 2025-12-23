@@ -41,9 +41,7 @@ describe('AvatarButton', () => {
     })
 
     it('no renderiza el div del icono cuando no se proporciona icon', () => {
-      const { container } = render(
-        <AvatarButton avatar={{ initials: 'AB' }} />
-      )
+      const { container } = render(<AvatarButton avatar={{ initials: 'AB' }} />)
       const iconDiv = container.querySelector('.absolute')
       expect(iconDiv).not.toBeInTheDocument()
     })
@@ -97,10 +95,7 @@ describe('AvatarButton', () => {
   describe('layout y posicionamiento', () => {
     it('aplica clases de posicionamiento relativo al contenedor', () => {
       const { container } = render(
-        <AvatarButton
-          avatar={{ initials: 'AB' }}
-          icon="mdi:heart"
-        />
+        <AvatarButton avatar={{ initials: 'AB' }} icon="mdi:heart" />
       )
       const wrapper = container.querySelector('div')
       expect(wrapper).toHaveClass('relative')
@@ -231,4 +226,3 @@ describe('AvatarButton', () => {
     })
   })
 })
-
