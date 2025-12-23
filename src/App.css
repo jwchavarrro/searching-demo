@@ -1,47 +1,47 @@
 @reference 'tailwindcss';
 
 .app {
-    @apply flex h-screen w-screen overflow-hidden;
+  @apply flex h-screen w-screen overflow-hidden;
 }
 
 .sidebar {
-    @apply flex flex-col gap-4 justify-between p-4 grow border;
+  @apply flex grow flex-col justify-between gap-4 border p-4;
 }
 
 @media (min-width: 768px) {
-    .sidebar {
-        @apply max-w-80;
-    }
+  .sidebar {
+    @apply max-w-80;
+  }
 }
 
 @media (min-width: 1024px) {
-    .sidebar {
-        @apply max-w-96;
-    }
+  .sidebar {
+    @apply max-w-96;
+  }
 }
 
 .sidebar-header {
-    @apply border min-h-24;
+  @apply min-h-24 border;
 }
 
 .sidebar-main {
-    @apply border h-full;
+  @apply h-full border;
 }
 
 .sidebar-section-starred {
-    @apply border h-1/3;
+  @apply h-1/3 border;
 }
 
 .sidebar-section-characters {
-    @apply border h-2/3;
+  @apply h-2/3 border;
 }
 
 .main-content {
-    @apply hidden grow border;
+  @apply hidden grow border;
 }
 
 @media (min-width: 768px) {
-    .main-content {
-        @apply block;
-    }
+  .main-content {
+    @apply block;
+  }
 }
