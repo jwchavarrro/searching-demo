@@ -3,6 +3,8 @@
  * @description: Este componente gestiona el layout principal de la aplicación.
  */
 
+import { Icon } from '@iconify/react'
+import { ICONS } from '@config'
 import { Avatar, Button, Text, Title } from '@/components/atomic-desing/atoms'
 import { AvatarButton, Header } from '@/components/atomic-desing/molecules'
 
@@ -148,11 +150,29 @@ function App() {
                 <Text text="Variantes" size="sm" weight="semibold" />
                 <div className="flex flex-wrap gap-2">
                   <Button variant="default">Default</Button>
+                  <Button variant="default" disabled>
+                    Default (Disabled)
+                  </Button>
                   <Button variant="destructive">Destructive</Button>
+                  <Button variant="destructive" disabled>
+                    Destructive (Disabled)
+                  </Button>
                   <Button variant="outline">Outline</Button>
+                  <Button variant="outline" disabled>
+                    Outline (Disabled)
+                  </Button>
                   <Button variant="secondary">Secondary</Button>
+                  <Button variant="secondary" disabled>
+                    Secondary (Disabled)
+                  </Button>
                   <Button variant="ghost">Ghost</Button>
+                  <Button variant="ghost" disabled>
+                    Ghost (Disabled)
+                  </Button>
                   <Button variant="link">Link</Button>
+                  <Button variant="link" disabled>
+                    Link (Disabled)
+                  </Button>
                 </div>
               </div>
               <div className="space-y-2">
@@ -161,7 +181,9 @@ function App() {
                   <Button size="sm">Small</Button>
                   <Button size="base">Base</Button>
                   <Button size="lg">Large</Button>
-                  <Button size="icon">🔍</Button>
+                  <Button variant="secondary" size="icon">
+                    <Icon icon={ICONS.filter} />
+                  </Button>
                 </div>
               </div>
               <div className="space-y-2">

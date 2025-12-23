@@ -4,5 +4,5 @@
  */
 
 export const ICONS: Record<string, string> = {
-  star: 'mdi:star',
+  filter: 'hugeicons:filter-vertical',
 } as const

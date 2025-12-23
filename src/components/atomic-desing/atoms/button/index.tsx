@@ -26,12 +26,14 @@ export interface ButtonProps extends Omit<
 
 const variantClasses = {
   default:
-    'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-700',
+    'bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-700 disabled:bg-gray/20 disabled:text-gray',
   destructive: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-700',
   outline:
-    'border border-gray-300 bg-transparent hover:bg-gray-100 active:bg-gray-100 text-gray-900',
-  secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 active:bg-gray-300',
-  ghost: 'bg-transparent hover:bg-gray-100 active:bg-gray-100 text-gray-900',
+    'border border-gray/50 bg-transparent hover:bg-gray/50 hover:border-gray/50 active:bg-gray/50 text-gray-900',
+  secondary:
+    'bg-primary-100 text-primary-700 hover:bg-gray/30 active:bg-gray/30',
+  ghost:
+    'bg-transparent hover:bg-gray/50 hover:border-gray/50 active:bg-gray/50 text-black',
   link: 'bg-transparent text-primary-600 hover:underline p-0 h-auto',
 }
 
@@ -39,11 +41,11 @@ const sizeClasses = {
   sm: 'h-8 px-3 text-sm',
   base: 'h-10 px-4 text-base',
   lg: 'h-12 px-6 text-lg',
-  icon: 'h-10 w-10 p-0',
+  icon: 'size-10 p-0',
 }
 
 const baseClasses =
-  'inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-600 disabled:pointer-events-none disabled:opacity-50'
+  'inline-flex items-center justify-center rounded-lg font-medium text-xs md:text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-600 disabled:pointer-events-none disabled:opacity-50'
 
 export const Button = ({
   children,
