@@ -5,6 +5,9 @@
 
 import { createElement } from 'react'
 
+// Import of utils
+import { cn } from '@/utils/cn'
+
 export interface TitleProps {
   title: string
   level?: 1 | 2 | 3 | 4 | 5 | 6
@@ -67,18 +70,22 @@ export const Title = ({
   size,
   align = 'left',
   truncate = false,
-  className = '',
+  className,
 }: TitleProps) => {
   const sizeClass = size ? sizeClasses[size] : defaultSizeByLevel[level]
 
-  const classes = [
-    sizeClass,
-    alignClasses[align],
-    truncate && 'truncate',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ')
-
-  return createElement(headingTags[level], { className: classes }, title)
+  return createElement(
+    headingTags[level],
+    {
+      className: cn(
+        'font-bold',
+        'text-black',
+        sizeClass,
+        alignClasses[align],
+        truncate && 'truncate',
+        className
+      ),
+    },
+    title
+  )
 }

@@ -14,7 +14,7 @@ describe('App', () => {
     expect(container.querySelector('.main-content')).toBeInTheDocument()
 
     // Verificar textos específicos
-    expect(screen.getByText('Starred Characters')).toBeInTheDocument()
-    expect(screen.getByText(/^Characters$/)).toBeInTheDocument()
+    expect(screen.getByText('STARRED CHARACTERS')).toBeInTheDocument()
+    expect(screen.getByText(/^CHARACTERS$/)).toBeInTheDocument()
   })
 })
