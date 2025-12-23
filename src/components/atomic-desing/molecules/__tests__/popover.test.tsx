@@ -161,7 +161,7 @@ describe('Popover', () => {
             <PopoverTrigger
               asChild
               children={
-                ('invalid' as unknown) as React.ReactElement<{
+                'invalid' as unknown as React.ReactElement<{
                   onClick?: (e: React.MouseEvent<HTMLElement>) => void
                   ref?: React.Ref<HTMLElement>
                 }>
