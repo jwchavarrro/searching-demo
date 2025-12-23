@@ -46,9 +46,10 @@ describe('Button', () => {
       const { container } = render(<Button variant="outline">Outline</Button>)
       const button = container.querySelector('button')
       expect(button).toHaveClass('border')
-      expect(button).toHaveClass('border-gray-300')
+      expect(button).toHaveClass('border-gray/50')
       expect(button).toHaveClass('bg-transparent')
-      expect(button).toHaveClass('hover:bg-gray-100')
+      expect(button).toHaveClass('hover:bg-gray/50')
+      expect(button).toHaveClass('text-gray-900')
     })
 
     it('aplica la variante secondary', () => {
@@ -56,17 +57,17 @@ describe('Button', () => {
         <Button variant="secondary">Secondary</Button>
       )
       const button = container.querySelector('button')
-      expect(button).toHaveClass('bg-gray-200')
-      expect(button).toHaveClass('text-gray-900')
-      expect(button).toHaveClass('hover:bg-gray-300')
+      expect(button).toHaveClass('bg-primary-100')
+      expect(button).toHaveClass('text-primary-700')
+      expect(button).toHaveClass('hover:bg-gray/30')
     })
 
     it('aplica la variante ghost', () => {
       const { container } = render(<Button variant="ghost">Ghost</Button>)
       const button = container.querySelector('button')
       expect(button).toHaveClass('bg-transparent')
-      expect(button).toHaveClass('hover:bg-gray-100')
-      expect(button).toHaveClass('text-gray-900')
+      expect(button).toHaveClass('hover:bg-gray/50')
+      expect(button).toHaveClass('text-black')
     })
 
     it('aplica la variante link', () => {
@@ -108,8 +109,7 @@ describe('Button', () => {
     it('aplica el tamaño icon', () => {
       const { container } = render(<Button size="icon">🔍</Button>)
       const button = container.querySelector('button')
-      expect(button).toHaveClass('h-10')
-      expect(button).toHaveClass('w-10')
+      expect(button).toHaveClass('size-10')
       expect(button).toHaveClass('p-0')
     })
   })
@@ -121,7 +121,7 @@ describe('Button', () => {
       expect(button).toHaveClass('inline-flex')
       expect(button).toHaveClass('items-center')
       expect(button).toHaveClass('justify-center')
-      expect(button).toHaveClass('rounded-md')
+      expect(button).toHaveClass('rounded-lg')
       expect(button).toHaveClass('font-medium')
       expect(button).toHaveClass('transition-colors')
     })
