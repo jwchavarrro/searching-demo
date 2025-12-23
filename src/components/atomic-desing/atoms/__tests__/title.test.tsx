@@ -93,9 +93,7 @@ describe('Title', () => {
 
   describe('size personalizado', () => {
     it('sobrescribe el tamaño por defecto cuando se proporciona size', () => {
-      const { container } = render(
-        <Title title="Título" level={1} size="xs" />
-      )
+      const { container } = render(<Title title="Título" level={1} size="xs" />)
       const heading = container.querySelector('h1')
       expect(heading).toHaveClass('text-xs')
       expect(heading).not.toHaveClass('text-4xl')
@@ -236,4 +234,3 @@ describe('Title', () => {
     })
   })
 })
-
