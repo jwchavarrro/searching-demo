@@ -194,7 +194,9 @@ describe('Avatar', () => {
 
   describe('alt por defecto', () => {
     it('usa "Avatar" como alt por defecto cuando no se proporciona', () => {
-      const { container } = render(<Avatar src="https://example.com/avatar.jpg" />)
+      const { container } = render(
+        <Avatar src="https://example.com/avatar.jpg" />
+      )
       const img = container.querySelector('img')
       expect(img).toHaveAttribute('alt', 'Avatar')
     })
@@ -224,11 +226,7 @@ describe('Avatar', () => {
   describe('combinación de props', () => {
     it('aplica múltiples clases correctamente', () => {
       const { container } = render(
-        <Avatar
-          initials="AB"
-          size="xl"
-          className="custom-class border-2"
-        />
+        <Avatar initials="AB" size="xl" className="custom-class border-2" />
       )
       const div = container.querySelector('div')
       expect(div).toHaveClass('w-16')
@@ -241,4 +239,3 @@ describe('Avatar', () => {
     })
   })
 })
-
