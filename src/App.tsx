@@ -6,7 +6,11 @@
 import { Icon } from '@iconify/react'
 import { ICONS } from '@config'
 import { Avatar, Button, Text, Title } from '@/components/atomic-desing/atoms'
-import { AvatarButton, Header } from '@/components/atomic-desing/molecules'
+import {
+  AvatarButton,
+  CardA,
+  Header,
+} from '@/components/atomic-desing/molecules'
 
 function App() {
   return (
@@ -139,6 +143,55 @@ function App() {
                 icon="mdi:heart"
                 iconSize={24}
               />
+            </div>
+          </section>
+
+          {/* CardA Component */}
+          <section className="space-y-4">
+            <Title title="CardA Component" level={2} size="2xl" />
+            <div className="space-y-4">
+              <div className="max-w-md">
+                <CardA
+                  avatar={{
+                    src: 'https://rickandmortyapi.com/api/character/avatar/5.jpeg',
+                    alt: 'Jerry Smith',
+                  }}
+                  title={{
+                    title: 'Jerry Smith',
+                  }}
+                  description={{
+                    text: 'Human',
+                  }}
+                />
+              </div>
+              <div className="max-w-md">
+                <CardA
+                  avatar={{
+                    src: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+                    alt: 'Rick Sanchez',
+                  }}
+                  title={{
+                    title: 'Rick Sanchez',
+                  }}
+                  description={{
+                    text: 'Human',
+                  }}
+                />
+              </div>
+              <div className="max-w-md">
+                <CardA
+                  avatar={{
+                    initials: 'MS',
+                    size: 'lg',
+                  }}
+                  title={{
+                    title: 'Morty Smith',
+                  }}
+                  description={{
+                    text: 'Human',
+                  }}
+                />
+              </div>
             </div>
           </section>
 
