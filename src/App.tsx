@@ -16,10 +16,9 @@ import {
   AvatarButton,
   CardA,
   Header,
-  Modal,
-  ModalClose,
-  ModalContent,
-  ModalTrigger,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from '@/components/atomic-desing/molecules'
 
 function App() {
@@ -348,32 +347,86 @@ function App() {
             </div>
           </section>
 
-          {/* Modal Component */}
+          {/* Popover Component */}
           <section className="space-y-4">
-            <Title title="Modal Component" level={2} size="2xl" />
-            <Modal>
-              <ModalTrigger asChild>
-                <Button variant="secondary">
-                  Abrir con Botón Personalizado
-                </Button>
-              </ModalTrigger>
-              <ModalContent>
-                <div className="space-y-4">
-                  <Title title="Modal Personalizado" level={3} size="lg" />
-                  <Text
-                    text="Este modal usa un trigger personalizado con asChild."
-                    size="base"
-                  />
-                  <Input placeholder="Campo de ejemplo" />
-                  <div className="flex justify-end gap-2">
-                    <ModalClose asChild>
-                      <Button variant="ghost">Cancelar</Button>
-                    </ModalClose>
-                    <Button>Guardar</Button>
-                  </div>
+            <Title title="Popover Component" level={2} size="2xl" />
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Text text="Posiciones" size="sm" weight="semibold" />
+                <div className="flex flex-wrap gap-2">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline">Bottom</Button>
+                    </PopoverTrigger>
+                    <PopoverContent side="bottom" align="center">
+                      <div className="space-y-2">
+                        <Title title="Popover Bottom" level={4} size="base" />
+                        <Text text="Se posiciona debajo" size="sm" />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline">Top</Button>
+                    </PopoverTrigger>
+                    <PopoverContent side="top" align="center">
+                      <div className="space-y-2">
+                        <Title title="Popover Top" level={4} size="base" />
+                        <Text text="Se posiciona arriba" size="sm" />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline">Right</Button>
+                    </PopoverTrigger>
+                    <PopoverContent side="right" align="center">
+                      <div className="space-y-2">
+                        <Title title="Popover Right" level={4} size="base" />
+                        <Text text="Se posiciona a la derecha" size="sm" />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="outline">Left</Button>
+                    </PopoverTrigger>
+                    <PopoverContent side="left" align="center">
+                      <div className="space-y-2">
+                        <Title title="Popover Left" level={4} size="base" />
+                        <Text text="Se posiciona a la izquierda" size="sm" />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </div>
-              </ModalContent>
-            </Modal>
+              </div>
+              <div className="space-y-2">
+                <Text text="Tamaños responsive" size="sm" weight="semibold" />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="secondary">Popover Responsive</Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    width="lg"
+                    mobileWidth="full"
+                    className="w-full max-w-[calc(100vw-2rem)] md:w-96"
+                  >
+                    <div className="space-y-4">
+                      <Title title="Popover Responsive" level={3} size="lg" />
+                      <Text
+                        text="En mobile ocupa todo el ancho, en desktop tiene ancho fijo."
+                        size="base"
+                      />
+                      <Input placeholder="Campo de ejemplo" />
+                      <div className="flex justify-end gap-2">
+                        <Button variant="ghost">Cancelar</Button>
+                        <Button>Guardar</Button>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </div>
+            </div>
           </section>
         </div>
       </main>
