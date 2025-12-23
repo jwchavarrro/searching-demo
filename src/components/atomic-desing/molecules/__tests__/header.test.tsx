@@ -6,7 +6,7 @@ describe('Header', () => {
   it('renderiza el header correctamente', () => {
     render(
       <Header
-        avatar={{ src: '/avatar.jpg', alt: 'Usuario' }}
+        avatar={{ avatar: { src: '/avatar.jpg', alt: 'Usuario' } }}
         title={{ title: 'Título del Header' }}
       />
     )
@@ -16,7 +16,7 @@ describe('Header', () => {
   it('renderiza el avatar', () => {
     const { container } = render(
       <Header
-        avatar={{ src: '/avatar.jpg', alt: 'Usuario' }}
+        avatar={{ avatar: { src: '/avatar.jpg', alt: 'Usuario' } }}
         title={{ title: 'Título' }}
       />
     )
@@ -28,7 +28,10 @@ describe('Header', () => {
 
   it('renderiza el título', () => {
     const { container } = render(
-      <Header avatar={{ initials: 'AB' }} title={{ title: 'Mi Título' }} />
+      <Header
+        avatar={{ avatar: { initials: 'AB' } }}
+        title={{ title: 'Mi Título' }}
+      />
     )
     const heading = container.querySelector('h1')
     expect(heading).toBeInTheDocument()
@@ -38,7 +41,11 @@ describe('Header', () => {
   describe('layout', () => {
     it('aplica clases de layout flex column', () => {
       const { container } = render(
-        <Header avatar={{ initials: 'AB' }} title={{ title: 'Título' }} />
+        <Header
+          avatar={{ avatar: { initials: 'AB' } }}
+          title={{ title: 'Título' }}
+          className="flex flex-col items-center gap-2"
+        />
       )
       const div = container.querySelector('div')
       expect(div).toHaveClass('flex')
@@ -49,7 +56,10 @@ describe('Header', () => {
 
     it('centra el título por defecto', () => {
       const { container } = render(
-        <Header avatar={{ initials: 'AB' }} title={{ title: 'Título' }} />
+        <Header
+          avatar={{ avatar: { initials: 'AB' } }}
+          title={{ title: 'Título', align: 'center' }}
+        />
       )
       const heading = container.querySelector('h1')
       expect(heading).toHaveClass('text-center')
@@ -61,10 +71,12 @@ describe('Header', () => {
       const { container } = render(
         <Header
           avatar={{
-            src: '/avatar.jpg',
-            alt: 'Usuario',
-            size: 'xl',
-            className: 'avatar-custom',
+            avatar: {
+              src: '/avatar.jpg',
+              alt: 'Usuario',
+              size: 'xl',
+              className: 'avatar-custom',
+            },
           }}
           title={{ title: 'Título' }}
         />
@@ -78,7 +90,7 @@ describe('Header', () => {
     it('funciona con iniciales en lugar de imagen', () => {
       render(
         <Header
-          avatar={{ initials: 'JP', size: 'lg' }}
+          avatar={{ avatar: { initials: 'JP', size: 'lg' } }}
           title={{ title: 'Título' }}
         />
       )
@@ -90,7 +102,7 @@ describe('Header', () => {
     it('pasa todas las props del título', () => {
       const { container } = render(
         <Header
-          avatar={{ initials: 'AB' }}
+          avatar={{ avatar: { initials: 'AB' } }}
           title={{
             title: 'Mi Título',
             level: 2,
@@ -107,7 +119,10 @@ describe('Header', () => {
 
     it('usa level 1 por defecto', () => {
       const { container } = render(
-        <Header avatar={{ initials: 'AB' }} title={{ title: 'Título' }} />
+        <Header
+          avatar={{ avatar: { initials: 'AB' } }}
+          title={{ title: 'Título' }}
+        />
       )
       const heading = container.querySelector('h1')
       expect(heading).toBeInTheDocument()
@@ -118,7 +133,7 @@ describe('Header', () => {
     it('aplica clases personalizadas al contenedor', () => {
       const { container } = render(
         <Header
-          avatar={{ initials: 'AB' }}
+          avatar={{ avatar: { initials: 'AB' } }}
           title={{ title: 'Título' }}
           className="custom-header"
         />
@@ -130,9 +145,9 @@ describe('Header', () => {
     it('combina clases personalizadas con las clases por defecto', () => {
       const { container } = render(
         <Header
-          avatar={{ initials: 'AB' }}
+          avatar={{ avatar: { initials: 'AB' } }}
           title={{ title: 'Título' }}
-          className="custom-header border-2"
+          className="custom-header flex flex-col items-center gap-2 border-2"
         />
       )
       const div = container.querySelector('div')
@@ -148,10 +163,12 @@ describe('Header', () => {
       const { container } = render(
         <Header
           avatar={{
-            src: '/avatar.jpg',
-            alt: 'Juan Pérez',
-            size: '2xl',
-            className: 'avatar-class',
+            avatar: {
+              src: '/avatar.jpg',
+              alt: 'Juan Pérez',
+              size: '2xl',
+              className: 'avatar-class',
+            },
           }}
           title={{
             title: 'Abadango Cluster Princess',

@@ -57,8 +57,8 @@ export const Button = ({
     <button
       className={cn(
         baseClasses,
-        variantClasses[variant],
         sizeClasses[size],
+        variantClasses[variant],
         disabled && 'cursor-not-allowed opacity-50',
         className
       )}

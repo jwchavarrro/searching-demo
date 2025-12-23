@@ -16,10 +16,10 @@ describe('Text', () => {
   })
 
   describe('size', () => {
-    it('aplica el tamaño base por defecto', () => {
+    it('aplica el tamaño xs por defecto', () => {
       const { container } = render(<Text text="Texto" />)
       const paragraph = container.querySelector('p')
-      expect(paragraph).toHaveClass('text-base')
+      expect(paragraph).toHaveClass('text-xs')
     })
 
     it('aplica el tamaño xs', () => {
