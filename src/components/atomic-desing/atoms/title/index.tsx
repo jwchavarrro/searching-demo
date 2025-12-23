@@ -4,6 +4,8 @@
  */
 
 import { createElement } from 'react'
+
+// Import of utils
 import { cn } from '@/utils/cn'
 
 export interface TitleProps {
@@ -75,7 +77,12 @@ export const Title = ({
   return createElement(
     headingTags[level],
     {
-      className: cn(sizeClass, alignClasses[align], truncate && 'truncate', className),
+      className: cn(
+        sizeClass,
+        alignClasses[align],
+        truncate && 'truncate',
+        className
+      ),
     },
     title
   )

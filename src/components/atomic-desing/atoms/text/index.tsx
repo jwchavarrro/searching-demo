@@ -3,6 +3,7 @@
  * @description: Componente genérico para renderizar texto con diferentes variantes.
  */
 
+// Import of utils
 import { cn } from '@/utils/cn'
 
 export interface TextProps {

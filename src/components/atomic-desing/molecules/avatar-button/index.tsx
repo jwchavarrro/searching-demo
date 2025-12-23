@@ -4,7 +4,11 @@
  */
 
 import { Icon } from '@iconify/react'
+
+// Import of components custom
 import { Avatar, type AvatarProps } from '@/components/atomic-desing/atoms'
+
+// Import of utils
 import { cn } from '@/utils/cn'
 
 export interface AvatarButtonProps {

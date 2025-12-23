@@ -4,6 +4,8 @@
  */
 
 import { type ButtonHTMLAttributes, type ReactNode } from 'react'
+
+// Import of utils
 import { cn } from '@/utils/cn'
 
 export interface ButtonProps extends Omit<
