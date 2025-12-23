@@ -1,15 +1,10 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '../popover'
+import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { Button } from '@/components/atomic-desing/atoms'
 
 describe('Popover', () => {
-
   describe('Popover', () => {
     it('renderiza el componente correctamente', () => {
       const { container } = render(
@@ -162,9 +157,7 @@ describe('Popover', () => {
       expect(() => {
         render(
           <Popover>
-            <PopoverTrigger asChild>
-              {'invalid' as any}
-            </PopoverTrigger>
+            <PopoverTrigger asChild>{'invalid' as any}</PopoverTrigger>
             <PopoverContent>Content</PopoverContent>
           </Popover>
         )
@@ -546,11 +539,7 @@ describe('Popover', () => {
             <PopoverTrigger asChild>
               <Button>Open</Button>
             </PopoverTrigger>
-            <PopoverContent
-              width="lg"
-              side="top"
-              className="custom-class"
-            >
+            <PopoverContent width="lg" side="top" className="custom-class">
               Content
             </PopoverContent>
           </Popover>
@@ -622,4 +611,3 @@ describe('Popover', () => {
     })
   })
 })
-

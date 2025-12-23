@@ -134,12 +134,7 @@ describe('Input', () => {
 
     it('pasa otras props HTML al input', () => {
       const { container } = render(
-        <Input
-          type="email"
-          name="email"
-          aria-label="Email input"
-          required
-        />
+        <Input type="email" name="email" aria-label="Email input" required />
       )
       const input = container.querySelector('input')
       expect(input).toHaveAttribute('type', 'email')
@@ -157,9 +152,7 @@ describe('Input', () => {
     })
 
     it('combina clases personalizadas con las clases por defecto', () => {
-      const { container } = render(
-        <Input className="custom-class" disabled />
-      )
+      const { container } = render(<Input className="custom-class" disabled />)
       const input = container.querySelector('input')
       expect(input).toHaveClass('bg-white')
       expect(input).toHaveClass('custom-class')
@@ -190,4 +183,3 @@ describe('Input', () => {
     })
   })
 })
-
