@@ -4,6 +4,7 @@
  */
 
 import { useState } from 'react'
+import { cn } from '@/utils/cn'
 
 export interface AvatarProps {
   src?: string
@@ -27,21 +28,19 @@ export const Avatar = ({
   alt = 'Avatar',
   initials,
   size = 'base',
-  className = '',
+  className,
 }: AvatarProps) => {
   const [imageError, setImageError] = useState(false)
 
-  const baseClasses = [
+  const baseClasses = cn(
     sizeClasses[size],
     'rounded-full',
     'flex items-center justify-center',
     'bg-gray-200 text-gray-700',
     'font-medium',
     'overflow-hidden',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ')
+    className
+  )
 
   const getInitials = () => {
     if (initials) return initials

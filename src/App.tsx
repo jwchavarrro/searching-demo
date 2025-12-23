@@ -33,18 +33,34 @@ function App() {
             <div className="flex gap-8">
               <Header
                 avatar={{
-                  src: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-                  alt: 'Rick Sanchez',
-                  size: 'xl',
+                  avatar: {
+                    src: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
+                    alt: 'Rick Sanchez',
+                    size: 'xl',
+                  },
                 }}
                 title={{ title: 'Rick Sanchez', level: 3, size: 'lg' }}
               />
               <Header
                 avatar={{
-                  initials: 'MS',
-                  size: 'xl',
+                  avatar: {
+                    initials: 'MS',
+                    size: 'xl',
+                  },
                 }}
                 title={{ title: 'Morty Smith', level: 3, size: 'lg' }}
+              />
+              <Header
+                avatar={{
+                  avatar: {
+                    src: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
+                    alt: 'Summer Smith',
+                    size: 'xl',
+                  },
+                  icon: 'mdi:heart',
+                  iconSize: 20,
+                }}
+                title={{ title: 'Summer Smith', level: 3, size: 'lg' }}
               />
             </div>
           </section>

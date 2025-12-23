@@ -4,6 +4,7 @@
  */
 
 import { createElement } from 'react'
+import { cn } from '@/utils/cn'
 
 export interface TitleProps {
   title: string
@@ -67,18 +68,15 @@ export const Title = ({
   size,
   align = 'left',
   truncate = false,
-  className = '',
+  className,
 }: TitleProps) => {
   const sizeClass = size ? sizeClasses[size] : defaultSizeByLevel[level]
 
-  const classes = [
-    sizeClass,
-    alignClasses[align],
-    truncate && 'truncate',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ')
-
-  return createElement(headingTags[level], { className: classes }, title)
+  return createElement(
+    headingTags[level],
+    {
+      className: cn(sizeClass, alignClasses[align], truncate && 'truncate', className),
+    },
+    title
+  )
 }

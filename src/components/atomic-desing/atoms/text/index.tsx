@@ -3,6 +3,8 @@
  * @description: Componente genérico para renderizar texto con diferentes variantes.
  */
 
+import { cn } from '@/utils/cn'
+
 export interface TextProps {
   text: string
   size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl'
@@ -41,17 +43,19 @@ export const Text = ({
   weight = 'normal',
   align = 'left',
   truncate = false,
-  className = '',
+  className,
 }: TextProps) => {
-  const classes = [
-    sizeClasses[size],
-    weightClasses[weight],
-    alignClasses[align],
-    truncate && 'truncate',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ')
-
-  return <p className={classes}>{text}</p>
+  return (
+    <p
+      className={cn(
+        sizeClasses[size],
+        weightClasses[weight],
+        alignClasses[align],
+        truncate && 'truncate',
+        className
+      )}
+    >
+      {text}
+    </p>
+  )
 }

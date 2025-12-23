@@ -4,6 +4,7 @@
  */
 
 import { type ButtonHTMLAttributes, type ReactNode } from 'react'
+import { cn } from '@/utils/cn'
 
 export interface ButtonProps extends Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
@@ -46,22 +47,22 @@ export const Button = ({
   children,
   variant = 'default',
   size = 'base',
-  className = '',
+  className,
   disabled,
   ...props
 }: ButtonProps) => {
-  const classes = [
-    baseClasses,
-    variantClasses[variant],
-    sizeClasses[size],
-    disabled && 'opacity-50 cursor-not-allowed',
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ')
-
   return (
-    <button className={classes} disabled={disabled} {...props}>
+    <button
+      className={cn(
+        baseClasses,
+        variantClasses[variant],
+        sizeClasses[size],
+        disabled && 'opacity-50 cursor-not-allowed',
+        className
+      )}
+      disabled={disabled}
+      {...props}
+    >
       {children}
     </button>
   )
