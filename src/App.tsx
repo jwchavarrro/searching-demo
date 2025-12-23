@@ -1,3 +1,8 @@
+/**
+ * App.tsx
+ * @description: Este componente se va a encargar del layout principal
+ */
+
 import './App.css'
 
 function App() {
