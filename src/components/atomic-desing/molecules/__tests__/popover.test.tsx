@@ -158,9 +158,15 @@ describe('Popover', () => {
       expect(() => {
         render(
           <Popover>
-            <PopoverTrigger asChild>
-              {'invalid' as unknown as React.ReactElement}
-            </PopoverTrigger>
+            <PopoverTrigger
+              asChild
+              children={
+                ('invalid' as unknown) as React.ReactElement<{
+                  onClick?: (e: React.MouseEvent<HTMLElement>) => void
+                  ref?: React.Ref<HTMLElement>
+                }>
+              }
+            />
             <PopoverContent>Content</PopoverContent>
           </Popover>
         )
