@@ -28,10 +28,7 @@ describe('Header', () => {
 
   it('renderiza el título', () => {
     const { container } = render(
-      <Header
-        avatar={{ initials: 'AB' }}
-        title={{ title: 'Mi Título' }}
-      />
+      <Header avatar={{ initials: 'AB' }} title={{ title: 'Mi Título' }} />
     )
     const heading = container.querySelector('h1')
     expect(heading).toBeInTheDocument()
@@ -41,10 +38,7 @@ describe('Header', () => {
   describe('layout', () => {
     it('aplica clases de layout flex column', () => {
       const { container } = render(
-        <Header
-          avatar={{ initials: 'AB' }}
-          title={{ title: 'Título' }}
-        />
+        <Header avatar={{ initials: 'AB' }} title={{ title: 'Título' }} />
       )
       const div = container.querySelector('div')
       expect(div).toHaveClass('flex')
@@ -55,10 +49,7 @@ describe('Header', () => {
 
     it('centra el título por defecto', () => {
       const { container } = render(
-        <Header
-          avatar={{ initials: 'AB' }}
-          title={{ title: 'Título' }}
-        />
+        <Header avatar={{ initials: 'AB' }} title={{ title: 'Título' }} />
       )
       const heading = container.querySelector('h1')
       expect(heading).toHaveClass('text-center')
@@ -116,10 +107,7 @@ describe('Header', () => {
 
     it('usa level 1 por defecto', () => {
       const { container } = render(
-        <Header
-          avatar={{ initials: 'AB' }}
-          title={{ title: 'Título' }}
-        />
+        <Header avatar={{ initials: 'AB' }} title={{ title: 'Título' }} />
       )
       const heading = container.querySelector('h1')
       expect(heading).toBeInTheDocument()
@@ -190,4 +178,3 @@ describe('Header', () => {
     })
   })
 })
-
