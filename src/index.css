@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+
+/* Import estilos de componentes custom */
 @import './App.css';
 
 /* Import utilidades */
