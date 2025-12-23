@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import React from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { Button } from '@/components/atomic-desing/atoms'
 
@@ -157,7 +158,9 @@ describe('Popover', () => {
       expect(() => {
         render(
           <Popover>
-            <PopoverTrigger asChild>{'invalid' as any}</PopoverTrigger>
+            <PopoverTrigger asChild>
+              {'invalid' as unknown as React.ReactElement}
+            </PopoverTrigger>
             <PopoverContent>Content</PopoverContent>
           </Popover>
         )
@@ -182,7 +185,7 @@ describe('Popover', () => {
     })
 
     it('renderiza cuando el popover está abierto', async () => {
-      const { container } = render(
+      render(
         <Popover open={true}>
           <PopoverTrigger asChild>
             <Button>Open</Button>
