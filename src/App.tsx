@@ -5,11 +5,21 @@
 
 import { Icon } from '@iconify/react'
 import { ICONS } from '@config'
-import { Avatar, Button, Text, Title } from '@/components/atomic-desing/atoms'
+import {
+  Avatar,
+  Button,
+  Input,
+  Text,
+  Title,
+} from '@/components/atomic-desing/atoms'
 import {
   AvatarButton,
   CardA,
   Header,
+  Modal,
+  ModalClose,
+  ModalContent,
+  ModalTrigger,
 } from '@/components/atomic-desing/molecules'
 
 function App() {
@@ -249,6 +259,26 @@ function App() {
             </div>
           </section>
 
+          {/* Input Variants */}
+          <section className="space-y-4">
+            <Title title="Input Component" level={2} size="2xl" />
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Text text="Ejemplo básico" size="sm" weight="semibold" />
+                <div className="max-w-md space-y-4">
+                  <Input placeholder="Search or filter results" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Text text="Estados" size="sm" weight="semibold" />
+                <div className="max-w-md space-y-4">
+                  <Input placeholder="Input normal" />
+                  <Input placeholder="Input deshabilitado" disabled />
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Title Variants */}
           <section className="space-y-4">
             <Title title="Title Component" level={2} size="2xl" />
@@ -316,6 +346,34 @@ function App() {
                 />
               </div>
             </div>
+          </section>
+
+          {/* Modal Component */}
+          <section className="space-y-4">
+            <Title title="Modal Component" level={2} size="2xl" />
+            <Modal>
+              <ModalTrigger asChild>
+                <Button variant="secondary">
+                  Abrir con Botón Personalizado
+                </Button>
+              </ModalTrigger>
+              <ModalContent>
+                <div className="space-y-4">
+                  <Title title="Modal Personalizado" level={3} size="lg" />
+                  <Text
+                    text="Este modal usa un trigger personalizado con asChild."
+                    size="base"
+                  />
+                  <Input placeholder="Campo de ejemplo" />
+                  <div className="flex justify-end gap-2">
+                    <ModalClose asChild>
+                      <Button variant="ghost">Cancelar</Button>
+                    </ModalClose>
+                    <Button>Guardar</Button>
+                  </div>
+                </div>
+              </ModalContent>
+            </Modal>
           </section>
         </div>
       </main>

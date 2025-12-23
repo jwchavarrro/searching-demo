@@ -5,4 +5,5 @@
 
 export const ICONS: Record<string, string> = {
   filter: 'hugeicons:filter-vertical',
+  search_01: 'hugeicons:search-01',
 } as const
