@@ -5,7 +5,7 @@
 }
 
 .sidebar {
-  @apply flex grow flex-col justify-between gap-4 border p-4;
+  @apply bg-primary-100/20 flex grow flex-col justify-between gap-4 p-4 pt-8;
 }
 
 @media (min-width: 768px) {
@@ -21,23 +21,23 @@
 }
 
 .sidebar-header {
-  @apply min-h-24 border;
+  @apply min-h-24;
 }
 
 .sidebar-main {
-  @apply h-full border;
+  @apply h-full;
 }
 
 .sidebar-section-starred {
-  @apply h-1/3 border;
+  @apply h-1/3;
 }
 
 .sidebar-section-characters {
-  @apply h-2/3 border;
+  @apply h-2/3;
 }
 
 .main-content {
-  @apply hidden grow border;
+  @apply hidden grow;
 }
 
 @media (min-width: 768px) {

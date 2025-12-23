@@ -12,15 +12,17 @@ function App() {
       {/* Sidebar */}
       <aside className="sidebar">
         <header className="sidebar-header">
-          header ( Title and Search Bar )
+          <Title title="Rick and Morty list" level={1} size="2xl" />
         </header>
 
         {/* Personajes favoritos y personajes */}
         <main className="sidebar-main">
           <section className="sidebar-section-starred">
-            Starred Characters
+            <Text text="STARRED CHARACTERS" weight="semibold" />
           </section>
-          <section className="sidebar-section-characters">Characters</section>
+          <section className="sidebar-section-characters">
+            <Text text="CHARACTERS" weight="semibold" />
+          </section>
         </main>
       </aside>
 

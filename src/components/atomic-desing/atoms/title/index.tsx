@@ -78,6 +78,8 @@ export const Title = ({
     headingTags[level],
     {
       className: cn(
+        'font-bold',
+        'text-black',
         sizeClass,
         alignClasses[align],
         truncate && 'truncate',

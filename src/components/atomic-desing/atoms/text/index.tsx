@@ -40,7 +40,7 @@ const alignClasses = {
 
 export const Text = ({
   text,
-  size = 'base',
+  size = 'xs',
   weight = 'normal',
   align = 'left',
   truncate = false,

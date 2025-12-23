@@ -21,9 +21,9 @@ export interface HeaderProps {
 
 export const Header = ({ avatar, title, className }: HeaderProps) => {
   return (
-    <div className={cn('flex flex-col items-center gap-2', className)}>
+    <div className={cn(className)}>
       <AvatarButton {...avatar} />
-      <Title {...title} align="center" className="font-bold" />
+      <Title {...title} />
     </div>
   )
 }
