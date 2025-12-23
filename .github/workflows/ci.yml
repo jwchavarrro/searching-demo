@@ -1,0 +1,123 @@
+name: CI
+
+on:
+  push:
+    branches: ['dev', 'main']
+  pull_request:
+    branches: ['dev', 'main']
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: 📦 Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: 🏗️ Build
+        run: bun run build
+        env:
+          NODE_ENV: production
+          CI: true
+
+      - name: 📤 Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: dist/
+          retention-days: 7
+
+      - name: 📝 Summary
+        if: success()
+        run: |
+          echo "### ✅ Build completado" >> $GITHUB_STEP_SUMMARY
+          echo "- Rama: $GITHUB_REF_NAME" >> $GITHUB_STEP_SUMMARY
+          echo "- Entorno: $RUNNER_OS" >> $GITHUB_STEP_SUMMARY
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: 📦 Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: 🔍 Run linter
+        run: bun run lint
+        env:
+          CI: true
+          NODE_ENV: production
+
+      - name: 📝 Summary
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "### ✅ Lint completado" >> $GITHUB_STEP_SUMMARY
+            echo "- No se encontraron errores de linting" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ❌ Lint falló" >> $GITHUB_STEP_SUMMARY
+            echo "Revisa los logs para más detalles" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🔧 Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: 📦 Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: 🧪 Run tests
+        run: bun run test:ci
+        env:
+          CI: true
+          NODE_ENV: test
+
+      - name: 📊 Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 7
+        continue-on-error: true
+
+      - name: 📝 Summary
+        if: always()
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "### ✅ Tests completados" >> $GITHUB_STEP_SUMMARY
+            echo "- Cobertura generada en ./coverage" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ❌ Tests fallaron" >> $GITHUB_STEP_SUMMARY
+            echo "Revisa los logs para más detalles" >> $GITHUB_STEP_SUMMARY
+          fi
+
