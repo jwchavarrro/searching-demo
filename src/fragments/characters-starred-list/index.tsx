@@ -9,6 +9,7 @@ import { Text } from '@/components/atomic-desing/atoms'
 
 // Import of context
 import { useCharactersStarred } from '@/context'
+import { useSelectedCharacter } from '@/context/use-selected-character'
 
 // Import of utils
 import { ICONS } from '@/config'
@@ -21,7 +22,17 @@ export function CharactersStarredList() {
   /* @name charactersStarred
   @description: Personajes marcados como favoritos
   */
-  const { charactersStarred, count } = useCharactersStarred()
+  const {
+    handleCharacterStarred,
+    isCharacterStarred,
+    charactersStarred,
+    count,
+  } = useCharactersStarred()
+
+  /* @name useSelectedCharacter
+  @description: Hook para manejar el estado del personaje seleccionado
+  */
+  const { setSelectedCharacter } = useSelectedCharacter()
 
   if (!charactersStarred || charactersStarred.length === 0) {
     return (
@@ -43,6 +54,9 @@ export function CharactersStarredList() {
           <CardA
             key={character.id}
             as="button"
+            onClick={() => setSelectedCharacter(character)}
+            isStarred={isCharacterStarred(character.id)}
+            onIconClick={() => handleCharacterStarred(character)}
             avatar={{
               src: character.image,
               alt: character.name,
