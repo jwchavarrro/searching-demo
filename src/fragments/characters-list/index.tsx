@@ -3,12 +3,21 @@
  * @description: Fragmento para renderizar el listado de personajes
  */
 
+// Import of components custom
 import { CardA } from '@/components/atomic-desing/molecules'
 import { Text } from '@/components/atomic-desing/atoms'
+
+// Import of hooks
 import { useCharacters } from '@/hooks'
+
+// Import of types
 import type { CharacterType } from '@/graphql/types'
 
 export function CharactersList() {
+  // Implement custom hooks
+  /* @name useCharacters
+  @description: Hook para obtener los personajes  
+ */
   const { data, isLoading, error } = useCharacters()
 
   if (isLoading) {
