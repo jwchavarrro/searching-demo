@@ -27,4 +27,3 @@ describe('context/index', () => {
     expect(typeof context.useSelectedCharacter).toBe('function')
   })
 })
-

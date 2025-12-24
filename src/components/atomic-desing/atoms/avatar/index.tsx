@@ -29,7 +29,7 @@ export const Avatar = ({
   src,
   alt = 'Avatar',
   initials,
-  size = 'base',
+  size = '2xl',
   className,
 }: AvatarProps) => {
   const [imageError, setImageError] = useState(false)

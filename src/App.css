@@ -1,7 +1,7 @@
 @reference 'tailwindcss';
 
 .app {
-  @apply flex h-screen w-screen overflow-hidden;
+  @apply flex h-dvh w-screen overflow-hidden md:h-screen;
 }
 
 .sidebar {
@@ -36,12 +36,12 @@
   @apply h-2/3 space-y-5;
 }
 
-.main-content {
-  @apply hidden grow;
+.main {
+  @apply hidden grow overflow-y-scroll;
 }
 
 @media (min-width: 768px) {
-  .main-content {
+  .main {
     @apply block;
   }
 }

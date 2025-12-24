@@ -23,7 +23,7 @@ export const Header = ({ avatar, title, className }: HeaderProps) => {
   return (
     <div className={cn(className)}>
       <AvatarButton {...avatar} />
-      <Title {...title} />
+      <Title {...title} size="2xl" />
     </div>
   )
 }

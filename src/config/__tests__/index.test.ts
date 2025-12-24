@@ -18,4 +18,3 @@ describe('config/index', () => {
     expect(config.ICONS).toHaveProperty('search_01')
   })
 })
-

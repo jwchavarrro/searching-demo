@@ -4,3 +4,4 @@
  */
 
 export * from './characters-list'
+export * from './details-character'

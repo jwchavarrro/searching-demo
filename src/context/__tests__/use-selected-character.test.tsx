@@ -136,4 +136,3 @@ describe('useSelectedCharacter', () => {
     expect(result.current.selectedCharacter?.id).toBe(2)
   })
 })
-
