@@ -4,12 +4,14 @@
  */
 
 // Import of components custom
-import { CardA } from '@/components/atomic-desing/molecules'
-import { Text } from '@/components/atomic-desing/atoms'
+import { CardA, Message } from '@/components/atomic-desing/molecules'
 
 // Import of hooks
 import { useCharacters } from '@/hooks'
 import { useSelectedCharacter } from '@/context/use-selected-character'
+
+// Import of utils
+import { ICONS } from '@/config'
 
 // Import of types
 import type { CharacterType } from '@/graphql/types'
@@ -28,30 +30,38 @@ export function CharactersList() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <Text text="Cargando personajes..." size="base" align="center" />
-      </div>
+      <Message
+        icon={ICONS.loading}
+        description={{ text: 'Loading characters...' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
     )
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <Text text={`Error: ${error.message}`} size="base" align="center" />
-      </div>
+      <Message
+        icon={ICONS.alert}
+        description={{
+          text: 'An error occurred while loading the characters.',
+        }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
     )
   }
 
   if (!data || data.results.length === 0) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <Text text="No se encontraron personajes" size="base" align="center" />
-      </div>
+      <Message
+        icon={ICONS.alert}
+        description={{ text: 'No characters found' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
     )
   }
 
   return (
-    <div>
+    <>
       {data.results.map((character: CharacterType) => (
         <CardA
           key={character.id}
@@ -70,6 +80,6 @@ export function CharactersList() {
           }}
         />
       ))}
-    </div>
+    </>
   )
 }

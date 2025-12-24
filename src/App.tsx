@@ -23,7 +23,7 @@ function App() {
           </section>
           <section className="sidebar-section-characters">
             <Text text="CHARACTERS" weight="semibold" />
-            <div className="h-full overflow-y-auto">
+            <div className="relative h-full overflow-y-auto">
               <CharactersList />
             </div>
           </section>

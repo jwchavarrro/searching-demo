@@ -18,8 +18,8 @@ import { cn } from '@/utils/cn'
 
 export interface MessageProps {
   icon: string
-  title: TitleProps
-  description: TextProps
+  title?: TitleProps
+  description?: TextProps
   className?: string
 }
 
@@ -31,11 +31,11 @@ export const Message = ({
 }: MessageProps) => {
   return (
     <div
-      className={cn('flex flex-col items-center gap-1 opacity-50', className)}
+      className={cn('flex flex-col items-center gap-2 opacity-50', className)}
     >
       <Icon icon={icon} className="size-8 md:size-12" />
-      <Title {...title} align="center" size="2xl" />
-      <Text {...description} align="center" />
+      {title && <Title title={title.title} align="center" size="xl" />}
+      {description && <Text text={description.text} align="center" />}
     </div>
   )
 }
