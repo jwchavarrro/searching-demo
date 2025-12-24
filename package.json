@@ -12,8 +12,8 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:ci": "vitest run --coverage",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"config/**/*.{ts,tsx,js,jsx}\" \"*.{ts,js,json}\" \"*.config.{ts,js}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"config/**/*.{ts,tsx,js,jsx}\" \"*.{ts,js,json}\" \"*.config.{ts,js}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"*.{ts,js,json}\" \"*.config.{ts,js}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"*.{ts,js,json}\" \"*.config.{ts,js}\""
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
