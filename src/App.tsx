@@ -27,11 +27,17 @@ import { FILTER_CHARACTER_OPTIONS, FILTER_SPECIE_OPTIONS } from '@/utils'
 import { cn } from '@/utils/cn'
 
 function App() {
+  // State generales
   const [searchValue, setSearchValue] = useState<string>('')
   const [characterFilter, setCharacterFilter] = useState<CharacterFilter>('all')
   const [specieFilter, setSpecieFilter] = useState<SpecieFilter>('all')
+
+  // Implement context
   const { selectedCharacter } = useSelectedCharacter()
 
+  /* @name handleFilterApply
+  @description: Manejador para aplicar los filtros
+  */
   const handleFilterApply = (filters: {
     search: string
     character: CharacterFilter
