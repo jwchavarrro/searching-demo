@@ -3,17 +3,39 @@
  * @description: Este componente gestiona el layout principal de la aplicación.
  */
 
+import { useState } from 'react'
 import { motion } from 'motion/react'
 
 // Import of components custom
-import { Title, Input } from '@/components/atomic-desing/atoms'
+import { Title } from '@/components/atomic-desing/atoms'
+import {
+  Filter,
+  type CharacterFilter,
+  type SpecieFilter,
+} from '@/components/atomic-desing/organisms'
 import {
   CharactersList,
   DetailsCharacter,
   CharactersStarredList,
 } from '@/fragments'
 
+// Import of utils
+import { FILTER_CHARACTER_OPTIONS, FILTER_SPECIE_OPTIONS } from '@/utils'
+
 function App() {
+  const [searchValue, setSearchValue] = useState<string>('')
+  const [characterFilter, setCharacterFilter] = useState<CharacterFilter>('all')
+  const [specieFilter, setSpecieFilter] = useState<SpecieFilter>('all')
+
+  const handleFilterApply = (filters: {
+    search: string
+    character: CharacterFilter
+    specie: SpecieFilter
+  }) => {
+    setSearchValue(filters.search)
+    setCharacterFilter(filters.character)
+    setSpecieFilter(filters.specie)
+  }
   return (
     <motion.div
       className="app"
@@ -25,7 +47,17 @@ function App() {
       <aside className="sidebar">
         <header className="sidebar-header">
           <Title title="Rick and Morty list" level={1} size="xl" />
-          <Input placeholder="Search or filter results" />
+          <Filter
+            searchValue={searchValue}
+            onSearchChange={setSearchValue}
+            characterFilter={characterFilter}
+            specieFilter={specieFilter}
+            characterOptions={FILTER_CHARACTER_OPTIONS}
+            specieOptions={FILTER_SPECIE_OPTIONS}
+            onCharacterFilterChange={setCharacterFilter}
+            onSpecieFilterChange={setSpecieFilter}
+            onFilterApply={handleFilterApply}
+          />
         </header>
 
         {/* Personajes favoritos y personajes */}

@@ -85,7 +85,7 @@ export const CardA = ({
         variant="ghost"
         size="icon"
         onClick={handleIconClick}
-        className="shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-in-out group-hover:bg-white group-hover:shadow hover:bg-white"
+        className="shrink-0 rounded-full transition-colors duration-300 ease-in-out group-hover:bg-white group-hover:shadow hover:bg-white"
       >
         <Icon
           className={cn(
