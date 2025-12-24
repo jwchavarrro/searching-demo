@@ -41,6 +41,7 @@ export const DetailsCharacter = () => {
         }}
         title={{ title: selectedCharacter.name }}
       />
+      <div></div>
     </div>
   )
 }
