@@ -47,6 +47,8 @@ export const useCharactersStarred = () => {
     return charactersStarred.some(char => char.id === characterId)
   }
 
+  const count = charactersStarred.length
+
   return {
     charactersStarred,
     setCharactersStarred,
@@ -54,5 +56,6 @@ export const useCharactersStarred = () => {
     removeCharacter,
     handleCharacterStarred,
     isCharacterStarred,
+    count,
   }
 }

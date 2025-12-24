@@ -35,7 +35,7 @@ export const Input = ({
           type="text"
           placeholder={placeholder}
           className={cn(
-            'border-gray/50 text-sx h-10 w-full rounded-lg border bg-white px-4 pl-10 md:text-sm',
+            'border-gray/5 bg-gray/5 h-10 w-full rounded-md border px-4 pl-10 text-xs md:text-sm',
             'placeholder:text-gray text-black',
             'focus:ring-primary-600 focus:border-primary-600 focus:ring-2 focus:outline-none',
             'disabled:bg-gray/10 disabled:cursor-not-allowed',

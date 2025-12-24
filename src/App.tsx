@@ -4,8 +4,12 @@
  */
 
 // Import of components custom
-import { Title, Text } from '@/components/atomic-desing/atoms'
-import { CharactersList, DetailsCharacter } from '@/fragments'
+import { Title, Input } from '@/components/atomic-desing/atoms'
+import {
+  CharactersList,
+  DetailsCharacter,
+  CharactersStarredList,
+} from '@/fragments'
 
 function App() {
   return (
@@ -13,19 +17,18 @@ function App() {
       {/* Sidebar */}
       <aside className="sidebar">
         <header className="sidebar-header">
-          <Title title="Rick and Morty list" level={1} size="2xl" />
+          <Title title="Rick and Morty list" level={1} size="xl" />
+          <Input placeholder="Search or filter results" />
         </header>
 
         {/* Personajes favoritos y personajes */}
         <main className="sidebar-main">
-          <section className="sidebar-section-starred">
-            <Text text="STARRED CHARACTERS" weight="semibold" />
+          <section className="sidebar-section">
+            <CharactersStarredList />
           </section>
-          <section className="sidebar-section-characters">
-            <Text text="CHARACTERS" weight="semibold" />
-            <div className="relative h-full overflow-y-auto">
-              <CharactersList />
-            </div>
+
+          <section className="sidebar-section sidebar-section-characters">
+            <CharactersList />
           </section>
         </main>
       </aside>

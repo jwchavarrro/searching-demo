@@ -65,7 +65,11 @@ export const CardA = ({
 
   const content = (
     <>
-      <Avatar {...avatar} className={cn('shrink-0', avatar.className)} />
+      <Avatar
+        {...avatar}
+        size={avatar.size || 'base'}
+        className={cn('shrink-0', avatar.className)}
+      />
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <Title title={title.title} level={3} size="base" truncate />
         <Text
@@ -80,7 +84,7 @@ export const CardA = ({
         variant="ghost"
         size="icon"
         onClick={handleIconClick}
-        className="shrink-0 rounded-full transition-colors duration-300 ease-in-out group-hover:bg-white group-hover:shadow hover:bg-white"
+        className="shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-in-out group-hover:bg-white group-hover:shadow hover:bg-white"
       >
         <Icon
           className={cn(

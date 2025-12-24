@@ -13,8 +13,13 @@ describe('App', () => {
     expect(container.querySelector('.sidebar-main')).toBeInTheDocument()
     expect(container.querySelector('.main')).toBeInTheDocument()
 
-    // Verificar textos específicos
-    expect(screen.getByText('STARRED CHARACTERS')).toBeInTheDocument()
-    expect(screen.getByText(/^CHARACTERS$/)).toBeInTheDocument()
+    // Verificar que las secciones existen (pueden estar en diferentes estados)
+    expect(container.querySelector('.sidebar-section')).toBeInTheDocument()
+    expect(
+      container.querySelector('.sidebar-section-characters')
+    ).toBeInTheDocument()
+
+    // Verificar que el título principal está presente
+    expect(screen.getByText('Rick and Morty list')).toBeInTheDocument()
   })
 })
