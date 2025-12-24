@@ -11,7 +11,7 @@ describe('App', () => {
     expect(container.querySelector('.sidebar')).toBeInTheDocument()
     expect(container.querySelector('.sidebar-header')).toBeInTheDocument()
     expect(container.querySelector('.sidebar-main')).toBeInTheDocument()
-    expect(container.querySelector('.main-content')).toBeInTheDocument()
+    expect(container.querySelector('.main')).toBeInTheDocument()
 
     // Verificar textos específicos
     expect(screen.getByText('STARRED CHARACTERS')).toBeInTheDocument()

@@ -5,7 +5,6 @@
 
 import { describe, it, expect, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
-import type { ReactNode } from 'react'
 import { Provider } from 'jotai'
 import { useSelectedCharacter } from '../use-selected-character'
 import type { CharacterType } from '@/graphql/types'

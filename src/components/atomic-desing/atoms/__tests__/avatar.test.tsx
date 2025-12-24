@@ -69,9 +69,9 @@ describe('Avatar', () => {
     it('aplica el tamaño base por defecto', () => {
       const { container } = render(<Avatar initials="AB" />)
       const div = container.querySelector('div')
-      expect(div).toHaveClass('w-10')
-      expect(div).toHaveClass('h-10')
-      expect(div).toHaveClass('text-base')
+      expect(div).toHaveClass('w-20')
+      expect(div).toHaveClass('h-20')
+      expect(div).toHaveClass('text-2xl')
     })
 
     it('aplica el tamaño xs', () => {

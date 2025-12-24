@@ -13,7 +13,8 @@
     "test:run": "vitest run",
     "test:ci": "vitest run --coverage",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"*.{ts,js,json}\" \"*.config.{ts,js}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"*.{ts,js,json}\" \"*.config.{ts,js}\""
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"*.{ts,js,json}\" \"*.config.{ts,js}\"",
+    "quality-check": "bun run lint && bun run test:ci && bun run build"
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
