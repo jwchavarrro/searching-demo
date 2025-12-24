@@ -29,15 +29,23 @@
 }
 
 .sidebar-section {
-  @apply relative flex min-h-52 flex-col;
+  @apply relative flex min-h-28 flex-col;
+}
+
+.sidebar-section-starred {
+  @apply max-h-80 shrink-0 overflow-y-auto;
 }
 
 .sidebar-section-characters {
-  @apply min-h-52 flex-1;
+  @apply flex-1;
 }
 
 .main {
-  @apply hidden grow overflow-y-scroll bg-white;
+  @apply hidden grow overflow-y-auto bg-white;
+}
+
+.main-visible {
+  @apply fixed inset-0 z-50 block;
 }
 
 .main-content {
@@ -47,6 +55,10 @@
 @media (min-width: 768px) {
   .main {
     @apply block;
+  }
+
+  .main-visible {
+    @apply relative z-auto;
   }
 
   .main-content {

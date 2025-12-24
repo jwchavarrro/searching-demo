@@ -17,18 +17,6 @@ const mockCharacter: CharacterType = {
   status: 'Alive',
   type: '',
   gender: 'Male',
-  origin: {
-    name: 'Earth (C-137)',
-  },
-  location: {
-    name: 'Citadel of Ricks',
-  },
-  episode: [
-    {
-      id: 1,
-      name: 'Pilot',
-    },
-  ],
   created: '2017-11-04T18:48:46.250Z',
 }
 

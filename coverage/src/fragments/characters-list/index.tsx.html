@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">44.44% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>4/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">10% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/8</span>
+                <span class='fraction'>1/10</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">44.44% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>4/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -166,7 +166,10 @@
 <a name='L101'></a><a href='#L101'>101</a>
 <a name='L102'></a><a href='#L102'>102</a>
 <a name='L103'></a><a href='#L103'>103</a>
-<a name='L104'></a><a href='#L104'>104</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -188,24 +191,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -227,9 +223,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -270,8 +276,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
- * characters/index.tsx
- * @description: Fragmento para renderizar el listado de personajes
+ * characters-list.tsx
+ * @description: Fragmento para renderizar el listado de personajes (excluyendo los marcados como favoritos)
  */
 &nbsp;
 // Import of components custom
@@ -279,9 +285,10 @@ import { CardA, Message } from '@/components/atomic-desing/molecules'
 import { Text } from '@/components/atomic-desing/atoms'
 &nbsp;
 // Import of hooks
-import { useCharacters } from '@/hooks'
-import { useSelectedCharacter } from '@/context/use-selected-character'
-import { useCharactersStarred } from '@/context'
+import { useFilteredCharacters } from './hooks'
+&nbsp;
+// Import of context
+import { useCharactersStarred, useSelectedCharacter } from '@/context'
 &nbsp;
 // Import of utils
 import { ICONS } from '@/config'
@@ -291,83 +298,85 @@ import type { CharacterType } from '@/graphql/types'
 &nbsp;
 export function CharactersList() {
   // Implement custom hooks
-  /* @name useCharacters
-  @description: Hook para obtener los personajes  
- */
-  const { data, isLoading, error } = useCharacters()
-&nbsp;
-  /* @name useSelectedCharacter
-  @description: Hook para manejar el estado del personaje seleccionado
+  /* @name useFilteredCharacters
+  @description: Hook para obtener los personajes filtrados (excluyendo los starred)
   */
+  const { filteredCharacters, isLoading, error, data } = useFilteredCharacters()
+&nbsp;
+  // Implement context
   const { setSelectedCharacter } = useSelectedCharacter()
-&nbsp;
-  /* @name useCharactersStarred
-  @description: Hook para manejar el estado de los personajes marcados como favoritos
-  */
   const { handleCharacterStarred, isCharacterStarred } = useCharactersStarred()
 &nbsp;
   <span class="missing-if-branch" title="else path not taken" >E</span>if (isLoading) {
     return (
-      &lt;div className="min-h-52"&gt;
-        &lt;Message
-          icon={ICONS.loading}
-          description={{ text: 'Loading characters...' }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        /&gt;
-      &lt;/div&gt;
+      &lt;Message
+        icon={ICONS.loading}
+        description={{ text: 'Loading characters...' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      /&gt;
     )
   }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (error) {</span>
     return (
-      &lt;div className="min-h-52"&gt;
-        &lt;Message
-          icon={ICONS.alert}
-          description={{
-            text: 'An error occurred while loading the characters.',
-          }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        /&gt;
-      &lt;/div&gt;
+      &lt;Message
+        icon={ICONS.alert}
+        description={{
+          text: 'An error occurred while loading the characters.',
+        }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      /&gt;
     )
   }
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  if (!data || data.results.length === 0) {</span>
     return (
-      &lt;div className="min-h-52"&gt;
-        &lt;Message
-          icon={ICONS.alert}
-          description={{ text: 'No characters found' }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        /&gt;
-      &lt;/div&gt;
+      &lt;Message
+        icon={ICONS.alert}
+        description={{ text: 'No characters found' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      /&gt;
+    )
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >  if (filteredCharacters.length === 0) {</span>
+    return (
+      &lt;Message
+        icon={ICONS.alert}
+        description={{ text: 'All characters are starred' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      /&gt;
     )
   }
 &nbsp;
   return (
     &lt;div className="min-h-0 space-y-2"&gt;
-      &lt;Text text={`CHARACTERS (${data.results.length})`} weight="semibold" /&gt;
+      &lt;Text
+        text={`CHARACTERS (${filteredCharacters.length})`}
+        weight="semibold"
+      /&gt;
       &lt;div&gt;
-        {data.results.map((character: CharacterType) =&gt; (
-          &lt;CardA
-            key={character.id}
-            as="button"
-            onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etSelectedCharacter(character)}</span>
-            isStarred={isCharacterStarred(character.id)}
-            onIconClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >h</span>andleCharacterStarred(character)}</span>
-            avatar={{
-              src: character.image,
-              alt: character.name,
-              size: 'lg',
-            }}
-            title={{
-              title: character.name,
-            }}
-            description={{
-              text: character.species,
-            }}
-          /&gt;
-        ))}
+        {filteredCharacters.length &gt; 0 &amp;&amp;
+          filteredCharacters.map((character: CharacterType) =&gt; (
+            &lt;CardA
+              key={character.id}
+              as="button"
+              onClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >s</span>etSelectedCharacter(character)}</span>
+              isStarred={isCharacterStarred(character.id)}
+              onIconClick={<span class="fstat-no" title="function not covered" >() =&gt; <span class="cstat-no" title="statement not covered" >h</span>andleCharacterStarred(character)}</span>
+              avatar={{
+                src: character.image,
+                alt: character.name,
+                size: 'lg',
+              }}
+              title={{
+                title: character.name,
+              }}
+              description={{
+                text: character.species,
+              }}
+            /&gt;
+          ))}
       &lt;/div&gt;
     &lt;/div&gt;
   )
@@ -379,7 +388,7 @@ export function CharactersList() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-24T06:50:33.480Z
+                at 2025-12-24T14:56:27.468Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

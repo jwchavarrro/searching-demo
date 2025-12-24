@@ -3,12 +3,19 @@
  * @description: Fragmento para renderizar el detalle de un personaje
  */
 
+// Import of motion
+import { motion } from 'motion/react'
+import { Icon } from '@iconify/react'
+
 // Import of components custom
 import { Header, Message } from '@/components/atomic-desing/molecules'
-import { Text } from '@/components/atomic-desing/atoms'
+import { Button, Text } from '@/components/atomic-desing/atoms'
 
 // Import of context
-import { useSelectedCharacter } from '@/context/use-selected-character'
+import { useCharactersStarred, useSelectedCharacter } from '@/context'
+
+// Import of types
+import type { CharacterType } from '@/graphql/types'
 
 // Import of utils
 import { ICONS } from '@/config'
@@ -17,10 +24,15 @@ import { DETAILS_CHARACTER_TEXT } from '@/fragments'
 
 export const DetailsCharacter = () => {
   // Implement context
-  /* @name useSelectedCharacter
-  @description: Personaje seleccionado
+  const { selectedCharacter, setSelectedCharacter } = useSelectedCharacter()
+  const { isCharacterStarred } = useCharactersStarred()
+
+  /* @name isStarred
+  @description: Verificar si el personaje está marcado como favorito
   */
-  const { selectedCharacter } = useSelectedCharacter()
+  const isStarred = selectedCharacter
+    ? isCharacterStarred(selectedCharacter?.id || 0)
+    : false
 
   /* @name if (!selectedCharacter)
   @description: Validar si no hay un personaje seleccionado
@@ -37,36 +49,62 @@ export const DetailsCharacter = () => {
   }
 
   return (
-    <div className="relative h-full space-y-5">
+    <motion.div
+      className="relative h-full space-y-5"
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
+    >
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => setSelectedCharacter(null)}
+        className="text-primary-700 mb-2 md:hidden"
+        aria-label="Close character details"
+      >
+        <Icon icon={ICONS.arrow_left_02} className="size-6" />
+      </Button>
+
       <Header
         avatar={{
           avatar: {
             src: selectedCharacter.image,
             alt: selectedCharacter.name,
           },
+          icon: isStarred ? ICONS.heart : undefined,
         }}
         title={{ title: selectedCharacter.name }}
       />
-      <div className="flex flex-col gap-5">
-        {DETAILS_CHARACTER_TEXT.map((text, index) => (
-          <div
-            key={text}
-            className={
-              index < DETAILS_CHARACTER_TEXT.length - 1
-                ? 'border-gray/20 border-b pb-5'
-                : ''
-            }
-          >
-            <Text
-              text={capitalizeFirstLetter(text)}
-              weight="bold"
-              size="base"
-              className="text-black"
-            />
-            <Text text="Alien" size="base" />
-          </div>
-        ))}
-      </div>
-    </div>
+
+      {/* Details character */}
+      <main className="flex flex-col gap-5">
+        {DETAILS_CHARACTER_TEXT.map((field, index) => {
+          /* @name fieldValue
+          @description: Obtener el valor del campo del personaje
+          */
+          const fieldValue =
+            selectedCharacter[field as keyof CharacterType] || 'Unknown'
+
+          return (
+            <div
+              key={field}
+              className={
+                index < DETAILS_CHARACTER_TEXT.length - 1
+                  ? 'border-gray/20 border-b pb-5'
+                  : ''
+              }
+            >
+              <Text
+                text={capitalizeFirstLetter(field)}
+                weight="bold"
+                size="base"
+                className="text-black"
+              />
+              <Text text={String(fieldValue)} size="base" />
+            </div>
+          )
+        })}
+      </main>
+    </motion.div>
   )
 }

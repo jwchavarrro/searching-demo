@@ -228,7 +228,7 @@ describe('Popover', () => {
       expect(content).toHaveClass('border')
       expect(content).toHaveClass('bg-white')
       expect(content).toHaveClass('p-4')
-      expect(content).toHaveClass('shadow-md')
+      expect(content).toHaveClass('shadow')
     })
 
     describe('width', () => {

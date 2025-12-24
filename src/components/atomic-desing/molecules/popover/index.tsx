@@ -93,7 +93,7 @@ export interface PopoverTriggerProps {
 
 export const PopoverTrigger = (props: PopoverTriggerProps) => {
   const { children, ...restProps } = props
-  const { onOpenChange, triggerRef } = usePopoverContext()
+  const { open, onOpenChange, triggerRef } = usePopoverContext()
 
   if (!React.isValidElement(children)) {
     throw new Error('PopoverTrigger children must be a valid React element')
@@ -103,9 +103,10 @@ export const PopoverTrigger = (props: PopoverTriggerProps) => {
     (e: React.MouseEvent<HTMLElement>) => {
       const originalOnClick = children.props?.onClick
       originalOnClick?.(e)
-      onOpenChange(true)
+      // Toggle: si está abierto, lo cierra; si está cerrado, lo abre
+      onOpenChange(!open)
     },
-    [children.props, onOpenChange]
+    [children.props, onOpenChange, open]
   )
 
   // Filter out asChild from props to prevent it from being passed to DOM
@@ -341,7 +342,7 @@ export const PopoverContent = ({
     <div
       ref={contentRef}
       className={cn(
-        'border-gray/50 absolute z-50 rounded-md border bg-white p-4 shadow-md',
+        'border-gray/10 absolute z-50 rounded-md border bg-white p-4 shadow',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
         'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',

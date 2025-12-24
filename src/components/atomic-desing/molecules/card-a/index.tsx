@@ -19,6 +19,7 @@ import {
 
 // Import of utils
 import { cn } from '@/utils/cn'
+import { ICONS } from '@/config'
 
 type CardABaseProps = {
   avatar: AvatarProps
@@ -84,14 +85,14 @@ export const CardA = ({
         variant="ghost"
         size="icon"
         onClick={handleIconClick}
-        className="shrink-0 cursor-pointer rounded-full transition-colors duration-300 ease-in-out group-hover:bg-white group-hover:shadow hover:bg-white"
+        className="shrink-0 rounded-full transition-colors duration-300 ease-in-out group-hover:bg-white group-hover:shadow hover:bg-white"
       >
         <Icon
           className={cn(
             'text-gray/50 size-6 md:size-7',
             isStarred && 'text-secondary-600'
           )}
-          icon={isStarred ? 'mdi:heart' : 'mdi:heart-outline'}
+          icon={isStarred ? ICONS.heart : ICONS.heart_outline}
         />
       </Button>
     </>

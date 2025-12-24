@@ -11,16 +11,6 @@ export interface CharacterType {
   status: 'Alive' | 'Dead' | 'unknown'
   type: string
   gender: 'Female' | 'Male' | 'Genderless' | 'unknown'
-  origin: {
-    name: string
-  }
-  location: {
-    name: string
-  }
-  episode: Array<{
-    id: number
-    name: string
-  }>
   created: string
 }
 

@@ -38,14 +38,14 @@ const variantClasses = {
 }
 
 const sizeClasses = {
-  sm: 'h-8 px-3 text-sm',
-  base: 'h-10 px-4 text-base',
-  lg: 'h-12 px-6 text-lg',
-  icon: 'size-10 p-0',
+  sm: 'h-6 md:h-8 px-3',
+  base: 'h-8 md:h-10 px-4',
+  lg: 'h-10 md:h-12 px-6',
+  icon: 'size-6 md:size-10 p-0',
 }
 
 const baseClasses =
-  'inline-flex items-center justify-center rounded-lg font-medium text-xs md:text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-600 disabled:pointer-events-none disabled:opacity-50'
+  'inline-flex items-center justify-center rounded-lg font-semibold text-xs md:text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-600 disabled:pointer-events-none disabled:opacity-50 cursor-pointer'
 
 export const Button = ({
   children,
