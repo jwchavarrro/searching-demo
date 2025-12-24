@@ -4,7 +4,7 @@
  */
 
 import { Icon } from '@iconify/react'
-import { useState, type ButtonHTMLAttributes, type HTMLAttributes } from 'react'
+import { type ButtonHTMLAttributes, type HTMLAttributes } from 'react'
 
 // Import of components custom
 import {
@@ -24,6 +24,7 @@ type CardABaseProps = {
   avatar: AvatarProps
   title: TitleProps
   description: TextProps
+  isStarred?: boolean
   onIconClick?: () => void
   className?: string
 }
@@ -42,20 +43,18 @@ export const CardA = ({
   avatar,
   title,
   description,
+  isStarred = false,
   onIconClick,
   className,
   as = 'div',
   ...props
 }: CardAProps) => {
-  // States generales
-  const [isLiked, setIsLiked] = useState<boolean>(false)
-
   /**
    * @name: handleIconClick
-   * @description:
+   * @description: Maneja el click del icono y previene la propagación del evento
    */
-  const handleIconClick = () => {
-    setIsLiked(!isLiked)
+  const handleIconClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
     onIconClick?.()
   }
 
@@ -86,9 +85,9 @@ export const CardA = ({
         <Icon
           className={cn(
             'text-gray/50 size-6 md:size-7',
-            isLiked && 'text-secondary-600'
+            isStarred && 'text-secondary-600'
           )}
-          icon={isLiked ? 'mdi:heart' : 'mdi:heart-outline'}
+          icon={isStarred ? 'mdi:heart' : 'mdi:heart-outline'}
         />
       </Button>
     </>
