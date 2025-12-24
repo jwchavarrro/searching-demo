@@ -3,6 +3,9 @@
  * @description: Fragmento para renderizar el detalle de un personaje
  */
 
+// Import of motion
+import { motion } from 'motion/react'
+
 // Import of components custom
 import { Header, Message } from '@/components/atomic-desing/molecules'
 import { Text } from '@/components/atomic-desing/atoms'
@@ -42,7 +45,12 @@ export const DetailsCharacter = () => {
   }
 
   return (
-    <div className="relative h-full space-y-5">
+    <motion.div
+      className="relative h-full space-y-5"
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
+    >
       <Header
         avatar={{
           avatar: {
@@ -75,6 +83,6 @@ export const DetailsCharacter = () => {
           </div>
         ))}
       </main>
-    </div>
+    </motion.div>
   )
 }
