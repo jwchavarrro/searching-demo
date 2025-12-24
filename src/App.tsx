@@ -12,6 +12,7 @@ import {
   Filter,
   type CharacterFilter,
   type SpecieFilter,
+  type FilterOption,
 } from '@/components/atomic-desing/organisms'
 import {
   CharactersList,
@@ -19,8 +20,20 @@ import {
   CharactersStarredList,
 } from '@/fragments'
 
+const characterOptions: FilterOption<CharacterFilter>[] = [
+  { value: 'all', label: 'All' },
+  { value: 'starred', label: 'Starred' },
+  { value: 'others', label: 'Others' },
+]
+
+const specieOptions: FilterOption<SpecieFilter>[] = [
+  { value: 'all', label: 'All' },
+  { value: 'human', label: 'Human' },
+  { value: 'alien', label: 'Alien' },
+]
+
 function App() {
-  const [searchValue, setSearchValue] = useState('')
+  const [searchValue, setSearchValue] = useState<string>('')
   const [characterFilter, setCharacterFilter] = useState<CharacterFilter>('all')
   const [specieFilter, setSpecieFilter] = useState<SpecieFilter>('all')
 
@@ -32,7 +45,6 @@ function App() {
     setSearchValue(filters.search)
     setCharacterFilter(filters.character)
     setSpecieFilter(filters.specie)
-    // Aquí puedes agregar la lógica para aplicar los filtros a las listas
   }
   return (
     <motion.div
@@ -50,6 +62,8 @@ function App() {
             onSearchChange={setSearchValue}
             characterFilter={characterFilter}
             specieFilter={specieFilter}
+            characterOptions={characterOptions}
+            specieOptions={specieOptions}
             onCharacterFilterChange={setCharacterFilter}
             onSpecieFilterChange={setSpecieFilter}
             onFilterApply={handleFilterApply}

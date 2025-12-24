@@ -23,11 +23,18 @@ import { ICONS } from '@/config'
 export type CharacterFilter = 'all' | 'starred' | 'others'
 export type SpecieFilter = 'all' | 'human' | 'alien'
 
+export interface FilterOption<T extends string> {
+  value: T
+  label: string
+}
+
 export interface FilterProps {
   searchValue?: string
   onSearchChange?: (value: string) => void
   characterFilter?: CharacterFilter
   specieFilter?: SpecieFilter
+  characterOptions: FilterOption<CharacterFilter>[]
+  specieOptions: FilterOption<SpecieFilter>[]
   onCharacterFilterChange?: (filter: CharacterFilter) => void
   onSpecieFilterChange?: (filter: SpecieFilter) => void
   onFilterApply?: (filters: {
@@ -38,23 +45,13 @@ export interface FilterProps {
   className?: string
 }
 
-const characterOptions: { value: CharacterFilter; label: string }[] = [
-  { value: 'all', label: 'All' },
-  { value: 'starred', label: 'Starred' },
-  { value: 'others', label: 'Others' },
-]
-
-const specieOptions: { value: SpecieFilter; label: string }[] = [
-  { value: 'all', label: 'All' },
-  { value: 'human', label: 'Human' },
-  { value: 'alien', label: 'Alien' },
-]
-
 export const Filter = ({
   searchValue = '',
   onSearchChange,
   characterFilter = 'all',
   specieFilter = 'all',
+  characterOptions,
+  specieOptions,
   onCharacterFilterChange,
   onSpecieFilterChange,
   onFilterApply,
@@ -113,7 +110,7 @@ export const Filter = ({
             <Button
               variant="ghost"
               size="icon"
-              className="size-8 text-gray hover:bg-primary-100 hover:text-primary-700"
+              className="text-gray hover:bg-primary-100 hover:text-primary-700 size-8"
               aria-label="Open filters"
             >
               <Icon icon={ICONS.filter} className="size-4 md:size-5" />
