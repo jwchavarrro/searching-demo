@@ -5,3 +5,4 @@
 
 export * from './characters-list'
 export * from './details-character'
+export * from './utils'

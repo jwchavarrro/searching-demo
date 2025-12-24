@@ -32,7 +32,7 @@ function App() {
 
       {/* Main Content Area */}
       <main className="main">
-        <div className="mx-auto h-full w-full max-w-4/5 pt-8">
+        <div className="main-content">
           <DetailsCharacter />
         </div>
       </main>

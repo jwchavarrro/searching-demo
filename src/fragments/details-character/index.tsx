@@ -7,21 +7,24 @@
 import { Header, Message } from '@/components/atomic-desing/molecules'
 import { Text } from '@/components/atomic-desing/atoms'
 
+// Import of context
+import { useSelectedCharacter } from '@/context/use-selected-character'
+
 // Import of utils
 import { ICONS } from '@/config'
 import { capitalizeFirstLetter } from '@/utils'
-
-// Import of hooks
-import { useSelectedCharacter } from '@/context/use-selected-character'
-import { DETAILS_CHARACTER_TEXT } from '../utils'
+import { DETAILS_CHARACTER_TEXT } from '@/fragments'
 
 export const DetailsCharacter = () => {
-  // Implement custom hooks
+  // Implement context
   /* @name useSelectedCharacter
-  @description: Hook para manejar el estado del personaje seleccionado
+  @description: Personaje seleccionado
   */
   const { selectedCharacter } = useSelectedCharacter()
 
+  /* @name if (!selectedCharacter)
+  @description: Validar si no hay un personaje seleccionado
+  */
   if (!selectedCharacter) {
     return (
       <Message
