@@ -4,7 +4,7 @@
  */
 
 import { Icon } from '@iconify/react'
-import { useState } from 'react'
+import { useState, type ButtonHTMLAttributes, type HTMLAttributes } from 'react'
 
 // Import of components custom
 import {
@@ -20,7 +20,7 @@ import {
 // Import of utils
 import { cn } from '@/utils/cn'
 
-export interface CardAProps {
+type CardABaseProps = {
   avatar: AvatarProps
   title: TitleProps
   description: TextProps
@@ -28,12 +28,24 @@ export interface CardAProps {
   className?: string
 }
 
+type CardAAsButton = CardABaseProps & {
+  as: 'button'
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, keyof CardABaseProps>
+
+type CardAAsDiv = CardABaseProps & {
+  as?: 'div'
+} & Omit<HTMLAttributes<HTMLDivElement>, keyof CardABaseProps>
+
+export type CardAProps = CardAAsButton | CardAAsDiv
+
 export const CardA = ({
   avatar,
   title,
   description,
   onIconClick,
   className,
+  as = 'div',
+  ...props
 }: CardAProps) => {
   // States generales
   const [isLiked, setIsLiked] = useState<boolean>(false)
@@ -47,13 +59,13 @@ export const CardA = ({
     onIconClick?.()
   }
 
-  return (
-    <div
-      className={cn(
-        'hover:bg-primary-100 group flex cursor-pointer items-center gap-4 bg-transparent p-4 hover:rounded-lg',
-        className
-      )}
-    >
+  const baseClasses = cn(
+    'hover:bg-primary-100 group flex cursor-pointer items-center gap-4 bg-transparent p-4 hover:rounded-lg',
+    className
+  )
+
+  const content = (
+    <>
       <Avatar {...avatar} className={cn('shrink-0', avatar.className)} />
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <Title title={title.title} level={3} size="base" truncate />
@@ -79,6 +91,24 @@ export const CardA = ({
           icon={isLiked ? 'mdi:heart' : 'mdi:heart-outline'}
         />
       </Button>
+    </>
+  )
+
+  if (as === 'button') {
+    return (
+      <button
+        type="button"
+        className={baseClasses}
+        {...(props as ButtonHTMLAttributes<HTMLButtonElement>)}
+      >
+        {content}
+      </button>
+    )
+  }
+
+  return (
+    <div className={baseClasses} {...(props as HTMLAttributes<HTMLDivElement>)}>
+      {content}
     </div>
   )
 }
