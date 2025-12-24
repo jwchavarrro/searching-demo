@@ -4,7 +4,10 @@
  */
 
 // Import of components custom
-import { Header } from '@/components/atomic-desing/molecules'
+import { Header, Message } from '@/components/atomic-desing/molecules'
+
+// Import of utils
+import { ICONS } from '@/config'
 
 // Import of hooks
 import { useSelectedCharacter } from '@/context/use-selected-character'
@@ -17,11 +20,18 @@ export const DetailsCharacter = () => {
   const { selectedCharacter } = useSelectedCharacter()
 
   if (!selectedCharacter) {
-    return <div>No se ha seleccionado ningún personaje</div>
+    return (
+      <Message
+        icon={ICONS.selection_03}
+        title={{ title: 'No character has been selected' }}
+        description={{ text: 'Select a character to view their details' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
+    )
   }
 
   return (
-    <div>
+    <div className="relative h-full">
       <Header
         avatar={{
           avatar: {

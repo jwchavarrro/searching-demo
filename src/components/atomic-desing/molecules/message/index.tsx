@@ -30,9 +30,11 @@ export const Message = ({
   className,
 }: MessageProps) => {
   return (
-    <div className={cn('flex flex-col items-center gap-4', className)}>
-      <Icon icon={icon} className="text-gray h-12 w-12" />
-      <Title {...title} align="center" />
+    <div
+      className={cn('flex flex-col items-center gap-1 opacity-50', className)}
+    >
+      <Icon icon={icon} className="size-8 md:size-12" />
+      <Title {...title} align="center" size="2xl" />
       <Text {...description} align="center" />
     </div>
   )
