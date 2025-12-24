@@ -22,16 +22,6 @@ export const GET_CHARACTERS = gql`
         status
         type
         gender
-        origin {
-          name
-        }
-        location {
-          name
-        }
-        episode {
-          id
-          name
-        }
         created
       }
     }
@@ -55,16 +45,6 @@ export const SEARCH_CHARACTERS = gql`
         status
         type
         gender
-        origin {
-          name
-        }
-        location {
-          name
-        }
-        episode {
-          id
-          name
-        }
         created
       }
     }
