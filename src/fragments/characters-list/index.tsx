@@ -5,6 +5,7 @@
 
 // Import of components custom
 import { CardA, Message } from '@/components/atomic-desing/molecules'
+import { Text } from '@/components/atomic-desing/atoms'
 
 // Import of hooks
 import { useCharacters } from '@/hooks'
@@ -36,58 +37,67 @@ export function CharactersList() {
 
   if (isLoading) {
     return (
-      <Message
-        icon={ICONS.loading}
-        description={{ text: 'Loading characters...' }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-      />
+      <div className="relative min-h-[200px]">
+        <Message
+          icon={ICONS.loading}
+          description={{ text: 'Loading characters...' }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+      </div>
     )
   }
 
   if (error) {
     return (
-      <Message
-        icon={ICONS.alert}
-        description={{
-          text: 'An error occurred while loading the characters.',
-        }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-      />
+      <div className="relative min-h-[200px]">
+        <Message
+          icon={ICONS.alert}
+          description={{
+            text: 'An error occurred while loading the characters.',
+          }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+      </div>
     )
   }
 
   if (!data || data.results.length === 0) {
     return (
-      <Message
-        icon={ICONS.alert}
-        description={{ text: 'No characters found' }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-      />
+      <div className="relative min-h-[200px]">
+        <Message
+          icon={ICONS.alert}
+          description={{ text: 'No characters found' }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+      </div>
     )
   }
 
   return (
-    <>
-      {data.results.map((character: CharacterType) => (
-        <CardA
-          key={character.id}
-          as="button"
-          onClick={() => setSelectedCharacter(character)}
-          isStarred={isCharacterStarred(character.id)}
-          onIconClick={() => handleCharacterStarred(character)}
-          avatar={{
-            src: character.image,
-            alt: character.name,
-            size: 'lg',
-          }}
-          title={{
-            title: character.name,
-          }}
-          description={{
-            text: character.species,
-          }}
-        />
-      ))}
-    </>
+    <div className="space-y-2 relative min-h-0">
+      <Text text={`CHARACTERS (${data.results.length})`} weight="semibold" />
+      <div>
+        {data.results.map((character: CharacterType) => (
+          <CardA
+            key={character.id}
+            as="button"
+            onClick={() => setSelectedCharacter(character)}
+            isStarred={isCharacterStarred(character.id)}
+            onIconClick={() => handleCharacterStarred(character)}
+            avatar={{
+              src: character.image,
+              alt: character.name,
+              size: 'lg',
+            }}
+            title={{
+              title: character.name,
+            }}
+            description={{
+              text: character.species,
+            }}
+          />
+        ))}
+      </div>
+    </div>
   )
 }

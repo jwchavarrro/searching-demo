@@ -5,6 +5,7 @@
 
 // Import of components custom
 import { CardA, Message } from '@/components/atomic-desing/molecules'
+import { Text } from '@/components/atomic-desing/atoms'
 
 // Import of context
 import { useCharactersStarred } from '@/context'
@@ -20,37 +21,42 @@ export function CharactersStarredList() {
   /* @name charactersStarred
   @description: Personajes marcados como favoritos
   */
-  const { charactersStarred } = useCharactersStarred()
+  const { charactersStarred, count } = useCharactersStarred()
 
   if (!charactersStarred || charactersStarred.length === 0) {
     return (
-      <Message
-        icon={ICONS.alert}
-        description={{ text: 'No characters starred found' }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-      />
+      <div className="relative min-h-[200px]">
+        <Message
+          icon={ICONS.alert}
+          description={{ text: 'No characters starred yet' }}
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        />
+      </div>
     )
   }
 
   return (
-    <>
-      {charactersStarred.map((character: CharacterType) => (
-        <CardA
-          key={character.id}
-          as="button"
-          avatar={{
-            src: character.image,
-            alt: character.name,
-            size: 'lg',
-          }}
-          title={{
-            title: character.name,
-          }}
-          description={{
-            text: character.species,
-          }}
-        />
-      ))}
-    </>
+    <div className="space-y-2 relative min-h-0">
+      <Text text={`STARRED CHARACTERS (${count})`} weight="semibold" />
+      <div>
+        {charactersStarred.map((character: CharacterType) => (
+          <CardA
+            key={character.id}
+            as="button"
+            avatar={{
+              src: character.image,
+              alt: character.name,
+              size: 'lg',
+            }}
+            title={{
+              title: character.name,
+            }}
+            description={{
+              text: character.species,
+            }}
+          />
+        ))}
+      </div>
+    </div>
   )
 }
