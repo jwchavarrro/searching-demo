@@ -13,6 +13,9 @@ import { Text } from '@/components/atomic-desing/atoms'
 // Import of context
 import { useCharactersStarred, useSelectedCharacter } from '@/context'
 
+// Import of types
+import type { CharacterType } from '@/graphql/types'
+
 // Import of utils
 import { ICONS } from '@/config'
 import { capitalizeFirstLetter } from '@/utils'
@@ -64,24 +67,32 @@ export const DetailsCharacter = () => {
 
       {/* Details character */}
       <main className="flex flex-col gap-5">
-        {DETAILS_CHARACTER_TEXT.map((text, index) => (
-          <div
-            key={text}
-            className={
-              index < DETAILS_CHARACTER_TEXT.length - 1
-                ? 'border-gray/20 border-b pb-5'
-                : ''
-            }
-          >
-            <Text
-              text={capitalizeFirstLetter(text)}
-              weight="bold"
-              size="base"
-              className="text-black"
-            />
-            <Text text="Alien" size="base" />
-          </div>
-        ))}
+        {DETAILS_CHARACTER_TEXT.map((field, index) => {
+          /* @name fieldValue
+          @description: Obtener el valor del campo del personaje
+          */
+          const fieldValue =
+            selectedCharacter[field as keyof CharacterType] || 'Unknown'
+
+          return (
+            <div
+              key={field}
+              className={
+                index < DETAILS_CHARACTER_TEXT.length - 1
+                  ? 'border-gray/20 border-b pb-5'
+                  : ''
+              }
+            >
+              <Text
+                text={capitalizeFirstLetter(field)}
+                weight="bold"
+                size="base"
+                className="text-black"
+              />
+              <Text text={String(fieldValue)} size="base" />
+            </div>
+          )
+        })}
       </main>
     </motion.div>
   )
