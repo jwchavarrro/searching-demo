@@ -31,19 +31,22 @@ describe('Text', () => {
     it('aplica el tamaño sm', () => {
       const { container } = render(<Text text="Texto" size="sm" />)
       const paragraph = container.querySelector('p')
-      expect(paragraph).toHaveClass('text-sm')
+      expect(paragraph).toHaveClass('text-xs')
+      expect(paragraph).toHaveClass('md:text-sm')
     })
 
     it('aplica el tamaño lg', () => {
       const { container } = render(<Text text="Texto" size="lg" />)
       const paragraph = container.querySelector('p')
-      expect(paragraph).toHaveClass('text-lg')
+      expect(paragraph).toHaveClass('text-sm')
+      expect(paragraph).toHaveClass('md:text-lg')
     })
 
     it('aplica el tamaño xl', () => {
       const { container } = render(<Text text="Texto" size="xl" />)
       const paragraph = container.querySelector('p')
-      expect(paragraph).toHaveClass('text-xl')
+      expect(paragraph).toHaveClass('text-lg')
+      expect(paragraph).toHaveClass('md:text-xl')
     })
   })
 
@@ -133,7 +136,8 @@ describe('Text', () => {
         <Text text="Texto" size="lg" className="custom-class" />
       )
       const paragraph = container.querySelector('p')
-      expect(paragraph).toHaveClass('text-lg')
+      expect(paragraph).toHaveClass('text-sm')
+      expect(paragraph).toHaveClass('md:text-lg')
       expect(paragraph).toHaveClass('custom-class')
     })
   })
@@ -151,7 +155,8 @@ describe('Text', () => {
         />
       )
       const paragraph = container.querySelector('p')
-      expect(paragraph).toHaveClass('text-xl')
+      expect(paragraph).toHaveClass('text-lg')
+      expect(paragraph).toHaveClass('md:text-xl')
       expect(paragraph).toHaveClass('font-bold')
       expect(paragraph).toHaveClass('text-center')
       expect(paragraph).toHaveClass('truncate')

@@ -19,14 +19,25 @@ import {
   CharactersStarredList,
 } from '@/fragments'
 
+// Import of context
+import { useSelectedCharacter } from '@/context'
+
 // Import of utils
 import { FILTER_CHARACTER_OPTIONS, FILTER_SPECIE_OPTIONS } from '@/utils'
+import { cn } from '@/utils/cn'
 
 function App() {
+  // State generales
   const [searchValue, setSearchValue] = useState<string>('')
   const [characterFilter, setCharacterFilter] = useState<CharacterFilter>('all')
   const [specieFilter, setSpecieFilter] = useState<SpecieFilter>('all')
 
+  // Implement context
+  const { selectedCharacter } = useSelectedCharacter()
+
+  /* @name handleFilterApply
+  @description: Manejador para aplicar los filtros
+  */
   const handleFilterApply = (filters: {
     search: string
     character: CharacterFilter
@@ -62,7 +73,7 @@ function App() {
 
         {/* Personajes favoritos y personajes */}
         <main className="sidebar-main">
-          <section className="sidebar-section">
+          <section className="sidebar-section sidebar-section-starred">
             <CharactersStarredList />
           </section>
 
@@ -73,7 +84,7 @@ function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="main">
+      <main className={cn('main', selectedCharacter && 'main-visible')}>
         <div className="main-content">
           <DetailsCharacter />
         </div>

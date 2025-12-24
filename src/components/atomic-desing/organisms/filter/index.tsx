@@ -110,7 +110,7 @@ export const Filter = ({
             <Button
               variant="ghost"
               size="icon"
-              className="text-gray hover:bg-primary-100 hover:text-primary-700 size-8"
+              className="hover:bg-primary-100 text-primary-700 md:size-8"
               aria-label="Open filters"
             >
               <Icon icon={ICONS.filter} className="size-4 md:size-5" />

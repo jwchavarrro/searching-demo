@@ -108,13 +108,15 @@ describe('Title', () => {
     it('aplica size sm', () => {
       const { container } = render(<Title title="Título" size="sm" />)
       const heading = container.querySelector('h1')
-      expect(heading).toHaveClass('text-sm')
+      expect(heading).toHaveClass('text-xs')
+      expect(heading).toHaveClass('md:text-sm')
     })
 
     it('aplica size base', () => {
       const { container } = render(<Title title="Título" size="base" />)
       const heading = container.querySelector('h1')
-      expect(heading).toHaveClass('text-base')
+      expect(heading).toHaveClass('text-sm')
+      expect(heading).toHaveClass('md:text-base')
     })
 
     it('aplica size lg', () => {

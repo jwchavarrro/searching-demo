@@ -28,13 +28,11 @@ export function CharactersStarredList() {
 
   if (!charactersStarred || charactersStarred.length === 0) {
     return (
-      <div className="min-h-52">
-        <Message
-          icon={ICONS.alert}
-          description={{ text: 'No characters starred yet' }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
-      </div>
+      <Message
+        icon={ICONS.alert}
+        description={{ text: 'No characters starred yet' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
     )
   }
 
