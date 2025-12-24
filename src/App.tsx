@@ -3,6 +3,8 @@
  * @description: Este componente gestiona el layout principal de la aplicación.
  */
 
+import { motion } from 'motion/react'
+
 // Import of components custom
 import { Title, Input } from '@/components/atomic-desing/atoms'
 import {
@@ -13,7 +15,12 @@ import {
 
 function App() {
   return (
-    <div className="app">
+    <motion.div
+      className="app"
+      initial={{ opacity: 0, x: -100 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
+    >
       {/* Sidebar */}
       <aside className="sidebar">
         <header className="sidebar-header">
@@ -39,7 +46,7 @@ function App() {
           <DetailsCharacter />
         </div>
       </main>
-    </div>
+    </motion.div>
   )
 }
 

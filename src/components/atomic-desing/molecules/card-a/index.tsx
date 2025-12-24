@@ -19,6 +19,7 @@ import {
 
 // Import of utils
 import { cn } from '@/utils/cn'
+import { ICONS } from '@/config'
 
 type CardABaseProps = {
   avatar: AvatarProps
@@ -91,7 +92,7 @@ export const CardA = ({
             'text-gray/50 size-6 md:size-7',
             isStarred && 'text-secondary-600'
           )}
-          icon={isStarred ? 'mdi:heart' : 'mdi:heart-outline'}
+          icon={isStarred ? ICONS.heart : ICONS.heart_outline}
         />
       </Button>
     </>
