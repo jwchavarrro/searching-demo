@@ -67,10 +67,10 @@ export const CardA = ({
     <>
       <Avatar
         {...avatar}
-        size="base"
+        size={avatar.size || 'base'}
         className={cn('shrink-0', avatar.className)}
       />
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
         <Title title={title.title} level={3} size="base" truncate />
         <Text
           text={description.text}
