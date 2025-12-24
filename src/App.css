@@ -40,6 +40,10 @@
   @apply hidden grow overflow-y-scroll bg-white;
 }
 
+.main-visible {
+  @apply fixed inset-0 z-50 block;
+}
+
 .main-content {
   @apply relative mx-auto h-full w-full max-w-11/12 px-5 pt-8;
 }
@@ -47,6 +51,10 @@
 @media (min-width: 768px) {
   .main {
     @apply block;
+  }
+
+  .main-visible {
+    @apply relative z-auto;
   }
 
   .main-content {

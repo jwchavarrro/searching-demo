@@ -5,10 +5,11 @@
 
 // Import of motion
 import { motion } from 'motion/react'
+import { Icon } from '@iconify/react'
 
 // Import of components custom
 import { Header, Message } from '@/components/atomic-desing/molecules'
-import { Text } from '@/components/atomic-desing/atoms'
+import { Button, Text } from '@/components/atomic-desing/atoms'
 
 // Import of context
 import { useCharactersStarred, useSelectedCharacter } from '@/context'
@@ -23,7 +24,7 @@ import { DETAILS_CHARACTER_TEXT } from '@/fragments'
 
 export const DetailsCharacter = () => {
   // Implement context
-  const { selectedCharacter } = useSelectedCharacter()
+  const { selectedCharacter, setSelectedCharacter } = useSelectedCharacter()
   const { isCharacterStarred } = useCharactersStarred()
 
   /* @name isStarred
@@ -54,6 +55,16 @@ export const DetailsCharacter = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: 'easeInOut' }}
     >
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => setSelectedCharacter(null)}
+        className="text-primary-700 mb-2 md:hidden"
+        aria-label="Close character details"
+      >
+        <Icon icon={ICONS.arrow_left_02} className="size-6" />
+      </Button>
+
       <Header
         avatar={{
           avatar: {

@@ -19,13 +19,18 @@ import {
   CharactersStarredList,
 } from '@/fragments'
 
+// Import of context
+import { useSelectedCharacter } from '@/context'
+
 // Import of utils
 import { FILTER_CHARACTER_OPTIONS, FILTER_SPECIE_OPTIONS } from '@/utils'
+import { cn } from '@/utils/cn'
 
 function App() {
   const [searchValue, setSearchValue] = useState<string>('')
   const [characterFilter, setCharacterFilter] = useState<CharacterFilter>('all')
   const [specieFilter, setSpecieFilter] = useState<SpecieFilter>('all')
+  const { selectedCharacter } = useSelectedCharacter()
 
   const handleFilterApply = (filters: {
     search: string
@@ -73,7 +78,7 @@ function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="main">
+      <main className={cn('main', selectedCharacter && 'main-visible')}>
         <div className="main-content">
           <DetailsCharacter />
         </div>
