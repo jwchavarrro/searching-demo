@@ -341,7 +341,7 @@ export const PopoverContent = ({
     <div
       ref={contentRef}
       className={cn(
-        'border-gray/50 absolute z-50 rounded-md border bg-white p-4 shadow-md',
+        'border-gray/10 absolute z-50 rounded-md border bg-white p-4 shadow',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
         'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
