@@ -48,7 +48,8 @@ describe('Input', () => {
     it('aplica las clases base correctamente', () => {
       const { container } = render(<Input />)
       const input = container.querySelector('input')
-      expect(input).toHaveClass('h-10')
+      expect(input).toHaveClass('h-8')
+      expect(input).toHaveClass('md:h-10')
       expect(input).toHaveClass('w-full')
       expect(input).toHaveClass('rounded-md')
       expect(input).toHaveClass('border')
@@ -173,7 +174,8 @@ describe('Input', () => {
         </Input>
       )
       const input = container.querySelector('input')
-      expect(input).toHaveClass('h-10')
+      expect(input).toHaveClass('h-8')
+      expect(input).toHaveClass('md:h-10')
       expect(input).toHaveClass('pl-10')
       expect(input).toHaveClass('pr-10')
       expect(input).toHaveClass('custom-class')

@@ -226,7 +226,8 @@ describe('CardA', () => {
       const heading = container.querySelector('h3')
       expect(heading).toBeInTheDocument()
       expect(heading).toHaveTextContent('Jerry Smith')
-      expect(heading).toHaveClass('text-base')
+      expect(heading).toHaveClass('text-sm')
+      expect(heading).toHaveClass('md:text-base')
     })
 
     it('aplica truncate al título', () => {
@@ -254,7 +255,8 @@ describe('CardA', () => {
       const text = container.querySelector('p')
       expect(text).toBeInTheDocument()
       expect(text).toHaveTextContent('Human')
-      expect(text).toHaveClass('text-sm')
+      expect(text).toHaveClass('text-xs')
+      expect(text).toHaveClass('md:text-sm')
     })
 
     it('aplica truncate a la descripción', () => {
@@ -292,7 +294,8 @@ describe('CardA', () => {
         />
       )
       const button = container.querySelector('button')
-      expect(button).toHaveClass('size-10')
+      expect(button).toHaveClass('size-6')
+      expect(button).toHaveClass('md:size-10')
     })
 
     it('aplica clases personalizadas al botón', () => {
@@ -376,11 +379,13 @@ describe('CardA', () => {
 
       const heading = container.querySelector('h3')
       expect(heading).toHaveTextContent('Jerry Smith')
-      expect(heading).toHaveClass('text-base')
+      expect(heading).toHaveClass('text-sm')
+      expect(heading).toHaveClass('md:text-base')
 
       const text = container.querySelector('p')
       expect(text).toHaveTextContent('Human')
-      expect(text).toHaveClass('text-sm')
+      expect(text).toHaveClass('text-xs')
+      expect(text).toHaveClass('md:text-sm')
 
       const button = container.querySelector('button')
       expect(button).toBeInTheDocument()

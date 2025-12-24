@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/7</span>
+                <span class='fraction'>5/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
+                <span class="strong">62.5% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/7</span>
+                <span class='fraction'>5/8</span>
             </div>
         
             
@@ -148,7 +148,18 @@
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -173,11 +184,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -254,14 +276,25 @@ import {
   CharactersStarredList,
 } from '@/fragments'
 &nbsp;
+// Import of context
+import { useSelectedCharacter } from '@/context'
+&nbsp;
 // Import of utils
 import { FILTER_CHARACTER_OPTIONS, FILTER_SPECIE_OPTIONS } from '@/utils'
+import { cn } from '@/utils/cn'
 &nbsp;
 function App() {
+  // State generales
   const [searchValue, setSearchValue] = useState&lt;string&gt;('')
   const [characterFilter, setCharacterFilter] = useState&lt;CharacterFilter&gt;('all')
   const [specieFilter, setSpecieFilter] = useState&lt;SpecieFilter&gt;('all')
 &nbsp;
+  // Implement context
+  const { selectedCharacter } = useSelectedCharacter()
+&nbsp;
+  /* @name handleFilterApply
+  @description: Manejador para aplicar los filtros
+  */
   const handleFilterApply = <span class="fstat-no" title="function not covered" >(f</span>ilters: {
     search: string
     character: CharacterFilter
@@ -297,7 +330,7 @@ function App() {
 &nbsp;
         {/* Personajes favoritos y personajes */}
         &lt;main className="sidebar-main"&gt;
-          &lt;section className="sidebar-section"&gt;
+          &lt;section className="sidebar-section sidebar-section-starred"&gt;
             &lt;CharactersStarredList /&gt;
           &lt;/section&gt;
 &nbsp;
@@ -308,7 +341,7 @@ function App() {
       &lt;/aside&gt;
 &nbsp;
       {/* Main Content Area */}
-      &lt;main className="main"&gt;
+      &lt;main className={cn('main', selectedCharacter &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >'main-visible')}&gt;</span>
         &lt;div className="main-content"&gt;
           &lt;DetailsCharacter /&gt;
         &lt;/div&gt;
@@ -325,7 +358,7 @@ export default App
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-24T14:10:51.650Z
+                at 2025-12-24T14:56:27.468Z
             </div>
         <script src="../prettify.js"></script>
         <script>
