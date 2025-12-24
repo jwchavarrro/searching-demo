@@ -37,11 +37,11 @@
 }
 
 .sidebar-section-characters {
-  @apply min-h-52 flex-1;
+  @apply flex-1;
 }
 
 .main {
-  @apply hidden grow overflow-y-scroll bg-white;
+  @apply hidden grow overflow-y-auto bg-white;
 }
 
 .main-visible {
