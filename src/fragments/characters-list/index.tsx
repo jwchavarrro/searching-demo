@@ -1,6 +1,6 @@
 /**
- * characters/index.tsx
- * @description: Fragmento para renderizar el listado de personajes
+ * characters-list.tsx
+ * @description: Fragmento para renderizar el listado de personajes (excluyendo los marcados como favoritos)
  */
 
 // Import of components custom
@@ -9,8 +9,9 @@ import { Text } from '@/components/atomic-desing/atoms'
 
 // Import of hooks
 import { useFilteredCharacters } from './hooks'
-import { useSelectedCharacter } from '@/context/use-selected-character'
-import { useCharactersStarred } from '@/context'
+
+// Import of context
+import { useCharactersStarred, useSelectedCharacter } from '@/context'
 
 // Import of utils
 import { ICONS } from '@/config'
@@ -26,14 +27,7 @@ export function CharactersList() {
   const { filteredCharacters, isLoading, error, data } = useFilteredCharacters()
 
   // Implement context
-  /* @name useSelectedCharacter
-  @description: Hook para manejar el estado del personaje seleccionado
-  */
   const { setSelectedCharacter } = useSelectedCharacter()
-
-  /* @name useCharactersStarred
-  @description: Hook para manejar el estado de los personajes marcados como favoritos
-  */
   const { handleCharacterStarred, isCharacterStarred } = useCharactersStarred()
 
   if (isLoading) {

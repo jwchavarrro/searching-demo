@@ -9,4 +9,6 @@ export const ICONS: Record<string, string> = {
   selection_03: 'hugeicons:cursor-magic-selection-03',
   loading: 'svg-spinners:ring-resize',
   alert: 'hugeicons:alert-square',
+  heart: 'mdi:heart',
+  heart_outline: 'mdi:heart-outline',
 } as const

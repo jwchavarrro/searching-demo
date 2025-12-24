@@ -8,7 +8,7 @@ import { Header, Message } from '@/components/atomic-desing/molecules'
 import { Text } from '@/components/atomic-desing/atoms'
 
 // Import of context
-import { useSelectedCharacter } from '@/context/use-selected-character'
+import { useCharactersStarred, useSelectedCharacter } from '@/context'
 
 // Import of utils
 import { ICONS } from '@/config'
@@ -17,10 +17,15 @@ import { DETAILS_CHARACTER_TEXT } from '@/fragments'
 
 export const DetailsCharacter = () => {
   // Implement context
-  /* @name useSelectedCharacter
-  @description: Personaje seleccionado
-  */
   const { selectedCharacter } = useSelectedCharacter()
+  const { isCharacterStarred } = useCharactersStarred()
+
+  /* @name isStarred
+  @description: Verificar si el personaje está marcado como favorito
+  */
+  const isStarred = selectedCharacter
+    ? isCharacterStarred(selectedCharacter?.id || 0)
+    : false
 
   /* @name if (!selectedCharacter)
   @description: Validar si no hay un personaje seleccionado
@@ -44,10 +49,13 @@ export const DetailsCharacter = () => {
             src: selectedCharacter.image,
             alt: selectedCharacter.name,
           },
+          icon: isStarred ? ICONS.heart : undefined,
         }}
         title={{ title: selectedCharacter.name }}
       />
-      <div className="flex flex-col gap-5">
+
+      {/* Details character */}
+      <main className="flex flex-col gap-5">
         {DETAILS_CHARACTER_TEXT.map((text, index) => (
           <div
             key={text}
@@ -66,7 +74,7 @@ export const DetailsCharacter = () => {
             <Text text="Alien" size="base" />
           </div>
         ))}
-      </div>
+      </main>
     </div>
   )
 }
