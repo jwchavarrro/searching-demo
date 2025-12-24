@@ -1,42 +1,55 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@reference 'tailwindcss';
+
+.app {
+  @apply flex h-dvh overflow-hidden;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.sidebar {
+  @apply bg-gray/5 flex h-full w-full flex-col overflow-hidden;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+@media (min-width: 768px) {
+  .sidebar {
+    @apply max-w-80;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@media (min-width: 1024px) {
+  .sidebar {
+    @apply max-w-96;
   }
 }
 
-.card {
-  padding: 2em;
+.sidebar-header {
+  @apply flex shrink-0 flex-col gap-5 px-5 pt-8 pb-4;
 }
 
-.read-the-docs {
-  color: #888;
+.sidebar-main {
+  @apply flex flex-1 flex-col gap-6 overflow-x-hidden overflow-y-auto px-5 pb-8;
+}
+
+.sidebar-section {
+  @apply relative flex min-h-52 flex-col;
+}
+
+.sidebar-section-characters {
+  @apply min-h-52 flex-1;
+}
+
+.main {
+  @apply hidden grow overflow-y-scroll bg-white;
+}
+
+.main-content {
+  @apply relative mx-auto h-full w-full max-w-11/12 px-5 pt-8;
+}
+
+@media (min-width: 768px) {
+  .main {
+    @apply block;
+  }
+
+  .main-content {
+    @apply px-8;
+  }
 }
