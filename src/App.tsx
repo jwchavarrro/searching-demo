@@ -12,7 +12,6 @@ import {
   Filter,
   type CharacterFilter,
   type SpecieFilter,
-  type FilterOption,
 } from '@/components/atomic-desing/organisms'
 import {
   CharactersList,
@@ -20,17 +19,8 @@ import {
   CharactersStarredList,
 } from '@/fragments'
 
-const characterOptions: FilterOption<CharacterFilter>[] = [
-  { value: 'all', label: 'All' },
-  { value: 'starred', label: 'Starred' },
-  { value: 'others', label: 'Others' },
-]
-
-const specieOptions: FilterOption<SpecieFilter>[] = [
-  { value: 'all', label: 'All' },
-  { value: 'human', label: 'Human' },
-  { value: 'alien', label: 'Alien' },
-]
+// Import of utils
+import { FILTER_CHARACTER_OPTIONS, FILTER_SPECIE_OPTIONS } from '@/utils'
 
 function App() {
   const [searchValue, setSearchValue] = useState<string>('')
@@ -62,8 +52,8 @@ function App() {
             onSearchChange={setSearchValue}
             characterFilter={characterFilter}
             specieFilter={specieFilter}
-            characterOptions={characterOptions}
-            specieOptions={specieOptions}
+            characterOptions={FILTER_CHARACTER_OPTIONS}
+            specieOptions={FILTER_SPECIE_OPTIONS}
             onCharacterFilterChange={setCharacterFilter}
             onSpecieFilterChange={setSpecieFilter}
             onFilterApply={handleFilterApply}

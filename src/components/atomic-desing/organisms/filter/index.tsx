@@ -125,7 +125,7 @@ export const Filter = ({
             <div className="space-y-4">
               {/* Character Filter Section */}
               <div className="space-y-2">
-                <Text text="Character" size="sm" />
+                <Text text="Character" size="sm" weight="medium" />
                 <div className="flex gap-2">
                   {characterOptions.map(option => (
                     <Button
@@ -150,7 +150,7 @@ export const Filter = ({
 
               {/* Specie Filter Section */}
               <div className="space-y-2">
-                <Text text="Specie" size="sm" />
+                <Text text="Specie" size="sm" weight="medium" />
                 <div className="flex gap-2">
                   {specieOptions.map(option => (
                     <Button

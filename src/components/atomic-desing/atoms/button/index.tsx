@@ -45,7 +45,7 @@ const sizeClasses = {
 }
 
 const baseClasses =
-  'inline-flex items-center justify-center rounded-lg font-semibold text-xs md:text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-600 disabled:pointer-events-none disabled:opacity-50'
+  'inline-flex items-center justify-center rounded-lg font-semibold text-xs md:text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary-600 disabled:pointer-events-none disabled:opacity-50 cursor-pointer'
 
 export const Button = ({
   children,
