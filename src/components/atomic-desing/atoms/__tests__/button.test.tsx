@@ -122,7 +122,7 @@ describe('Button', () => {
       expect(button).toHaveClass('items-center')
       expect(button).toHaveClass('justify-center')
       expect(button).toHaveClass('rounded-lg')
-      expect(button).toHaveClass('font-medium')
+      expect(button).toHaveClass('font-semibold')
       expect(button).toHaveClass('transition-colors')
     })
 
