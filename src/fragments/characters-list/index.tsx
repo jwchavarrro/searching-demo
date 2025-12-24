@@ -37,7 +37,7 @@ export function CharactersList() {
 
   if (isLoading) {
     return (
-      <div className="relative min-h-[200px]">
+      <div className="min-h-52">
         <Message
           icon={ICONS.loading}
           description={{ text: 'Loading characters...' }}
@@ -49,7 +49,7 @@ export function CharactersList() {
 
   if (error) {
     return (
-      <div className="relative min-h-[200px]">
+      <div className="min-h-52">
         <Message
           icon={ICONS.alert}
           description={{
@@ -63,7 +63,7 @@ export function CharactersList() {
 
   if (!data || data.results.length === 0) {
     return (
-      <div className="relative min-h-[200px]">
+      <div className="min-h-52">
         <Message
           icon={ICONS.alert}
           description={{ text: 'No characters found' }}
@@ -74,7 +74,7 @@ export function CharactersList() {
   }
 
   return (
-    <div className="space-y-2 relative min-h-0">
+    <div className="min-h-0 space-y-2">
       <Text text={`CHARACTERS (${data.results.length})`} weight="semibold" />
       <div>
         {data.results.map((character: CharacterType) => (

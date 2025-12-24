@@ -25,7 +25,7 @@ export function CharactersStarredList() {
 
   if (!charactersStarred || charactersStarred.length === 0) {
     return (
-      <div className="relative min-h-[200px]">
+      <div className="min-h-52">
         <Message
           icon={ICONS.alert}
           description={{ text: 'No characters starred yet' }}
@@ -36,7 +36,7 @@ export function CharactersStarredList() {
   }
 
   return (
-    <div className="space-y-2 relative min-h-0">
+    <div className="min-h-0 space-y-2">
       <Text text={`STARRED CHARACTERS (${count})`} weight="semibold" />
       <div>
         {charactersStarred.map((character: CharacterType) => (
