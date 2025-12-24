@@ -5,7 +5,7 @@
 }
 
 .sidebar {
-  @apply bg-primary-100/20 flex grow flex-col justify-between gap-4 p-4 pt-8;
+  @apply bg-gray/5 flex grow flex-col justify-between gap-4 p-4 pt-8;
 }
 
 @media (min-width: 768px) {
@@ -25,7 +25,7 @@
 }
 
 .sidebar-main {
-  @apply h-full;
+  @apply h-[calc(100%-6rem)] pb-10;
 }
 
 .sidebar-section-starred {
@@ -33,7 +33,7 @@
 }
 
 .sidebar-section-characters {
-  @apply h-2/3;
+  @apply h-2/3 space-y-5;
 }
 
 .main-content {

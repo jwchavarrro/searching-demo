@@ -5,6 +5,7 @@
 
 // Import of components custom
 import { Title, Text } from '@/components/atomic-desing/atoms'
+import { CharactersList } from '@/fragments'
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           </section>
           <section className="sidebar-section-characters">
             <Text text="CHARACTERS" weight="semibold" />
+            <div className="h-full overflow-y-auto">
+              <CharactersList />
+            </div>
           </section>
         </main>
       </aside>

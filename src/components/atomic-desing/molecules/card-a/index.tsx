@@ -50,12 +50,12 @@ export const CardA = ({
   return (
     <div
       className={cn(
-        'hover:bg-primary-100 group flex cursor-pointer items-center gap-4 rounded-lg bg-white p-4',
+        'hover:bg-primary-100 group flex cursor-pointer items-center gap-4 bg-transparent p-4 hover:rounded-lg',
         className
       )}
     >
-      <Avatar {...avatar} />
-      <div className="flex flex-1 flex-col gap-1">
+      <Avatar {...avatar} className="shrink-0" />
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
         <Title title={title.title} level={3} size="base" truncate />
         <Text
           text={description.text}
@@ -69,7 +69,7 @@ export const CardA = ({
         variant="ghost"
         size="icon"
         onClick={handleIconClick}
-        className="rounded-full transition-colors duration-300 ease-in-out group-hover:bg-white group-hover:shadow hover:bg-white"
+        className="shrink-0 rounded-full transition-colors duration-300 ease-in-out group-hover:bg-white group-hover:shadow hover:bg-white"
       >
         <Icon
           className={cn(
