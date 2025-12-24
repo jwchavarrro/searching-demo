@@ -12,8 +12,9 @@
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
     "test:ci": "vitest run --coverage",
-    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"config/**/*.{ts,tsx,js,jsx}\" \"*.{ts,js,json}\" \"*.config.{ts,js}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"config/**/*.{ts,tsx,js,jsx}\" \"*.{ts,js,json}\" \"*.config.{ts,js}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"*.{ts,js,json}\" \"*.config.{ts,js}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\" \"*.{ts,js,json}\" \"*.config.{ts,js}\"",
+    "quality-check": "bun run lint && bun run test:ci && bun run build"
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
@@ -22,6 +23,7 @@
     "clsx": "^2.1.1",
     "graphql": "^16.12.0",
     "graphql-request": "^7.4.0",
+    "jotai": "^2.16.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.11.0",

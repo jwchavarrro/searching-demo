@@ -19,6 +19,10 @@ import { createPortal } from 'react-dom'
 // Import of utils
 import { cn } from '@/utils/cn'
 
+// Constants
+const POPOVER_PADDING = 8
+const POPOVER_GAP = 8
+
 interface PopoverContextValue {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -75,46 +79,142 @@ export const Popover = ({
   )
 }
 
+type PopoverAlign = 'start' | 'center' | 'end'
+type PopoverSide = 'top' | 'right' | 'bottom' | 'left'
+type PopoverWidth = 'sm' | 'base' | 'lg' | 'xl' | 'full'
+
 export interface PopoverTriggerProps {
-  asChild: true
+  asChild?: true
   children: React.ReactElement<{
     onClick?: (e: React.MouseEvent<HTMLElement>) => void
     ref?: React.Ref<HTMLElement>
   }>
 }
 
-export const PopoverTrigger = ({ children, ...props }: PopoverTriggerProps) => {
+export const PopoverTrigger = (props: PopoverTriggerProps) => {
+  const { children, ...restProps } = props
   const { onOpenChange, triggerRef } = usePopoverContext()
 
   if (!React.isValidElement(children)) {
     throw new Error('PopoverTrigger children must be a valid React element')
   }
 
-  return React.cloneElement(children, {
-    ...props,
-    ref: triggerRef,
-    onClick: (e: React.MouseEvent<HTMLElement>) => {
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
       const originalOnClick = children.props?.onClick
       originalOnClick?.(e)
       onOpenChange(true)
     },
-  } as React.HTMLAttributes<HTMLElement>)
+    [children.props, onOpenChange]
+  )
+
+  // Filter out asChild from props to prevent it from being passed to DOM
+  const elementProps = Object.fromEntries(
+    Object.entries(restProps).filter(([key]) => key !== 'asChild')
+  ) as Omit<PopoverTriggerProps, 'asChild' | 'children'>
+
+  return React.cloneElement(children, {
+    ...elementProps,
+    ref: triggerRef,
+    onClick: handleClick,
+  })
 }
 
 export interface PopoverContentProps extends HTMLAttributes<HTMLDivElement> {
   className?: string
-  align?: 'start' | 'center' | 'end'
-  side?: 'top' | 'right' | 'bottom' | 'left'
-  width?: 'sm' | 'base' | 'lg' | 'xl' | 'full' | number
-  mobileWidth?: 'sm' | 'base' | 'lg' | 'xl' | 'full' | number
+  align?: PopoverAlign
+  side?: PopoverSide
+  width?: PopoverWidth | number
+  mobileWidth?: PopoverWidth | number
 }
 
-const widthClasses = {
+const WIDTH_CLASSES = {
   sm: 'w-48',
   base: 'w-72',
   lg: 'w-96',
   xl: 'w-[28rem]',
   full: 'w-full',
+} as const
+
+type WidthKey = keyof typeof WIDTH_CLASSES
+
+const calculateHorizontalPosition = (
+  align: PopoverAlign,
+  triggerRect: DOMRect,
+  contentRect: DOMRect
+): number => {
+  switch (align) {
+    case 'start':
+      return triggerRect.left
+    case 'center':
+      return triggerRect.left + triggerRect.width / 2 - contentRect.width / 2
+    case 'end':
+      return triggerRect.right - contentRect.width
+  }
+}
+
+const calculateVerticalPosition = (
+  align: PopoverAlign,
+  triggerRect: DOMRect,
+  contentRect: DOMRect
+): number => {
+  switch (align) {
+    case 'start':
+      return triggerRect.top
+    case 'center':
+      return triggerRect.top + triggerRect.height / 2 - contentRect.height / 2
+    case 'end':
+      return triggerRect.bottom - contentRect.height
+  }
+}
+
+const calculatePositionBySide = (
+  side: PopoverSide,
+  align: PopoverAlign,
+  triggerRect: DOMRect,
+  contentRect: DOMRect
+): { top: number; left: number } => {
+  let top = 0
+  let left = 0
+
+  // Calcular posición según side
+  switch (side) {
+    case 'top':
+      top = triggerRect.top - contentRect.height - POPOVER_GAP
+      left = calculateHorizontalPosition(align, triggerRect, contentRect)
+      break
+    case 'bottom':
+      top = triggerRect.bottom + POPOVER_GAP
+      left = calculateHorizontalPosition(align, triggerRect, contentRect)
+      break
+    case 'left':
+      left = triggerRect.left - contentRect.width - POPOVER_GAP
+      top = calculateVerticalPosition(align, triggerRect, contentRect)
+      break
+    case 'right':
+      left = triggerRect.right + POPOVER_GAP
+      top = calculateVerticalPosition(align, triggerRect, contentRect)
+      break
+  }
+
+  return { top, left }
+}
+
+const constrainToViewport = (
+  top: number,
+  left: number,
+  contentRect: DOMRect
+): { top: number; left: number } => {
+  const constrainedLeft = Math.max(
+    POPOVER_PADDING,
+    Math.min(left, window.innerWidth - contentRect.width - POPOVER_PADDING)
+  )
+  const constrainedTop = Math.max(
+    POPOVER_PADDING,
+    Math.min(top, window.innerHeight - contentRect.height - POPOVER_PADDING)
+  )
+
+  return { top: constrainedTop, left: constrainedLeft }
 }
 
 export const PopoverContent = ({
@@ -129,16 +229,17 @@ export const PopoverContent = ({
   const { open, onOpenChange, triggerRef } = usePopoverContext()
   const contentRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    if (!open) return
-
-    const handleEscape = (e: KeyboardEvent) => {
+  const handleEscape = useCallback(
+    (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onOpenChange(false)
       }
-    }
+    },
+    [onOpenChange]
+  )
 
-    const handleClickOutside = (e: MouseEvent) => {
+  const handleClickOutside = useCallback(
+    (e: MouseEvent) => {
       if (
         contentRef.current &&
         triggerRef.current &&
@@ -147,7 +248,12 @@ export const PopoverContent = ({
       ) {
         onOpenChange(false)
       }
-    }
+    },
+    [onOpenChange, triggerRef]
+  )
+
+  useEffect(() => {
+    if (!open) return
 
     document.addEventListener('keydown', handleEscape)
     document.addEventListener('mousedown', handleClickOutside)
@@ -156,55 +262,35 @@ export const PopoverContent = ({
       document.removeEventListener('keydown', handleEscape)
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [open, onOpenChange, triggerRef])
+  }, [open, handleEscape, handleClickOutside])
+
+  const updatePosition = useCallback(() => {
+    if (!triggerRef.current || !contentRef.current) return
+
+    const triggerRect = triggerRef.current.getBoundingClientRect()
+    const contentRect = contentRef.current.getBoundingClientRect()
+
+    const { top, left } = calculatePositionBySide(
+      side,
+      align,
+      triggerRect,
+      contentRect
+    )
+
+    const { top: constrainedTop, left: constrainedLeft } = constrainToViewport(
+      top,
+      left,
+      contentRect
+    )
+
+    if (contentRef.current) {
+      contentRef.current.style.top = `${constrainedTop}px`
+      contentRef.current.style.left = `${constrainedLeft}px`
+    }
+  }, [side, align, triggerRef])
 
   useEffect(() => {
     if (!open || !triggerRef.current || !contentRef.current) return
-
-    const updatePosition = () => {
-      if (!triggerRef.current || !contentRef.current) return
-
-      const triggerRect = triggerRef.current.getBoundingClientRect()
-      const contentRect = contentRef.current.getBoundingClientRect()
-
-      let top = 0
-      let left = 0
-
-      // Calcular posición según side
-      if (side === 'top') top = triggerRect.top - contentRect.height - 8
-      else if (side === 'bottom') top = triggerRect.bottom + 8
-      else if (side === 'left') left = triggerRect.left - contentRect.width - 8
-      else if (side === 'right') left = triggerRect.right + 8
-
-      // Calcular alineación
-      if (side === 'top' || side === 'bottom') {
-        if (align === 'start') left = triggerRect.left
-        else if (align === 'center')
-          left =
-            triggerRect.left + triggerRect.width / 2 - contentRect.width / 2
-        else if (align === 'end') left = triggerRect.right - contentRect.width
-      } else {
-        if (align === 'start') top = triggerRect.top
-        else if (align === 'center')
-          top =
-            triggerRect.top + triggerRect.height / 2 - contentRect.height / 2
-        else if (align === 'end') top = triggerRect.bottom - contentRect.height
-      }
-
-      // Ajustar para que no se salga de la pantalla
-      const padding = 8
-      left = Math.max(
-        padding,
-        Math.min(left, window.innerWidth - contentRect.width - padding)
-      )
-      top = Math.max(
-        padding,
-        Math.min(top, window.innerHeight - contentRect.height - padding)
-      )
-
-      contentRef.current.style.top = `${top}px`
-      contentRef.current.style.left = `${left}px`
-    }
 
     updatePosition()
     window.addEventListener('resize', updatePosition)
@@ -214,41 +300,42 @@ export const PopoverContent = ({
       window.removeEventListener('resize', updatePosition)
       window.removeEventListener('scroll', updatePosition, true)
     }
-  }, [open, align, side, triggerRef])
+  }, [open, updatePosition, triggerRef])
 
-  if (!open) return null
+  const getWidthClasses = useCallback((): string => {
+    const baseWidth =
+      typeof width === 'number' ? '' : WIDTH_CLASSES[width as WidthKey]
 
-  const getWidthClasses = () => {
-    const baseWidth = typeof width === 'number' ? '' : widthClasses[width]
-
-    let mobileW: string | null = null
-    if (mobileWidth) {
-      if (typeof mobileWidth === 'number') {
-        mobileW = ''
-      } else {
-        mobileW = widthClasses[mobileWidth]
-      }
+    if (!mobileWidth) {
+      return baseWidth
     }
 
-    if (mobileW) {
-      return `${mobileW} md:${baseWidth}`
-    }
-    return baseWidth
-  }
+    const mobileW =
+      typeof mobileWidth === 'number'
+        ? ''
+        : WIDTH_CLASSES[mobileWidth as WidthKey]
 
-  const getWidthStyle = (): React.CSSProperties => {
-    const style: Record<string, string> = {}
+    return mobileW ? `${mobileW} md:${baseWidth}` : baseWidth
+  }, [width, mobileWidth])
+
+  const getWidthStyle = useCallback((): React.CSSProperties => {
+    const style: React.CSSProperties = {}
+
     if (typeof width === 'number') {
       style.width = `${width}px`
     }
+
     if (mobileWidth && typeof mobileWidth === 'number') {
       style.width = `${mobileWidth}px`
       if (typeof width === 'number') {
-        style['@media (min-width: 768px)'] = `${width}px`
+        style.width = `${width}px`
       }
     }
-    return style as React.CSSProperties
-  }
+
+    return style
+  }, [width, mobileWidth])
+
+  if (!open) return null
 
   return createPortal(
     <div

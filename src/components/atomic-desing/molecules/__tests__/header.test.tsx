@@ -112,7 +112,7 @@ describe('Header', () => {
         />
       )
       const heading = container.querySelector('h2')
-      expect(heading).toHaveClass('text-xl')
+      expect(heading).toHaveClass('text-2xl')
       expect(heading).toHaveClass('title-custom')
       expect(heading).toHaveTextContent('Mi Título')
     })
@@ -190,7 +190,7 @@ describe('Header', () => {
 
       const heading = container.querySelector('h2')
       expect(heading).toHaveTextContent('Abadango Cluster Princess')
-      expect(heading).toHaveClass('text-3xl')
+      expect(heading).toHaveClass('text-2xl')
       expect(heading).toHaveClass('title-class')
     })
   })

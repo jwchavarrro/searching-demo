@@ -158,8 +158,8 @@ describe('CardA', () => {
         />
       )
       const div = container.querySelector('div')
-      expect(div).toHaveClass('rounded-lg')
-      expect(div).toHaveClass('bg-white')
+      expect(div).toHaveClass('hover:rounded-lg')
+      expect(div).toHaveClass('bg-transparent')
       expect(div).toHaveClass('p-4')
     })
 

@@ -8,7 +8,7 @@ import { type InputHTMLAttributes, type ReactNode } from 'react'
 
 // Import of utils
 import { cn } from '@/utils/cn'
-import { ICONS } from '@config'
+import { ICONS } from '@/config'
 
 export interface InputProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,

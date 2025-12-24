@@ -14,7 +14,6 @@ import { cn } from '@/utils/cn'
 export interface AvatarButtonProps {
   avatar: AvatarProps
   icon?: string
-  iconSize?: number | string
   className?: string
   iconClassName?: string
 }
