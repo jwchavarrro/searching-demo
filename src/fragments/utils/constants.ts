@@ -3,4 +3,8 @@
  * @description: Constantes para los utils
  */
 
-export const DETAILS_CHARACTER_TEXT = ['species', 'status', 'occupation']
+export const DETAILS_CHARACTER_TEXT: string[] = [
+  'species',
+  'status',
+  'occupation',
+]

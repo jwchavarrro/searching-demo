@@ -40,6 +40,10 @@
   @apply hidden grow overflow-y-scroll;
 }
 
+.main-content {
+  @apply relative mx-auto h-full w-full max-w-4/5 pt-8;
+}
+
 @media (min-width: 768px) {
   .main {
     @apply block;

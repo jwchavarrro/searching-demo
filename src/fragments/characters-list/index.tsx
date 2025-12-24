@@ -9,6 +9,7 @@ import { CardA, Message } from '@/components/atomic-desing/molecules'
 // Import of hooks
 import { useCharacters } from '@/hooks'
 import { useSelectedCharacter } from '@/context/use-selected-character'
+import { useCharactersStarred } from '@/context'
 
 // Import of utils
 import { ICONS } from '@/config'
@@ -27,6 +28,11 @@ export function CharactersList() {
   @description: Hook para manejar el estado del personaje seleccionado
   */
   const { setSelectedCharacter } = useSelectedCharacter()
+
+  /* @name useCharactersStarred
+  @description: Hook para manejar el estado de los personajes marcados como favoritos
+  */
+  const { handleCharacterStarred, isCharacterStarred } = useCharactersStarred()
 
   if (isLoading) {
     return (
@@ -67,6 +73,8 @@ export function CharactersList() {
           key={character.id}
           as="button"
           onClick={() => setSelectedCharacter(character)}
+          isStarred={isCharacterStarred(character.id)}
+          onIconClick={() => handleCharacterStarred(character)}
           avatar={{
             src: character.image,
             alt: character.name,

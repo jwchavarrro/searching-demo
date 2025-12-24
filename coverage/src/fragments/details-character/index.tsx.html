@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">25% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>1/4</span>
             </div>
         
             
@@ -110,7 +110,35 @@
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -131,7 +159,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,20 +214,26 @@
 &nbsp;
 // Import of components custom
 import { Header, Message } from '@/components/atomic-desing/molecules'
+import { Text } from '@/components/atomic-desing/atoms'
+&nbsp;
+// Import of context
+import { useSelectedCharacter } from '@/context/use-selected-character'
 &nbsp;
 // Import of utils
 import { ICONS } from '@/config'
-&nbsp;
-// Import of hooks
-import { useSelectedCharacter } from '@/context/use-selected-character'
+import { capitalizeFirstLetter } from '@/utils'
+import { DETAILS_CHARACTER_TEXT } from '@/fragments'
 &nbsp;
 export const DetailsCharacter = () =&gt; {
-  // Implement custom hooks
+  // Implement context
   /* @name useSelectedCharacter
-  @description: Hook para manejar el estado del personaje seleccionado
+  @description: Personaje seleccionado
   */
   const { selectedCharacter } = useSelectedCharacter()
 &nbsp;
+  /* @name if (!selectedCharacter)
+  @description: Validar si no hay un personaje seleccionado
+  */
   <span class="missing-if-branch" title="else path not taken" >E</span>if (!selectedCharacter) {
     return (
       &lt;Message
@@ -190,7 +246,7 @@ export const DetailsCharacter = () =&gt; {
   }
 &nbsp;
   return (
-    &lt;div className="relative h-full"&gt;
+    &lt;div className="relative h-full space-y-5"&gt;
       &lt;Header
         avatar={{
           avatar: {
@@ -200,7 +256,26 @@ export const DetailsCharacter = () =&gt; {
         }}
         title={{ title: selectedCharacter.name }}
       /&gt;
-      &lt;div&gt;&lt;/div&gt;
+      &lt;div className="flex flex-col gap-5"&gt;
+        {DETAILS_CHARACTER_TEXT.map((text, index) =&gt; (
+          &lt;div
+            key={text}
+            className={
+              index &lt; DETAILS_CHARACTER_TEXT.length - 1
+                ? 'border-gray/20 border-b pb-5'
+                : ''
+            }
+          &gt;
+            &lt;Text
+              text={capitalizeFirstLetter(text)}
+              weight="bold"
+              size="base"
+              className="text-black"
+            /&gt;
+            &lt;Text text="Alien" size="base" /&gt;
+          &lt;/div&gt;
+        ))}
+      &lt;/div&gt;
     &lt;/div&gt;
   )
 }
@@ -211,7 +286,7 @@ export const DetailsCharacter = () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-24T03:48:56.625Z
+                at 2025-12-24T05:29:59.908Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
