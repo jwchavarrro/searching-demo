@@ -29,7 +29,7 @@
 }
 
 .sidebar-section {
-  @apply relative flex min-h-52 flex-col;
+  @apply relative flex min-h-28 flex-col;
 }
 
 .sidebar-section-characters {

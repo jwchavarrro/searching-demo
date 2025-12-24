@@ -32,51 +32,43 @@ export function CharactersList() {
 
   if (isLoading) {
     return (
-      <div className="min-h-52">
-        <Message
-          icon={ICONS.loading}
-          description={{ text: 'Loading characters...' }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
-      </div>
+      <Message
+        icon={ICONS.loading}
+        description={{ text: 'Loading characters...' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
     )
   }
 
   if (error) {
     return (
-      <div className="min-h-52">
-        <Message
-          icon={ICONS.alert}
-          description={{
-            text: 'An error occurred while loading the characters.',
-          }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
-      </div>
+      <Message
+        icon={ICONS.alert}
+        description={{
+          text: 'An error occurred while loading the characters.',
+        }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
     )
   }
 
   if (!data || data.results.length === 0) {
     return (
-      <div className="min-h-52">
-        <Message
-          icon={ICONS.alert}
-          description={{ text: 'No characters found' }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
-      </div>
+      <Message
+        icon={ICONS.alert}
+        description={{ text: 'No characters found' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
     )
   }
 
   if (filteredCharacters.length === 0) {
     return (
-      <div className="min-h-52">
-        <Message
-          icon={ICONS.alert}
-          description={{ text: 'All characters are starred' }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        />
-      </div>
+      <Message
+        icon={ICONS.alert}
+        description={{ text: 'All characters are starred' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
     )
   }
 
