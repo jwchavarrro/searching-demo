@@ -7,7 +7,12 @@
 import { Title, Text } from '@/components/atomic-desing/atoms'
 import { CharactersList } from '@/fragments'
 
+// Import of hooks
+import { useSelectedCharacter } from '@/context/use-selected-character'
+
 function App() {
+  const { selectedCharacter } = useSelectedCharacter()
+
   return (
     <div className="app">
       {/* Sidebar */}
@@ -31,7 +36,9 @@ function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main className="main-content overflow-y-scroll"></main>
+      <main className="main-content overflow-y-scroll">
+        <p>{selectedCharacter?.id ?? 'No hay personaje seleccionado'}</p>
+      </main>
     </div>
   )
 }

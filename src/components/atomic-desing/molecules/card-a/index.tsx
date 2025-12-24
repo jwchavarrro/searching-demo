@@ -60,7 +60,7 @@ export const CardA = ({
   }
 
   const baseClasses = cn(
-    'hover:bg-primary-100 group flex cursor-pointer items-center gap-4 bg-transparent p-4 hover:rounded-lg',
+    'w-full hover:bg-primary-100 group flex cursor-pointer items-center gap-4 bg-transparent p-4 hover:rounded-lg',
     className
   )
 

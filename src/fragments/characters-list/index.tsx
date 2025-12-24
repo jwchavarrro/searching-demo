@@ -9,6 +9,7 @@ import { Text } from '@/components/atomic-desing/atoms'
 
 // Import of hooks
 import { useCharacters } from '@/hooks'
+import { useSelectedCharacter } from '@/context/use-selected-character'
 
 // Import of types
 import type { CharacterType } from '@/graphql/types'
@@ -19,6 +20,11 @@ export function CharactersList() {
   @description: Hook para obtener los personajes  
  */
   const { data, isLoading, error } = useCharacters()
+
+  /* @name useSelectedCharacter
+  @description: Hook para manejar el estado del personaje seleccionado
+  */
+  const { setSelectedCharacter } = useSelectedCharacter()
 
   if (isLoading) {
     return (
@@ -49,6 +55,8 @@ export function CharactersList() {
       {data.results.map((character: CharacterType) => (
         <CardA
           key={character.id}
+          as="button"
+          onClick={() => setSelectedCharacter(character)}
           avatar={{
             src: character.image,
             alt: character.name,
