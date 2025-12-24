@@ -33,7 +33,7 @@
 }
 
 .sidebar-section-starred {
-  @apply shrink-0 max-h-80 overflow-y-auto;
+  @apply max-h-80 shrink-0 overflow-y-auto;
 }
 
 .sidebar-section-characters {
