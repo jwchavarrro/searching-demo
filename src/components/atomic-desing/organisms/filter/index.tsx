@@ -137,7 +137,7 @@ export const Filter = ({
                       }
                       onClick={() => handleCharacterFilterClick(option.value)}
                       className={cn(
-                        'flex-1',
+                        'min-w-0 flex-1',
                         localCharacterFilter === option.value &&
                           'bg-primary-100 text-primary-700 hover:bg-primary-200'
                       )}
@@ -162,7 +162,7 @@ export const Filter = ({
                       }
                       onClick={() => handleSpecieFilterClick(option.value)}
                       className={cn(
-                        'flex-1',
+                        'min-w-0 flex-1',
                         localSpecieFilter === option.value &&
                           'bg-primary-100 text-primary-700 hover:bg-primary-200'
                       )}
