@@ -17,10 +17,10 @@ export interface TextProps {
 
 const sizeClasses = {
   xs: 'text-xs',
-  sm: 'text-sm',
-  base: 'text-base',
-  lg: 'text-lg',
-  xl: 'text-xl',
+  sm: 'text-xs md:text-sm',
+  base: 'text-sm md:text-base',
+  lg: 'text-sm md:text-lg',
+  xl: 'text-lg md:text-xl',
 }
 
 const weightClasses = {
