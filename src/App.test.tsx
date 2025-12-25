@@ -1,10 +1,26 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+    },
+  },
+})
+
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <MemoryRouter>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  </MemoryRouter>
+)
 
 describe('App', () => {
   it('renders the app', () => {
-    const { container } = render(<App />)
+    const { container } = render(<App />, { wrapper })
 
     // Verificar que el componente principal existe
     expect(container.querySelector('.app')).toBeInTheDocument()
