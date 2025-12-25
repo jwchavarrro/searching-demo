@@ -5,7 +5,11 @@
 
 import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
+
+// Import of services
 import { fetchCharacters, searchCharacters } from '@/graphql/services'
+
+// Import of types
 import type { ApiResponseType, CharacterType } from '@/graphql/types'
 
 interface UseCharactersReturn {
