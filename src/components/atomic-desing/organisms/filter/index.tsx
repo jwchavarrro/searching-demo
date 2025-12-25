@@ -124,7 +124,6 @@ export const Filter = ({
     setIsPopoverOpen(false)
   }, [localSearch, localCharacterFilter, localSpecieFilter, onFilterApply])
 
-
   /* @name handleClearSearch
   @description: Manejador para limpiar la búsqueda cuando se presiona el botón Clear
   */
