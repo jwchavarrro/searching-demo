@@ -1,6 +1,6 @@
 /**
  * characters-list.tsx
- * @description: Fragmento para renderizar el listado de personajes (excluyendo los marcados como favoritos)
+ * @description: Fragmento para renderizar el listado de personajes según el filtro de Character
  */
 
 // Import of components custom
@@ -18,13 +18,22 @@ import { ICONS } from '@/config'
 
 // Import of types
 import type { CharacterType } from '@/graphql/types'
+import type { CharacterFilter } from '@/components/atomic-desing/organisms'
 
-export function CharactersList() {
+interface CharactersListProps {
+  characterFilter?: CharacterFilter
+}
+
+export function CharactersList({
+  characterFilter = 'others',
+}: CharactersListProps) {
   // Implement custom hooks
   /* @name useFilteredCharacters
-  @description: Hook para obtener los personajes filtrados (excluyendo los starred)
+  @description: Hook para obtener los personajes filtrados según el filtro de Character
   */
-  const { filteredCharacters, isLoading, error, data } = useFilteredCharacters()
+  const { filteredCharacters, isLoading, error, data } = useFilteredCharacters({
+    characterFilter,
+  })
 
   // Implement context
   const { setSelectedCharacter } = useSelectedCharacter()
@@ -63,10 +72,23 @@ export function CharactersList() {
   }
 
   if (filteredCharacters.length === 0) {
+    const getEmptyMessage = () => {
+      switch (characterFilter) {
+        case 'starred':
+          return 'No starred characters found'
+        case 'others':
+          return 'All characters are starred'
+        case 'all':
+          return 'No characters available'
+        default:
+          return 'No characters found'
+      }
+    }
+
     return (
       <Message
         icon={ICONS.alert}
-        description={{ text: 'All characters are starred' }}
+        description={{ text: getEmptyMessage() }}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       />
     )

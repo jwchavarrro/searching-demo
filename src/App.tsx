@@ -78,7 +78,7 @@ function App() {
           </section>
 
           <section className="sidebar-section sidebar-section-characters">
-            <CharactersList />
+            <CharactersList characterFilter={characterFilter} />
           </section>
         </main>
       </aside>
