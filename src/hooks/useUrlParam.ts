@@ -3,7 +3,6 @@
  * @description: Hook genérico para manejar parámetros de URL de forma reutilizable
  */
 
-import { useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 export type UrlParamType = 'string' | 'number' | 'boolean'
@@ -29,34 +28,31 @@ export function useUrlParam<T = string>(
   const { defaultValue, type = 'string', validator } = options
 
   // Obtener y transformar el valor desde la URL
-  const value = useMemo((): T | null => {
-    const rawValue = searchParams.get(paramName)
+  const rawValue = searchParams.get(paramName)
+  let value: T | null = null
 
-    if (rawValue === null) {
-      return defaultValue ?? null
-    }
-
-    // Validar si hay validador personalizado
-    if (validator && !validator(rawValue)) {
-      return defaultValue ?? null
-    }
-
-    // Transformar según el tipo
+  if (rawValue === null) {
+    value = defaultValue ?? null
+  } else if (validator && !validator(rawValue)) {
+    value = defaultValue ?? null
+  } else {
     switch (type) {
       case 'number': {
         const num = Number.parseFloat(rawValue)
-        return Number.isNaN(num) ? (defaultValue ?? null) : (num as T)
+        value = Number.isNaN(num) ? (defaultValue ?? null) : (num as T)
+        break
       }
       case 'boolean': {
         const lower = rawValue.toLowerCase()
-        if (lower === 'true' || lower === '1') return true as T
-        if (lower === 'false' || lower === '0') return false as T
-        return defaultValue ?? null
+        if (lower === 'true' || lower === '1') value = true as T
+        else if (lower === 'false' || lower === '0') value = false as T
+        else value = defaultValue ?? null
+        break
       }
       default:
-        return rawValue as T
+        value = rawValue as T
     }
-  }, [searchParams, paramName, type, validator, defaultValue])
+  }
 
   const isPresent = searchParams.has(paramName)
 
@@ -101,16 +97,13 @@ export function useUrlParams<T extends Record<string, string>>(
 ): UseUrlParamsReturn<T> {
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const values = useMemo((): Partial<T> => {
-    const params: Partial<T> = {}
-    for (const paramName of paramNames) {
-      const value = searchParams.get(String(paramName))
-      if (value !== null) {
-        params[paramName] = value as T[keyof T]
-      }
+  const values: Partial<T> = {}
+  for (const paramName of paramNames) {
+    const value = searchParams.get(String(paramName))
+    if (value !== null) {
+      values[paramName] = value as T[keyof T]
     }
-    return params
-  }, [searchParams, paramNames])
+  }
 
   const setValue = <K extends keyof T>(key: K, value: T[K] | null) => {
     setSearchParams(prev => {

@@ -11,6 +11,9 @@ import { Icon } from '@iconify/react'
 import { Header, Message } from '@/components/atomic-desing/molecules'
 import { Button, Text } from '@/components/atomic-desing/atoms'
 
+// Import of hooks
+import { useCharacterByName } from '@/hooks'
+
 // Import of context
 import { useCharactersStarred, useSelectedCharacter } from '@/context'
 
@@ -24,25 +27,57 @@ import { DETAILS_CHARACTER_TEXT } from '@/fragments'
 
 export const DetailsCharacter = () => {
   // Implement context
-  const { selectedCharacter, setSelectedCharacter } = useSelectedCharacter()
+  const { selectedCharacterName, setSelectedCharacter } = useSelectedCharacter()
   const { isCharacterStarred } = useCharactersStarred()
+
+  /* @name selectedCharacter
+  @description: Obtener datos del personaje por nombre
+  */
+  const {
+    character: selectedCharacter,
+    isLoading,
+    error,
+  } = useCharacterByName(selectedCharacterName)
 
   /* @name isStarred
   @description: Verificar si el personaje está marcado como favorito
   */
   const isStarred = selectedCharacter
-    ? isCharacterStarred(selectedCharacter?.id || 0)
+    ? isCharacterStarred(selectedCharacter.id)
     : false
 
-  /* @name if (!selectedCharacter)
+  /* @name if (!selectedCharacterName)
   @description: Validar si no hay un personaje seleccionado
   */
-  if (!selectedCharacter) {
+  if (!selectedCharacterName) {
     return (
       <Message
         icon={ICONS.selection_03}
         title={{ title: 'No character has been selected' }}
         description={{ text: 'Select a character to view their details' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <Message
+        icon={ICONS.loading}
+        description={{ text: 'Loading character details...' }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      />
+    )
+  }
+
+  if (error || !selectedCharacter) {
+    return (
+      <Message
+        icon={ICONS.alert}
+        title={{ title: 'Error loading character' }}
+        description={{
+          text: error?.message || 'Could not load character details',
+        }}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
       />
     )

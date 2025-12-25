@@ -3,12 +3,7 @@
  * @description: Funciones para hacer consultas a la API de Rick and Morty
  */
 
-import {
-  graphqlClient,
-  SEARCH_CHARACTERS,
-  GET_CHARACTER_BY_ID,
-  GET_CHARACTERS,
-} from '@/graphql'
+import { graphqlClient, SEARCH_CHARACTERS, GET_CHARACTERS } from '@/graphql'
 
 // Import of types
 import type { ApiResponseType, CharacterType } from '@/graphql/types'
@@ -32,22 +27,6 @@ export async function fetchCharacters(): Promise<
 }
 
 /**
- * @name fetchCharacterById
- * @description: Obtiene un personaje por su ID
- */
-export async function fetchCharacterById(id: number): Promise<CharacterType> {
-  try {
-    const data = await graphqlClient.request<{
-      character: CharacterType
-    }>(GET_CHARACTER_BY_ID, { id })
-
-    return data.character
-  } catch {
-    throw new Error('Error al obtener el personaje')
-  }
-}
-
-/**
  * @name searchCharacters
  * @description: Busca personajes por nombre
  */
@@ -62,5 +41,35 @@ export async function searchCharacters(
     return data.characters
   } catch {
     throw new Error('Error al buscar personajes')
+  }
+}
+
+/**
+ * @name fetchCharacterByName
+ * @description: Obtiene un personaje por su nombre (búsqueda exacta)
+ */
+export async function fetchCharacterByName(
+  name: string
+): Promise<CharacterType> {
+  try {
+    const data = await graphqlClient.request<{
+      characters: ApiResponseType<CharacterType>
+    }>(SEARCH_CHARACTERS, { name })
+
+    // Buscar coincidencia exacta del nombre
+    const exactMatch = data.characters.results.find(
+      char => char.name.toLowerCase() === name.toLowerCase()
+    )
+
+    if (!exactMatch) {
+      throw new Error('Personaje no encontrado')
+    }
+
+    return exactMatch
+  } catch (err) {
+    if (err instanceof Error) {
+      throw err
+    }
+    throw new Error('Error al obtener el personaje')
   }
 }

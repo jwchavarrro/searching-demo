@@ -1,9 +1,10 @@
 /**
  * useCharacters.ts
- * @description: Hooks personalizados para consultar personajes usando GraphQL (sin TanStack Query)
+ * @description: Hooks personalizados para consultar personajes usando TanStack Query
  */
 
 import { useState, useEffect } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { fetchCharacters, searchCharacters } from '@/graphql/services'
 import type { ApiResponseType, CharacterType } from '@/graphql/types'
 
@@ -17,65 +18,52 @@ interface UseCharactersReturn {
  * Hook para obtener todos los personajes
  */
 export function useCharacters(): UseCharactersReturn {
-  const [data, setData] = useState<ApiResponseType<CharacterType> | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [error, setError] = useState<Error | null>(null)
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['characters'],
+    queryFn: fetchCharacters,
+  })
+
+  return {
+    data: data || null,
+    isLoading,
+    error: error || null,
+  }
+}
+
+/**
+ * Hook para buscar personajes por nombre con debounce
+ */
+function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
 
   useEffect(() => {
-    async function loadCharacters() {
-      try {
-        setIsLoading(true)
-        setError(null)
-        const result = await fetchCharacters()
-        setData(result)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error('Error desconocido'))
-      } finally {
-        setIsLoading(false)
-      }
+    const handler = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => {
+      clearTimeout(handler)
     }
+  }, [value, delay])
 
-    loadCharacters()
-  }, [])
-
-  return { data, isLoading, error }
+  return debouncedValue
 }
 
 /**
  * Hook para buscar personajes por nombre
  */
 export function useSearchCharacters(query: string): UseCharactersReturn {
-  const [data, setData] = useState<ApiResponseType<CharacterType> | null>(null)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [error, setError] = useState<Error | null>(null)
+  const debouncedQuery = useDebounce(query, 300)
 
-  useEffect(() => {
-    if (!query || query.length === 0) {
-      setData(null)
-      setIsLoading(false)
-      setError(null)
-      return
-    }
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['characters', 'search', debouncedQuery],
+    queryFn: () => searchCharacters(debouncedQuery),
+    enabled: !!debouncedQuery && debouncedQuery.length > 0,
+  })
 
-    async function search() {
-      try {
-        setIsLoading(true)
-        setError(null)
-        const result = await searchCharacters(query)
-        setData(result)
-      } catch (err) {
-        setError(err instanceof Error ? err : new Error('Error desconocido'))
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    const timeoutId = setTimeout(() => {
-      search()
-    }, 300) // Debounce de 300ms
-
-    return () => clearTimeout(timeoutId)
-  }, [query])
-
-  return { data, isLoading, error }
+  return {
+    data: data || null,
+    isLoading,
+    error: error || null,
+  }
 }
