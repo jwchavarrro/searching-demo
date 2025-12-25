@@ -27,8 +27,8 @@ export function useCharacters(): UseCharactersReturn {
   })
 
   return {
-    data: data || null,
+    data: data ?? null,
     isLoading,
-    error: error || null,
+    error: error ?? null,
   }
 }

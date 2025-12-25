@@ -41,6 +41,7 @@ export interface FilterProps {
   specieFilter?: SpecieFilterType
   characterOptions: FilterOption<CharacterFilterType>[]
   specieOptions: FilterOption<SpecieFilterType>[]
+  onSearchChange?: (value: string) => void
   onFilterApply?: (filters: {
     search: string
     character: CharacterFilterType
@@ -55,6 +56,7 @@ export const Filter = ({
   specieFilter = SpecieFilterValues.ALL,
   characterOptions,
   specieOptions,
+  onSearchChange,
   onFilterApply,
   className,
 }: FilterProps) => {
@@ -84,8 +86,10 @@ export const Filter = ({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value
       setLocalSearch(value)
+      // Notificar al padre en tiempo real para búsqueda automática
+      onSearchChange?.(value)
     },
-    []
+    [onSearchChange]
   )
 
   const handleCharacterFilterClick = useCallback(

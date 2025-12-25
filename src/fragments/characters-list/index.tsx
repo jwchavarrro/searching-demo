@@ -26,19 +26,22 @@ import type {
 interface CharactersListProps {
   readonly characterFilter?: CharacterFilterType
   readonly specieFilter?: SpecieFilterType
+  readonly searchValue?: string
 }
 
 export function CharactersList({
   characterFilter = 'others',
   specieFilter = 'all',
+  searchValue = '',
 }: CharactersListProps) {
   // Implement custom hooks
   /* @name useFilteredCharacters
-  @description: Hook para obtener los personajes filtrados según el filtro de Character y Specie
+  @description: Hook para obtener los personajes filtrados según búsqueda, Character y Specie
   */
   const { filteredCharacters, isLoading, error, data } = useFilteredCharacters({
     characterFilter,
     specieFilter,
+    searchValue,
   })
 
   // Implement context

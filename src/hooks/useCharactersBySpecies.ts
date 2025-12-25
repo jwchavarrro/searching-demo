@@ -26,12 +26,12 @@ export function useCharactersBySpecies(
   const { data, isLoading, error } = useQuery({
     queryKey: ['characters', 'species', species],
     queryFn: () => fetchCharactersBySpecies(species),
-    enabled: !!species && species.length > 0,
+    enabled: species.length > 0,
   })
 
   return {
-    data: data || null,
+    data: data ?? null,
     isLoading,
-    error: error || null,
+    error: error ?? null,
   }
 }
