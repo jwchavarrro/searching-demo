@@ -10,8 +10,10 @@ import { motion } from 'motion/react'
 import { Title } from '@/components/atomic-desing/atoms'
 import {
   Filter,
-  type CharacterFilter,
-  type SpecieFilter,
+  type CharacterFilterType,
+  type SpecieFilterType,
+  CharacterFilterValues,
+  SpecieFilterValues,
 } from '@/components/atomic-desing/organisms'
 import {
   CharactersList,
@@ -27,25 +29,28 @@ import { FILTER_CHARACTER_OPTIONS, FILTER_SPECIE_OPTIONS } from '@/utils'
 import { cn } from '@/utils/cn'
 
 function App() {
-  // State generales
-  const [searchValue, setSearchValue] = useState<string>('')
-  const [characterFilter, setCharacterFilter] = useState<CharacterFilter>('all')
-  const [specieFilter, setSpecieFilter] = useState<SpecieFilter>('all')
+  // States generales
+  const [appliedSearchValue, setAppliedSearchValue] = useState<string>('')
+  const [appliedCharacterFilter, setAppliedCharacterFilter] =
+    useState<CharacterFilterType>(CharacterFilterValues.OTHERS)
+  const [appliedSpecieFilter, setAppliedSpecieFilter] =
+    useState<SpecieFilterType>(SpecieFilterValues.ALL)
 
   // Implement context
   const { selectedCharacterName } = useSelectedCharacter()
 
   /* @name handleFilterApply
-  @description: Manejador para aplicar los filtros
+  @description: Manejador para aplicar los filtros cuando se presiona el botón Filter
+  Solo aquí se actualizan los filtros aplicados y se dispara la nueva consulta
   */
   const handleFilterApply = (filters: {
     search: string
-    character: CharacterFilter
-    specie: SpecieFilter
+    character: CharacterFilterType
+    specie: SpecieFilterType
   }) => {
-    setSearchValue(filters.search)
-    setCharacterFilter(filters.character)
-    setSpecieFilter(filters.specie)
+    setAppliedSearchValue(filters.search)
+    setAppliedCharacterFilter(filters.character)
+    setAppliedSpecieFilter(filters.specie)
   }
   return (
     <motion.div
@@ -59,14 +64,11 @@ function App() {
         <header className="sidebar-header">
           <Title title="Rick and Morty list" level={1} size="xl" />
           <Filter
-            searchValue={searchValue}
-            onSearchChange={setSearchValue}
-            characterFilter={characterFilter}
-            specieFilter={specieFilter}
+            searchValue={appliedSearchValue}
+            characterFilter={appliedCharacterFilter}
+            specieFilter={appliedSpecieFilter}
             characterOptions={FILTER_CHARACTER_OPTIONS}
             specieOptions={FILTER_SPECIE_OPTIONS}
-            onCharacterFilterChange={setCharacterFilter}
-            onSpecieFilterChange={setSpecieFilter}
             onFilterApply={handleFilterApply}
           />
         </header>
@@ -78,7 +80,10 @@ function App() {
           </section>
 
           <section className="sidebar-section sidebar-section-characters">
-            <CharactersList />
+            <CharactersList
+              characterFilter={appliedCharacterFilter}
+              specieFilter={appliedSpecieFilter}
+            />
           </section>
         </main>
       </aside>

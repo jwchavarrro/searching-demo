@@ -159,7 +159,14 @@
 <a name='L94'></a><a href='#L94'>94</a>
 <a name='L95'></a><a href='#L95'>95</a>
 <a name='L96'></a><a href='#L96'>96</a>
-<a name='L97'></a><a href='#L97'>97</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -191,10 +198,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -267,8 +277,10 @@ import { motion } from 'motion/react'
 import { Title } from '@/components/atomic-desing/atoms'
 import {
   Filter,
-  type CharacterFilter,
-  type SpecieFilter,
+  type CharacterFilterType,
+  type SpecieFilterType,
+  CharacterFilterValues,
+  SpecieFilterValues,
 } from '@/components/atomic-desing/organisms'
 import {
   CharactersList,
@@ -284,25 +296,28 @@ import { FILTER_CHARACTER_OPTIONS, FILTER_SPECIE_OPTIONS } from '@/utils'
 import { cn } from '@/utils/cn'
 &nbsp;
 function App() {
-  // State generales
-  const [searchValue, setSearchValue] = useState&lt;string&gt;('')
-  const [characterFilter, setCharacterFilter] = useState&lt;CharacterFilter&gt;('all')
-  const [specieFilter, setSpecieFilter] = useState&lt;SpecieFilter&gt;('all')
+  // States generales
+  const [appliedSearchValue, setAppliedSearchValue] = useState&lt;string&gt;('')
+  const [appliedCharacterFilter, setAppliedCharacterFilter] =
+    useState&lt;CharacterFilterType&gt;(CharacterFilterValues.OTHERS)
+  const [appliedSpecieFilter, setAppliedSpecieFilter] =
+    useState&lt;SpecieFilterType&gt;(SpecieFilterValues.ALL)
 &nbsp;
   // Implement context
   const { selectedCharacterName } = useSelectedCharacter()
 &nbsp;
   /* @name handleFilterApply
-  @description: Manejador para aplicar los filtros
+  @description: Manejador para aplicar los filtros cuando se presiona el botón Filter
+  Solo aquí se actualizan los filtros aplicados y se dispara la nueva consulta
   */
   const handleFilterApply = <span class="fstat-no" title="function not covered" >(f</span>ilters: {
     search: string
-    character: CharacterFilter
-    specie: SpecieFilter
+    character: CharacterFilterType
+    specie: SpecieFilterType
   }) =&gt; {
-<span class="cstat-no" title="statement not covered" >    setSearchValue(filters.search)</span>
-<span class="cstat-no" title="statement not covered" >    setCharacterFilter(filters.character)</span>
-<span class="cstat-no" title="statement not covered" >    setSpecieFilter(filters.specie)</span>
+<span class="cstat-no" title="statement not covered" >    setAppliedSearchValue(filters.search)</span>
+<span class="cstat-no" title="statement not covered" >    setAppliedCharacterFilter(filters.character)</span>
+<span class="cstat-no" title="statement not covered" >    setAppliedSpecieFilter(filters.specie)</span>
   }
   return (
     &lt;motion.div
@@ -316,14 +331,11 @@ function App() {
         &lt;header className="sidebar-header"&gt;
           &lt;Title title="Rick and Morty list" level={1} size="xl" /&gt;
           &lt;Filter
-            searchValue={searchValue}
-            onSearchChange={setSearchValue}
-            characterFilter={characterFilter}
-            specieFilter={specieFilter}
+            searchValue={appliedSearchValue}
+            characterFilter={appliedCharacterFilter}
+            specieFilter={appliedSpecieFilter}
             characterOptions={FILTER_CHARACTER_OPTIONS}
             specieOptions={FILTER_SPECIE_OPTIONS}
-            onCharacterFilterChange={setCharacterFilter}
-            onSpecieFilterChange={setSpecieFilter}
             onFilterApply={handleFilterApply}
           /&gt;
         &lt;/header&gt;
@@ -335,7 +347,10 @@ function App() {
           &lt;/section&gt;
 &nbsp;
           &lt;section className="sidebar-section sidebar-section-characters"&gt;
-            &lt;CharactersList /&gt;
+            &lt;CharactersList
+              characterFilter={appliedCharacterFilter}
+              specieFilter={appliedSpecieFilter}
+            /&gt;
           &lt;/section&gt;
         &lt;/main&gt;
       &lt;/aside&gt;
@@ -358,7 +373,7 @@ export default App
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-12-25T21:21:40.887Z
+                at 2025-12-25T23:07:02.655Z
             </div>
         <script src="../prettify.js"></script>
         <script>

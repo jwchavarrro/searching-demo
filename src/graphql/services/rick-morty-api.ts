@@ -3,7 +3,12 @@
  * @description: Funciones para hacer consultas a la API de Rick and Morty
  */
 
-import { graphqlClient, SEARCH_CHARACTERS, GET_CHARACTERS } from '@/graphql'
+import {
+  graphqlClient,
+  SEARCH_CHARACTERS,
+  GET_CHARACTERS,
+  GET_CHARACTERS_BY_SPECIES,
+} from '@/graphql'
 
 // Import of types
 import type { ApiResponseType, CharacterType } from '@/graphql/types'
@@ -41,6 +46,24 @@ export async function searchCharacters(
     return data.characters
   } catch {
     throw new Error('Error al buscar personajes')
+  }
+}
+
+/**
+ * @name fetchCharactersBySpecies
+ * @description: Obtiene personajes filtrados por especie
+ */
+export async function fetchCharactersBySpecies(
+  species: string
+): Promise<ApiResponseType<CharacterType>> {
+  try {
+    const data = await graphqlClient.request<{
+      characters: ApiResponseType<CharacterType>
+    }>(GET_CHARACTERS_BY_SPECIES, { species })
+
+    return data.characters
+  } catch {
+    throw new Error('Error al obtener los personajes por especie')
   }
 }
 
