@@ -84,7 +84,7 @@ export function CharactersList() {
             <CardA
               key={character.id}
               as="button"
-              onClick={() => setSelectedCharacter(character)}
+              onClick={() => setSelectedCharacter(character.name)}
               isStarred={isCharacterStarred(character.id)}
               onIconClick={() => handleCharacterStarred(character)}
               avatar={{

@@ -33,7 +33,7 @@ function App() {
   const [specieFilter, setSpecieFilter] = useState<SpecieFilter>('all')
 
   // Implement context
-  const { selectedCharacter } = useSelectedCharacter()
+  const { selectedCharacterName } = useSelectedCharacter()
 
   /* @name handleFilterApply
   @description: Manejador para aplicar los filtros
@@ -84,7 +84,7 @@ function App() {
       </aside>
 
       {/* Main Content Area */}
-      <main className={cn('main', selectedCharacter && 'main-visible')}>
+      <main className={cn('main', selectedCharacterName && 'main-visible')}>
         <div className="main-content">
           <DetailsCharacter />
         </div>

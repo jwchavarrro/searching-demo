@@ -3,7 +3,7 @@
  * @description: Funciones para hacer consultas a la API de Rick and Morty
  */
 
-import { graphqlClient, GET_CHARACTERS, SEARCH_CHARACTERS } from '@/graphql'
+import { graphqlClient, SEARCH_CHARACTERS, GET_CHARACTERS } from '@/graphql'
 
 // Import of types
 import type { ApiResponseType, CharacterType } from '@/graphql/types'
@@ -41,5 +41,35 @@ export async function searchCharacters(
     return data.characters
   } catch {
     throw new Error('Error al buscar personajes')
+  }
+}
+
+/**
+ * @name fetchCharacterByName
+ * @description: Obtiene un personaje por su nombre (búsqueda exacta)
+ */
+export async function fetchCharacterByName(
+  name: string
+): Promise<CharacterType> {
+  try {
+    const data = await graphqlClient.request<{
+      characters: ApiResponseType<CharacterType>
+    }>(SEARCH_CHARACTERS, { name })
+
+    // Buscar coincidencia exacta del nombre
+    const exactMatch = data.characters.results.find(
+      char => char.name.toLowerCase() === name.toLowerCase()
+    )
+
+    if (!exactMatch) {
+      throw new Error('Personaje no encontrado')
+    }
+
+    return exactMatch
+  } catch (err) {
+    if (err instanceof Error) {
+      throw err
+    }
+    throw new Error('Error al obtener el personaje')
   }
 }

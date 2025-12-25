@@ -6,25 +6,20 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { renderHook, act } from '@testing-library/react'
 import { Provider } from 'jotai'
+import { MemoryRouter } from 'react-router-dom'
 import { useSelectedCharacter } from '../use-selected-character'
-import type { CharacterType } from '@/graphql/types'
 
-const mockCharacter: CharacterType = {
-  id: 1,
-  name: 'Rick Sanchez',
-  image: 'https://rickandmortyapi.com/api/character/avatar/1.jpeg',
-  species: 'Human',
-  status: 'Alive',
-  type: '',
-  gender: 'Male',
-  created: '2017-11-04T18:48:46.250Z',
-}
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <MemoryRouter>
+    <Provider>{children}</Provider>
+  </MemoryRouter>
+)
 
 describe('useSelectedCharacter', () => {
   beforeEach(() => {
     // Resetear el estado antes de cada test
     const { result } = renderHook(() => useSelectedCharacter(), {
-      wrapper: Provider,
+      wrapper,
     })
     act(() => {
       result.current.setSelectedCharacter(null)
@@ -33,93 +28,77 @@ describe('useSelectedCharacter', () => {
 
   it('debe retornar null inicialmente', () => {
     const { result } = renderHook(() => useSelectedCharacter(), {
-      wrapper: Provider,
+      wrapper,
     })
 
-    expect(result.current.selectedCharacter).toBeNull()
+    expect(result.current.selectedCharacterName).toBeNull()
     expect(result.current.setSelectedCharacter).toBeDefined()
     expect(typeof result.current.setSelectedCharacter).toBe('function')
   })
 
   it('debe permitir establecer un personaje seleccionado', () => {
     const { result } = renderHook(() => useSelectedCharacter(), {
-      wrapper: Provider,
+      wrapper,
     })
 
     act(() => {
-      result.current.setSelectedCharacter(mockCharacter)
+      result.current.setSelectedCharacter('Rick Sanchez')
     })
 
-    expect(result.current.selectedCharacter).toEqual(mockCharacter)
-    expect(result.current.selectedCharacter?.id).toBe(1)
-    expect(result.current.selectedCharacter?.name).toBe('Rick Sanchez')
+    expect(result.current.selectedCharacterName).toBe('Rick Sanchez')
   })
 
   it('debe permitir cambiar el personaje seleccionado', () => {
     const { result } = renderHook(() => useSelectedCharacter(), {
-      wrapper: Provider,
+      wrapper,
     })
-
-    const anotherCharacter: CharacterType = {
-      ...mockCharacter,
-      id: 2,
-      name: 'Morty Smith',
-    }
 
     act(() => {
-      result.current.setSelectedCharacter(mockCharacter)
+      result.current.setSelectedCharacter('Rick Sanchez')
     })
 
-    expect(result.current.selectedCharacter?.name).toBe('Rick Sanchez')
+    expect(result.current.selectedCharacterName).toBe('Rick Sanchez')
 
     act(() => {
-      result.current.setSelectedCharacter(anotherCharacter)
+      result.current.setSelectedCharacter('Morty Smith')
     })
 
-    expect(result.current.selectedCharacter?.name).toBe('Morty Smith')
-    expect(result.current.selectedCharacter?.id).toBe(2)
+    expect(result.current.selectedCharacterName).toBe('Morty Smith')
   })
 
   it('debe permitir limpiar el personaje seleccionado', () => {
     const { result } = renderHook(() => useSelectedCharacter(), {
-      wrapper: Provider,
+      wrapper,
     })
 
     act(() => {
-      result.current.setSelectedCharacter(mockCharacter)
+      result.current.setSelectedCharacter('Rick Sanchez')
     })
 
-    expect(result.current.selectedCharacter).not.toBeNull()
+    expect(result.current.selectedCharacterName).not.toBeNull()
 
     act(() => {
       result.current.setSelectedCharacter(null)
     })
 
-    expect(result.current.selectedCharacter).toBeNull()
+    expect(result.current.selectedCharacterName).toBeNull()
   })
 
   it('debe actualizar el estado correctamente cuando se cambia el personaje', () => {
     const { result } = renderHook(() => useSelectedCharacter(), {
-      wrapper: Provider,
+      wrapper,
     })
 
     act(() => {
-      result.current.setSelectedCharacter(mockCharacter)
+      result.current.setSelectedCharacter('Rick Sanchez')
     })
 
-    expect(result.current.selectedCharacter).toEqual(mockCharacter)
-
-    const anotherCharacter: CharacterType = {
-      ...mockCharacter,
-      id: 2,
-      name: 'Morty Smith',
-    }
+    expect(result.current.selectedCharacterName).toBe('Rick Sanchez')
 
     act(() => {
-      result.current.setSelectedCharacter(anotherCharacter)
+      result.current.setSelectedCharacter('Morty Smith')
     })
 
-    expect(result.current.selectedCharacter).toEqual(anotherCharacter)
-    expect(result.current.selectedCharacter?.id).toBe(2)
+    expect(result.current.selectedCharacterName).toBe('Morty Smith')
   })
 })
