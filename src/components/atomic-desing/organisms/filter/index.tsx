@@ -82,16 +82,22 @@ export const Filter = ({
     [searchValue, characterFilter, specieFilter]
   )
 
+  /* @name handleSearchChange
+  @description: Manejador para búsqueda en tiempo real mientras el usuario escribe
+  Se ejecuta inmediatamente cuando cambia el valor del input
+  */
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value
       setLocalSearch(value)
-      // Notificar al padre en tiempo real para búsqueda automática
       onSearchChange?.(value)
     },
     [onSearchChange]
   )
 
+  /* @name handleCharacterFilterClick
+  @description: Manejador para filtrar por personaje
+  */
   const handleCharacterFilterClick = useCallback(
     (filter: CharacterFilterType) => {
       setLocalCharacterFilter(filter)
@@ -99,10 +105,16 @@ export const Filter = ({
     []
   )
 
+  /* @name handleSpecieFilterClick
+  @description: Manejador para filtrar por especie
+  */
   const handleSpecieFilterClick = useCallback((filter: SpecieFilterType) => {
     setLocalSpecieFilter(filter)
   }, [])
 
+  /* @name handleFilterApply
+  @description: Manejador para aplicar los filtros cuando se presiona el botón Filter
+  */
   const handleFilterApply = useCallback(() => {
     onFilterApply?.({
       search: localSearch,
@@ -112,6 +124,17 @@ export const Filter = ({
     setIsPopoverOpen(false)
   }, [localSearch, localCharacterFilter, localSpecieFilter, onFilterApply])
 
+
+  /* @name handleClearSearch
+  @description: Manejador para limpiar la búsqueda cuando se presiona el botón Clear
+  */
+  const handleClearSearch = useCallback(() => {
+    setLocalSearch('')
+    onSearchChange?.('')
+  }, [onSearchChange])
+
+  const hasSearchValue = localSearch.trim().length > 0
+
   return (
     <div className={cn('w-full', className)}>
       <Input
@@ -119,6 +142,18 @@ export const Filter = ({
         onChange={handleSearchChange}
         placeholder="Search or filter results"
       >
+        {hasSearchValue && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={handleClearSearch}
+            className="hover:bg-primary-100 text-gray hover:text-black md:size-8"
+            aria-label="Limpiar búsqueda"
+          >
+            <Icon icon={ICONS.close} className="size-4 md:size-5" />
+          </Button>
+        )}
         <Popover open={isPopoverOpen} onOpenChange={handlePopoverOpenChange}>
           <PopoverTrigger>
             <Button
