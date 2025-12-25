@@ -105,23 +105,39 @@ export function useFilteredCharacters(
   })
 
   /* @name filteredCharacters
-  @description: Aplicar filtros adicionales en cliente:
-  - Si hay búsqueda: filtrar para que solo muestre los que empiezan con el texto buscado
-  - Si el filtro es 'alien': filtrar en cliente (excluir "Human")
+  @description: Aplicar filtros adicionales en cliente sobre los resultados:
+  - Si hay búsqueda: refinar búsqueda (empieza con) y aplicar TODOS los filtros (Character y Specie)
+  - Si no hay búsqueda: aplicar filtros según lógica normal
   */
   const filteredCharacters = useMemo(() => {
     let result = charactersFilteredByCharacter
 
-    // Filtrar por búsqueda: solo nombres que empiezan con el texto
+    // Si hay búsqueda, refinar resultados de API (solo nombres que empiezan con el texto)
     if (hasSearch) {
       const searchLower = trimmedSearch.toLowerCase()
       result = result.filter(character =>
         character.name.toLowerCase().startsWith(searchLower)
       )
-    }
 
-    // Filtrar por especie 'alien': excluir humanos
-    if (specieFilter === SpecieFilterValues.ALIEN) {
+      // Cuando hay búsqueda, aplicar TODOS los filtros de Specie en cliente
+      if (specieFilter === SpecieFilterValues.HUMAN) {
+        // Filtrar solo humanos
+        result = result.filter(
+          character =>
+            character.species.toLowerCase() ===
+            SpecieApiValues.HUMAN.toLowerCase()
+        )
+      } else if (specieFilter === SpecieFilterValues.ALIEN) {
+        // Filtrar alien (excluir humanos)
+        result = result.filter(
+          character =>
+            character.species.toLowerCase() !==
+            SpecieApiValues.HUMAN.toLowerCase()
+        )
+      }
+      // Si es 'all', no filtrar por especie
+    } else if (specieFilter === SpecieFilterValues.ALIEN) {
+      // Sin búsqueda: aplicar filtro de Specie solo si es 'alien' (los demás vienen de API)
       result = result.filter(
         character =>
           character.species.toLowerCase() !==
