@@ -20,74 +20,79 @@ import {
 import { cn } from '@/utils/cn'
 import { ICONS } from '@/config'
 
-export type CharacterFilter = 'all' | 'starred' | 'others'
-export type SpecieFilter = 'all' | 'human' | 'alien'
+// Import of types
+import type { CharacterFilterType, SpecieFilterType } from './utils'
 
-export interface FilterOption<T extends string> {
+export interface FilterOption<
+  T extends CharacterFilterType | SpecieFilterType,
+> {
   value: T
   label: string
 }
 
 export interface FilterProps {
   searchValue?: string
-  onSearchChange?: (value: string) => void
-  characterFilter?: CharacterFilter
-  specieFilter?: SpecieFilter
-  characterOptions: FilterOption<CharacterFilter>[]
-  specieOptions: FilterOption<SpecieFilter>[]
-  onCharacterFilterChange?: (filter: CharacterFilter) => void
-  onSpecieFilterChange?: (filter: SpecieFilter) => void
+  characterFilter?: CharacterFilterType
+  specieFilter?: SpecieFilterType
+  characterOptions: FilterOption<CharacterFilterType>[]
+  specieOptions: FilterOption<SpecieFilterType>[]
   onFilterApply?: (filters: {
     search: string
-    character: CharacterFilter
-    specie: SpecieFilter
+    character: CharacterFilterType
+    specie: SpecieFilterType
   }) => void
   className?: string
 }
 
 export const Filter = ({
   searchValue = '',
-  onSearchChange,
   characterFilter = 'all',
   specieFilter = 'all',
   characterOptions,
   specieOptions,
-  onCharacterFilterChange,
-  onSpecieFilterChange,
   onFilterApply,
   className,
 }: FilterProps) => {
+  // Estado local que solo se sincroniza con los props cuando se abre el popover
   const [localSearch, setLocalSearch] = useState(searchValue)
   const [localCharacterFilter, setLocalCharacterFilter] =
-    useState<CharacterFilter>(characterFilter)
+    useState<CharacterFilterType>(characterFilter)
   const [localSpecieFilter, setLocalSpecieFilter] =
-    useState<SpecieFilter>(specieFilter)
+    useState<SpecieFilterType>(specieFilter)
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+
+  // Sincronizar estado local con props cuando se abre el popover
+  const handlePopoverOpenChange = useCallback(
+    (open: boolean) => {
+      setIsPopoverOpen(open)
+      if (open) {
+        // Al abrir, sincronizar con los valores aplicados actuales
+        setLocalSearch(searchValue)
+        setLocalCharacterFilter(characterFilter)
+        setLocalSpecieFilter(specieFilter)
+      }
+    },
+    [searchValue, characterFilter, specieFilter]
+  )
 
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value
       setLocalSearch(value)
-      onSearchChange?.(value)
     },
-    [onSearchChange]
+    []
   )
 
   const handleCharacterFilterClick = useCallback(
-    (filter: CharacterFilter) => {
+    (filter: CharacterFilterType) => {
       setLocalCharacterFilter(filter)
-      onCharacterFilterChange?.(filter)
     },
-    [onCharacterFilterChange]
+    []
   )
 
-  const handleSpecieFilterClick = useCallback(
-    (filter: SpecieFilter) => {
-      setLocalSpecieFilter(filter)
-      onSpecieFilterChange?.(filter)
-    },
-    [onSpecieFilterChange]
-  )
+  const handleSpecieFilterClick = useCallback((filter: SpecieFilterType) => {
+    setLocalSpecieFilter(filter)
+  }, [])
 
   const handleFilterApply = useCallback(() => {
     onFilterApply?.({
@@ -105,7 +110,7 @@ export const Filter = ({
         onChange={handleSearchChange}
         placeholder="Search or filter results"
       >
-        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+        <Popover open={isPopoverOpen} onOpenChange={handlePopoverOpenChange}>
           <PopoverTrigger>
             <Button
               variant="ghost"

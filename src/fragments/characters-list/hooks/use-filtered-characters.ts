@@ -13,7 +13,8 @@ import { useCharactersStarred } from '@/context'
 
 // Import of types
 import type { CharacterType } from '@/graphql/types'
-import type { CharacterFilter } from '@/components/atomic-desing/organisms'
+import type { CharacterFilterType } from '@/components/atomic-desing/organisms/filter/utils'
+import { CharacterFilterValues } from '@/components/atomic-desing/organisms/filter/utils'
 
 interface UseFilteredCharactersReturn {
   filteredCharacters: CharacterType[]
@@ -23,13 +24,13 @@ interface UseFilteredCharactersReturn {
 }
 
 interface UseFilteredCharactersProps {
-  characterFilter?: CharacterFilter
+  characterFilter?: CharacterFilterType
 }
 
 export function useFilteredCharacters(
   props?: UseFilteredCharactersProps
 ): UseFilteredCharactersReturn {
-  const { characterFilter = 'others' } = props || {}
+  const { characterFilter = CharacterFilterValues.OTHERS } = props || {}
 
   /* @name useCharacters
   @description: Hook para obtener los personajes de la API
@@ -51,16 +52,13 @@ export function useFilteredCharacters(
     const starredIds = new Set(charactersStarred.map(char => char.id))
 
     switch (characterFilter) {
-      case 'all':
-        // Mostrar todos los personajes
+      case CharacterFilterValues.ALL:
         return data.results
 
-      case 'starred':
-        // Mostrar solo los personajes marcados como favoritos
+      case CharacterFilterValues.STARRED:
         return data.results.filter(character => starredIds.has(character.id))
 
-      case 'others':
-        // Mostrar solo los personajes que NO están en starred (comportamiento por defecto)
+      case CharacterFilterValues.OTHERS:
         return data.results.filter(character => !starredIds.has(character.id))
 
       default:
