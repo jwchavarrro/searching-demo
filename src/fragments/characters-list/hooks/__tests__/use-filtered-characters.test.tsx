@@ -7,13 +7,14 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useFilteredCharacters } from '../use-filtered-characters'
-import { useCharacters } from '@/hooks'
+import { useCharacters, useCharactersBySpecies } from '@/hooks'
 import { useCharactersStarred } from '@/context'
 import type { CharacterType } from '@/graphql/types'
 
 // Mock de los hooks
 vi.mock('@/hooks', () => ({
   useCharacters: vi.fn(),
+  useCharactersBySpecies: vi.fn(),
 }))
 
 vi.mock('@/context', () => ({
@@ -79,6 +80,12 @@ describe('useFilteredCharacters', () => {
       error: null,
     })
 
+    vi.mocked(useCharactersBySpecies).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
     vi.mocked(useCharactersStarred).mockReturnValue({
       charactersStarred: [],
       setCharactersStarred: vi.fn(),
@@ -109,6 +116,12 @@ describe('useFilteredCharacters', () => {
           prev: null,
         },
       },
+      isLoading: false,
+      error: null,
+    })
+
+    vi.mocked(useCharactersBySpecies).mockReturnValue({
+      data: null,
       isLoading: false,
       error: null,
     })
@@ -146,6 +159,12 @@ describe('useFilteredCharacters', () => {
           prev: null,
         },
       },
+      isLoading: false,
+      error: null,
+    })
+
+    vi.mocked(useCharactersBySpecies).mockReturnValue({
+      data: null,
       isLoading: false,
       error: null,
     })
@@ -189,6 +208,12 @@ describe('useFilteredCharacters', () => {
       error: null,
     })
 
+    vi.mocked(useCharactersBySpecies).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
     vi.mocked(useCharactersStarred).mockReturnValue({
       charactersStarred: [mockCharacter1, mockCharacter2],
       setCharactersStarred: vi.fn(),
@@ -210,6 +235,12 @@ describe('useFilteredCharacters', () => {
     vi.mocked(useCharacters).mockReturnValue({
       data: null,
       isLoading: true,
+      error: null,
+    })
+
+    vi.mocked(useCharactersBySpecies).mockReturnValue({
+      data: null,
+      isLoading: false,
       error: null,
     })
 
@@ -236,6 +267,12 @@ describe('useFilteredCharacters', () => {
       data: null,
       isLoading: false,
       error,
+    })
+
+    vi.mocked(useCharactersBySpecies).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
     })
 
     vi.mocked(useCharactersStarred).mockReturnValue({

@@ -19,13 +19,13 @@ import { ICONS } from '@/config'
 // Import of types
 import type { CharacterType } from '@/graphql/types'
 import type {
-  CharacterFilter,
-  SpecieFilter,
+  CharacterFilterType,
+  SpecieFilterType,
 } from '@/components/atomic-desing/organisms'
 
 interface CharactersListProps {
-  readonly characterFilter?: CharacterFilter
-  readonly specieFilter?: SpecieFilter
+  readonly characterFilter?: CharacterFilterType
+  readonly specieFilter?: SpecieFilterType
 }
 
 export function CharactersList({
