@@ -21,7 +21,12 @@ import { cn } from '@/utils/cn'
 import { ICONS } from '@/config'
 
 // Import of types
-import type { CharacterFilterType, SpecieFilterType } from './utils'
+import {
+  type CharacterFilterType,
+  type SpecieFilterType,
+  CharacterFilterValues,
+  SpecieFilterValues,
+} from './utils/types'
 
 export interface FilterOption<
   T extends CharacterFilterType | SpecieFilterType,
@@ -46,20 +51,20 @@ export interface FilterProps {
 
 export const Filter = ({
   searchValue = '',
-  characterFilter = 'all',
-  specieFilter = 'all',
+  characterFilter = CharacterFilterValues.ALL,
+  specieFilter = SpecieFilterValues.ALL,
   characterOptions,
   specieOptions,
   onFilterApply,
   className,
 }: FilterProps) => {
-  // Estado local que solo se sincroniza con los props cuando se abre el popover
+  // States local
   const [localSearch, setLocalSearch] = useState(searchValue)
   const [localCharacterFilter, setLocalCharacterFilter] =
     useState<CharacterFilterType>(characterFilter)
   const [localSpecieFilter, setLocalSpecieFilter] =
     useState<SpecieFilterType>(specieFilter)
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false)
 
   // Sincronizar estado local con props cuando se abre el popover
   const handlePopoverOpenChange = useCallback(

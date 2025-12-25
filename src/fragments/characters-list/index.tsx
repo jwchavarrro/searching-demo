@@ -18,21 +18,27 @@ import { ICONS } from '@/config'
 
 // Import of types
 import type { CharacterType } from '@/graphql/types'
-import type { CharacterFilter } from '@/components/atomic-desing/organisms'
+import type {
+  CharacterFilter,
+  SpecieFilter,
+} from '@/components/atomic-desing/organisms'
 
 interface CharactersListProps {
-  characterFilter?: CharacterFilter
+  readonly characterFilter?: CharacterFilter
+  readonly specieFilter?: SpecieFilter
 }
 
 export function CharactersList({
   characterFilter = 'others',
+  specieFilter = 'all',
 }: CharactersListProps) {
   // Implement custom hooks
   /* @name useFilteredCharacters
-  @description: Hook para obtener los personajes filtrados según el filtro de Character
+  @description: Hook para obtener los personajes filtrados según el filtro de Character y Specie
   */
   const { filteredCharacters, isLoading, error, data } = useFilteredCharacters({
     characterFilter,
+    specieFilter,
   })
 
   // Implement context

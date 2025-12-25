@@ -10,8 +10,10 @@ import { motion } from 'motion/react'
 import { Title } from '@/components/atomic-desing/atoms'
 import {
   Filter,
-  type CharacterFilter,
-  type SpecieFilter,
+  type CharacterFilterType,
+  type SpecieFilterType,
+  CharacterFilterValues,
+  SpecieFilterValues,
 } from '@/components/atomic-desing/organisms'
 import {
   CharactersList,
@@ -27,12 +29,12 @@ import { FILTER_CHARACTER_OPTIONS, FILTER_SPECIE_OPTIONS } from '@/utils'
 import { cn } from '@/utils/cn'
 
 function App() {
-  // State de filtros aplicados (solo se actualizan al presionar el botón Filter)
+  // States generales
   const [appliedSearchValue, setAppliedSearchValue] = useState<string>('')
   const [appliedCharacterFilter, setAppliedCharacterFilter] =
-    useState<CharacterFilter>('others')
+    useState<CharacterFilterType>(CharacterFilterValues.OTHERS)
   const [appliedSpecieFilter, setAppliedSpecieFilter] =
-    useState<SpecieFilter>('all')
+    useState<SpecieFilterType>(SpecieFilterValues.ALL)
 
   // Implement context
   const { selectedCharacterName } = useSelectedCharacter()
@@ -43,8 +45,8 @@ function App() {
   */
   const handleFilterApply = (filters: {
     search: string
-    character: CharacterFilter
-    specie: SpecieFilter
+    character: CharacterFilterType
+    specie: SpecieFilterType
   }) => {
     setAppliedSearchValue(filters.search)
     setAppliedCharacterFilter(filters.character)
@@ -78,7 +80,10 @@ function App() {
           </section>
 
           <section className="sidebar-section sidebar-section-characters">
-            <CharactersList characterFilter={appliedCharacterFilter} />
+            <CharactersList
+              characterFilter={appliedCharacterFilter}
+              specieFilter={appliedSpecieFilter}
+            />
           </section>
         </main>
       </aside>
