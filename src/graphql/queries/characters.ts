@@ -28,6 +28,21 @@ export const GET_CHARACTERS = gql`
   }
 `
 
+export const GET_CHARACTER_BY_ID = gql`
+  query GetCharacterById($id: ID!) {
+    character(id: $id) {
+      id
+      name
+      image
+      species
+      status
+      type
+      gender
+      created
+    }
+  }
+`
+
 export const SEARCH_CHARACTERS = gql`
   query SearchCharacters($name: String!) {
     characters(filter: { name: $name }) {
