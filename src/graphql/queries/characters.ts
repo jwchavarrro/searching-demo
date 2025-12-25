@@ -50,3 +50,26 @@ export const SEARCH_CHARACTERS = gql`
     }
   }
 `
+
+export const GET_CHARACTERS_BY_SPECIES = gql`
+  query GetCharactersBySpecies($species: String!) {
+    characters(filter: { species: $species }) {
+      info {
+        count
+        pages
+        next
+        prev
+      }
+      results {
+        id
+        name
+        image
+        species
+        status
+        type
+        gender
+        created
+      }
+    }
+  }
+`
