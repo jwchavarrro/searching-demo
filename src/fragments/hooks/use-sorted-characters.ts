@@ -30,4 +30,3 @@ export function useSortedCharacters({
     return sortCharactersByOrder(characters, sortOrder)
   }, [characters, sortOrder])
 }
-
