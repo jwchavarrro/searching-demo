@@ -4,6 +4,7 @@
  */
 
 import { useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // Import of components custom
 import { Text } from '@/components/atomic-desing/atoms'
@@ -45,6 +46,15 @@ export function CharactersStarredList({
   const { handleCharacterStarred, isCharacterStarred, charactersStarred } =
     useCharactersStarred()
   const { setSelectedCharacter } = useSelectedCharacter()
+  const navigate = useNavigate()
+
+  // Handler para seleccionar un personaje
+  const handleCharacterSelect = (characterName: string) => {
+    setSelectedCharacter(characterName)
+    // Navegar a la ruta del personaje
+    const encodedName = encodeURIComponent(characterName)
+    navigate(`/character/${encodedName}`)
+  }
 
   // Normalizar y validar búsqueda
   const trimmedSearch = searchValue.trim()
@@ -125,9 +135,7 @@ export function CharactersStarredList({
           <CardA
             key={character.id}
             as="button"
-            onClick={() => setSelectedCharacter(character.name)}
-            isStarred={isCharacterStarred(character.id)}
-            onIconClick={() => handleCharacterStarred(character)}
+            onClick={() => handleCharacterSelect(character.name)}
             avatar={{
               src: character.image,
               alt: character.name,
@@ -138,6 +146,10 @@ export function CharactersStarredList({
             }}
             description={{
               text: character.species,
+            }}
+            isStarred={{
+              status: isCharacterStarred(character.id),
+              onIconClick: () => handleCharacterStarred(character),
             }}
           />
         ))}

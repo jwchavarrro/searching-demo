@@ -25,8 +25,10 @@ type CardABaseProps = {
   avatar: AvatarProps
   title: TitleProps
   description: TextProps
-  isStarred?: boolean
-  onIconClick?: () => void
+  isStarred: {
+    status: boolean
+    onIconClick: () => void
+  }
   className?: string
 }
 
@@ -44,8 +46,7 @@ export const CardA = ({
   avatar,
   title,
   description,
-  isStarred = false,
-  onIconClick,
+  isStarred,
   className,
   as = 'div',
   ...props
@@ -56,7 +57,7 @@ export const CardA = ({
    */
   const handleIconClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    onIconClick?.()
+    isStarred.onIconClick()
   }
 
   const baseClasses = cn(
@@ -90,9 +91,9 @@ export const CardA = ({
         <Icon
           className={cn(
             'text-gray/50 size-4 md:size-7',
-            isStarred && 'text-secondary-600'
+            isStarred.status && 'text-secondary-600'
           )}
-          icon={isStarred ? ICONS.heart : ICONS.heart_outline}
+          icon={isStarred.status ? ICONS.heart : ICONS.heart_outline}
         />
       </Button>
     </>
