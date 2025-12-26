@@ -42,3 +42,32 @@ export const SpecieFilterValues = {
 export const SpecieApiValues = {
   HUMAN: 'Human',
 } as const
+
+/**
+ * @name GenderFilterType
+ * @description: Tipos de filtro para el género de personajes.
+ */
+export type GenderFilterType = 'all' | 'male' | 'female' | 'genderless' | 'unknown'
+
+/**
+ * @name GenderFilterValues
+ * @description: Constantes con los valores de GenderFilterType para evitar hardcode
+ */
+export const GenderFilterValues = {
+  ALL: 'all',
+  MALE: 'male',
+  FEMALE: 'female',
+  GENDERLESS: 'genderless',
+  UNKNOWN: 'unknown',
+} as const satisfies Record<string, GenderFilterType>
+
+/**
+ * @name GenderApiValues
+ * @description: Constantes con los valores de género para la API (formato que espera la API)
+ */
+export const GenderApiValues = {
+  MALE: 'Male',
+  FEMALE: 'Female',
+  GENDERLESS: 'Genderless',
+  UNKNOWN: 'unknown',
+} as const

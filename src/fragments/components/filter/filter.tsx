@@ -24,12 +24,13 @@ import { ICONS } from '@/config'
 import {
   type CharacterFilterType,
   type SpecieFilterType,
+  type GenderFilterType,
   CharacterFilterValues,
   SpecieFilterValues,
 } from './utils/types'
 
 export interface FilterOption<
-  T extends CharacterFilterType | SpecieFilterType,
+  T extends CharacterFilterType | SpecieFilterType | GenderFilterType,
 > {
   value: T
   label: string
