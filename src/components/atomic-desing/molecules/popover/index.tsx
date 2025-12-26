@@ -1,6 +1,6 @@
 /**
  * Popover.tsx
- * @description: Componente molecular para renderizar popovers similar a shadcn/ui Popover.
+ * @description: Componente para renderizar un popover con posición y tamaño configurable.
  */
 
 import React, {
