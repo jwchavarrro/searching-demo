@@ -19,6 +19,7 @@ import {
   CharactersList,
   DetailsCharacter,
   CharactersStarredList,
+  FiltersSummary,
 } from '@/fragments'
 
 // Import of context
@@ -84,6 +85,15 @@ function App() {
 
         {/* Personajes favoritos y personajes */}
         <main className="sidebar-main">
+          {/* Inform: Results filter */}
+          <FiltersSummary
+            resultsCount={0}
+            searchValue={appliedSearchValue}
+            characterFilter={appliedCharacterFilter}
+            specieFilter={appliedSpecieFilter}
+          />
+
+          {/* Personajes favoritos */}
           <section className="sidebar-section sidebar-section-starred">
             <CharactersStarredList
               searchValue={appliedSearchValue}
@@ -91,6 +101,7 @@ function App() {
             />
           </section>
 
+          {/* Personajes */}
           <section className="sidebar-section sidebar-section-characters">
             <CharactersList
               characterFilter={appliedCharacterFilter}

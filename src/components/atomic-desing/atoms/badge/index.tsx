@@ -16,18 +16,18 @@ export interface BadgeProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const variantClasses = {
-  default: 'bg-primary-600 text-white',
+  default: 'bg-primary-700 text-white',
   outline: 'border border-gray/50 bg-transparent text-black',
 }
 
 const sizeClasses = {
-  sm: 'px-2 py-0.5 text-xs',
-  base: 'px-2.5 py-1 text-sm',
-  lg: 'px-3 py-1.5 text-base',
+  sm: 'px-2.5 py-0.5 text-xs',
+  base: 'px-2.5 py-0.5 text-sm',
+  lg: 'px-3.5 py-1.5 text-base',
 }
 
 const baseClasses =
-  'inline-flex items-center justify-center rounded-md font-medium transition-colors'
+  'inline-flex items-center justify-center rounded-full font-medium transition-colors font-semibold'
 
 export const Badge = ({
   children,
