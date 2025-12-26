@@ -10,6 +10,7 @@ import { CardA, Message } from '@/components/atomic-desing/molecules'
 
 // Import of hooks
 import { useFilteredCharacters } from './hooks'
+import { useSortedCharacters } from '@/fragments/hooks'
 
 // Import of context
 import { useCharactersStarred, useSelectedCharacter } from '@/context'
@@ -23,17 +24,22 @@ import type {
   CharacterFilterType,
   SpecieFilterType,
 } from '@/fragments/components/filter/utils'
+import type { SortOrderType } from '@/fragments/components/sort-order/utils'
 
 interface CharactersListProps {
   readonly characterFilter?: CharacterFilterType
   readonly specieFilter?: SpecieFilterType
   readonly searchValue?: string
+  readonly sortOrder?: SortOrderType
+  readonly onSortChange?: (order: SortOrderType) => void
 }
 
 export function CharactersList({
   characterFilter = 'others',
   specieFilter = 'all',
   searchValue = '',
+  sortOrder = 'asc',
+  onSortChange,
 }: CharactersListProps) {
   // Implement custom hooks
   /* @name useFilteredCharacters
@@ -43,6 +49,12 @@ export function CharactersList({
     characterFilter,
     specieFilter,
     searchValue,
+  })
+
+  // Ordenar los personajes filtrados
+  const sortedCharacters = useSortedCharacters({
+    characters: filteredCharacters,
+    sortOrder,
   })
 
   // Implement context
@@ -108,14 +120,14 @@ export function CharactersList({
     <div className="min-h-0 space-y-2">
       <div className="flex items-center justify-between">
         <Text
-          text={`CHARACTERS (${filteredCharacters.length})`}
+          text={`CHARACTERS (${sortedCharacters.length})`}
           weight="semibold"
         />
-        <SortOrder />
+        <SortOrder sortOrder={sortOrder} onSortChange={onSortChange} />
       </div>
       <div>
-        {filteredCharacters.length > 0 &&
-          filteredCharacters.map((character: CharacterType) => (
+        {sortedCharacters.length > 0 &&
+          sortedCharacters.map((character: CharacterType) => (
             <CardA
               key={character.id}
               as="button"

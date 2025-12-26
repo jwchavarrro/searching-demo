@@ -8,3 +8,4 @@ export {
   type UseTotalResultsProps,
   type UseTotalResultsReturn,
 } from './use-total-results'
+export { useSortedCharacters } from './use-sorted-characters'
