@@ -30,6 +30,7 @@ import {
 
 // Import of custom hooks
 import { useFilterByCharacter } from './use-filter-by-character'
+import { useFilterBySpecie } from './use-filter-by-specie'
 import { useFilterByGender } from './use-filter-by-gender'
 
 interface UseFilteredCharactersReturn {
@@ -144,18 +145,26 @@ export function useFilteredCharacters(
     characterFilter,
   })
 
+  /* @name charactersFilteredBySpecie
+  @description: Filtrar personajes por Specie - se aplica en cliente cuando es necesario
+  */
+  const charactersFilteredBySpecie = useFilterBySpecie({
+    characters: charactersFilteredByCharacter,
+    specieFilter: hasSearch || !shouldUseSpeciesQuery ? specieFilter : undefined,
+  })
+
   /* @name charactersFilteredByGender
   @description: Filtrar personajes por Gender - se aplica en cliente cuando es necesario
   */
   const charactersFilteredByGender = useFilterByGender({
-    characters: charactersFilteredByCharacter,
+    characters: charactersFilteredBySpecie,
     genderFilter: hasSearch || !shouldUseGenderQuery ? genderFilter : undefined,
   })
 
   /* @name filteredCharacters
   @description: Aplicar filtros adicionales en cliente sobre los resultados:
-  - Si hay búsqueda: refinar búsqueda (empieza con) y aplicar TODOS los filtros (Character, Specie y Gender)
-  - Si no hay búsqueda: aplicar filtros según lógica normal
+  - Si hay búsqueda: refinar búsqueda (empieza con) - los filtros ya están aplicados por los hooks
+  - Si no hay búsqueda: los filtros ya están aplicados por los hooks según la lógica
   */
   const filteredCharacters = useMemo(() => {
     let result = charactersFilteredByGender
@@ -166,40 +175,10 @@ export function useFilteredCharacters(
       result = result.filter(character =>
         character.name.toLowerCase().startsWith(searchLower)
       )
-
-      // Cuando hay búsqueda, aplicar TODOS los filtros de Specie en cliente
-      if (specieFilter === SpecieFilterValues.HUMAN) {
-        // Filtrar solo humanos
-        result = result.filter(
-          character =>
-            character.species.toLowerCase() ===
-            SpecieApiValues.HUMAN.toLowerCase()
-        )
-      } else if (specieFilter === SpecieFilterValues.ALIEN) {
-        // Filtrar alien (excluir humanos)
-        result = result.filter(
-          character =>
-            character.species.toLowerCase() !==
-            SpecieApiValues.HUMAN.toLowerCase()
-        )
-      }
-      // Si es 'all', no filtrar por especie
-    } else if (specieFilter === SpecieFilterValues.ALIEN) {
-      // Sin búsqueda: aplicar filtro de Specie solo si es 'alien' (los demás vienen de API)
-      result = result.filter(
-        character =>
-          character.species.toLowerCase() !==
-          SpecieApiValues.HUMAN.toLowerCase()
-      )
     }
 
     return result
-  }, [
-    charactersFilteredByGender,
-    specieFilter,
-    hasSearch,
-    trimmedSearch,
-  ])
+  }, [charactersFilteredByGender, hasSearch, trimmedSearch])
 
   return {
     filteredCharacters,

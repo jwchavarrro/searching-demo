@@ -8,7 +8,10 @@ import { useMemo } from 'react'
 // Import of types
 import type { CharacterType } from '@/graphql/types'
 import type { SpecieFilterType } from '@/fragments/components/filter/utils'
-import { SpecieFilterValues } from '@/fragments/components/filter/utils'
+import {
+  SpecieFilterValues,
+  SpecieApiValues,
+} from '@/fragments/components/filter/utils'
 
 interface UseFilterBySpecieProps {
   characters: CharacterType[]
@@ -29,13 +32,15 @@ export function useFilterBySpecie({
       case SpecieFilterValues.HUMAN:
         return characters.filter(
           character =>
-            character.species.toLowerCase() === SpecieFilterValues.HUMAN
+            character.species.toLowerCase() ===
+            SpecieApiValues.HUMAN.toLowerCase()
         )
 
       case SpecieFilterValues.ALIEN:
         return characters.filter(
           character =>
-            character.species.toLowerCase() !== SpecieFilterValues.HUMAN
+            character.species.toLowerCase() !==
+            SpecieApiValues.HUMAN.toLowerCase()
         )
 
       default:
