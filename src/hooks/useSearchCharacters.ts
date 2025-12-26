@@ -3,7 +3,7 @@
  * @description: Hook para buscar personajes por nombre usando TanStack Query
  */
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 // Import of services
@@ -38,7 +38,7 @@ function useDebounce<T>(value: T, delay: number): T {
 }
 
 /**
- * Hook para buscar personajes por nombre
+ * Hook para buscar personajes por nombre ordenados alfabéticamente
  */
 export function useSearchCharacters(query: string): UseSearchCharactersReturn {
   const debouncedQuery = useDebounce(query, 300)
@@ -49,8 +49,21 @@ export function useSearchCharacters(query: string): UseSearchCharactersReturn {
     enabled: debouncedQuery.length > 0,
   })
 
+  const sortedData = useMemo(() => {
+    if (!data) return null
+
+    const sortedResults = [...data.results].sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+    )
+
+    return {
+      ...data,
+      results: sortedResults,
+    }
+  }, [data])
+
   return {
-    data: data ?? null,
+    data: sortedData,
     isLoading,
     error: error ?? null,
   }

@@ -15,11 +15,11 @@ import { useCharactersStarred } from '@/context'
 import type {
   CharacterFilterType,
   SpecieFilterType,
-} from '@/components/atomic-desing/organisms/filter/utils'
+} from '@/fragments/components/filter/utils'
 import {
   SpecieFilterValues,
   SpecieApiValues,
-} from '@/components/atomic-desing/organisms/filter/utils'
+} from '@/fragments/components/filter/utils'
 
 export interface UseTotalResultsProps {
   readonly searchValue?: string

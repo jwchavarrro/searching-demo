@@ -9,7 +9,7 @@ import { FiltersSummary } from '../index'
 import {
   CharacterFilterValues,
   SpecieFilterValues,
-} from '@/components/atomic-desing/organisms'
+} from '@/fragments/components/filter/utils'
 
 describe('FiltersSummary', () => {
   describe('Renderizado básico', () => {

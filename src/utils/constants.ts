@@ -5,9 +5,9 @@
 
 import type {
   CharacterFilterType,
-  FilterOption,
   SpecieFilterType,
-} from '@/components/atomic-desing/organisms'
+} from '@/fragments/components/filter/utils'
+import type { FilterOption } from '@/fragments/components/filter'
 
 export const FILTER_CHARACTER_OPTIONS: FilterOption<CharacterFilterType>[] = [
   { value: 'all', label: 'All' },

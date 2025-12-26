@@ -3,6 +3,7 @@
  * @description: Hook para obtener personajes filtrados por especie usando TanStack Query
  */
 
+import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 // Import of services
@@ -18,7 +19,7 @@ interface UseCharactersBySpeciesReturn {
 }
 
 /**
- * Hook para obtener personajes filtrados por especie
+ * Hook para obtener personajes filtrados por especie ordenados alfabéticamente
  */
 export function useCharactersBySpecies(
   species: string
@@ -29,8 +30,21 @@ export function useCharactersBySpecies(
     enabled: species.length > 0,
   })
 
+  const sortedData = useMemo(() => {
+    if (!data) return null
+
+    const sortedResults = [...data.results].sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+    )
+
+    return {
+      ...data,
+      results: sortedResults,
+    }
+  }, [data])
+
   return {
-    data: data ?? null,
+    data: sortedData,
     isLoading,
     error: error ?? null,
   }

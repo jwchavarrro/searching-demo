@@ -3,6 +3,7 @@
  * @description: Hook para obtener todos los personajes usando TanStack Query
  */
 
+import { useMemo } from 'react'
 import { useQuery } from '@tanstack/react-query'
 
 // Import of services
@@ -18,7 +19,7 @@ interface UseCharactersReturn {
 }
 
 /**
- * Hook para obtener todos los personajes
+ * Hook para obtener todos los personajes ordenados alfabéticamente
  */
 export function useCharacters(): UseCharactersReturn {
   const { data, isLoading, error } = useQuery({
@@ -26,8 +27,21 @@ export function useCharacters(): UseCharactersReturn {
     queryFn: fetchCharacters,
   })
 
+  const sortedData = useMemo(() => {
+    if (!data) return null
+
+    const sortedResults = [...data.results].sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { sensitivity: 'base' })
+    )
+
+    return {
+      ...data,
+      results: sortedResults,
+    }
+  }, [data])
+
   return {
-    data: data ?? null,
+    data: sortedData,
     isLoading,
     error: error ?? null,
   }

@@ -14,7 +14,7 @@ import {
   type SpecieFilterType,
   CharacterFilterValues,
   SpecieFilterValues,
-} from '@/components/atomic-desing/organisms'
+} from '@/fragments/components'
 import {
   CharactersList,
   DetailsCharacter,
