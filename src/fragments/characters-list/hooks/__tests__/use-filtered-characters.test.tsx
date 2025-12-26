@@ -7,7 +7,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useFilteredCharacters } from '../use-filtered-characters'
-import { useCharacters, useCharactersBySpecies } from '@/hooks'
+import {
+  useCharacters,
+  useCharactersBySpecies,
+  useSearchCharacters,
+} from '@/hooks'
 import { useCharactersStarred } from '@/context'
 import type { CharacterType } from '@/graphql/types'
 
@@ -15,6 +19,7 @@ import type { CharacterType } from '@/graphql/types'
 vi.mock('@/hooks', () => ({
   useCharacters: vi.fn(),
   useCharactersBySpecies: vi.fn(),
+  useSearchCharacters: vi.fn(),
 }))
 
 vi.mock('@/context', () => ({
@@ -74,6 +79,12 @@ describe('useFilteredCharacters', () => {
   })
 
   it('debe retornar un array vacío cuando no hay datos', () => {
+    vi.mocked(useSearchCharacters).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
     vi.mocked(useCharacters).mockReturnValue({
       data: null,
       isLoading: false,
@@ -106,6 +117,12 @@ describe('useFilteredCharacters', () => {
   })
 
   it('debe retornar todos los personajes cuando no hay favoritos', () => {
+    vi.mocked(useSearchCharacters).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
     vi.mocked(useCharacters).mockReturnValue({
       data: {
         results: [mockCharacter1, mockCharacter2, mockCharacter3],
@@ -149,6 +166,12 @@ describe('useFilteredCharacters', () => {
   })
 
   it('debe excluir los personajes marcados como favoritos', () => {
+    vi.mocked(useSearchCharacters).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
     vi.mocked(useCharacters).mockReturnValue({
       data: {
         results: [mockCharacter1, mockCharacter2, mockCharacter3],
@@ -194,6 +217,12 @@ describe('useFilteredCharacters', () => {
   })
 
   it('debe retornar un array vacío cuando todos los personajes son favoritos', () => {
+    vi.mocked(useSearchCharacters).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
     vi.mocked(useCharacters).mockReturnValue({
       data: {
         results: [mockCharacter1, mockCharacter2],
@@ -232,6 +261,12 @@ describe('useFilteredCharacters', () => {
   })
 
   it('debe pasar el estado de loading correctamente', () => {
+    vi.mocked(useSearchCharacters).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
     vi.mocked(useCharacters).mockReturnValue({
       data: null,
       isLoading: true,
@@ -263,6 +298,12 @@ describe('useFilteredCharacters', () => {
 
   it('debe pasar el error correctamente', () => {
     const error = new Error('Error al cargar personajes')
+    vi.mocked(useSearchCharacters).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
     vi.mocked(useCharacters).mockReturnValue({
       data: null,
       isLoading: false,

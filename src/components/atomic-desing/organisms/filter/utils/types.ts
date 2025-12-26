@@ -34,3 +34,11 @@ export const SpecieFilterValues = {
   HUMAN: 'human',
   ALIEN: 'alien',
 } as const satisfies Record<string, SpecieFilterType>
+
+/**
+ * @name SpecieApiValues
+ * @description: Constantes con los valores de especie para la API (formato que espera la API)
+ */
+export const SpecieApiValues = {
+  HUMAN: 'Human',
+} as const

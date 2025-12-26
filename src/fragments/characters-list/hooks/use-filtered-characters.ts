@@ -6,7 +6,11 @@
 import { useMemo } from 'react'
 
 // Import of hooks
-import { useCharacters, useCharactersBySpecies } from '@/hooks'
+import {
+  useCharacters,
+  useCharactersBySpecies,
+  useSearchCharacters,
+} from '@/hooks'
 
 // Import of types
 import type { CharacterType } from '@/graphql/types'
@@ -17,6 +21,7 @@ import type {
 import {
   CharacterFilterValues,
   SpecieFilterValues,
+  SpecieApiValues,
 } from '@/components/atomic-desing/organisms/filter/utils'
 
 // Import of custom hooks
@@ -32,6 +37,7 @@ interface UseFilteredCharactersReturn {
 interface UseFilteredCharactersProps {
   characterFilter?: CharacterFilterType
   specieFilter?: SpecieFilterType
+  searchValue?: string
 }
 
 /**
@@ -46,7 +52,7 @@ function convertSpecieFilterToApiValue(
 ): string | undefined {
   switch (specieFilter) {
     case SpecieFilterValues.HUMAN:
-      return 'Human'
+      return SpecieApiValues.HUMAN
     case SpecieFilterValues.ALL:
     case SpecieFilterValues.ALIEN:
     default:
@@ -60,29 +66,35 @@ export function useFilteredCharacters(
   const {
     characterFilter = CharacterFilterValues.OTHERS,
     specieFilter = SpecieFilterValues.ALL,
+    searchValue = '',
   } = props || {}
+
+  // Normalizar y validar búsqueda
+  const trimmedSearch = searchValue.trim()
+  const hasSearch = trimmedSearch.length > 0
 
   // Convertir el filtro de Specie a valor para la API
   const apiSpecies = convertSpecieFilterToApiValue(specieFilter)
-
-  /* @name useCharacters / useCharactersBySpecies
-  @description: Optimizado para usar solo el hook necesario según el filtro:
-  - Si el filtro es 'human', usar useCharactersBySpecies (filtra en API)
-  - Si es 'all' o 'alien', usar useCharacters (filtra en cliente si es necesario)
-  */
   const shouldUseSpeciesQuery = specieFilter === SpecieFilterValues.HUMAN
 
-  // Ejecutar ambos hooks pero solo uno estará habilitado según el filtro
-  // useCharactersBySpecies tiene enabled: !!species, así que no se ejecuta si species está vacío
+  // Ejecutar hooks condicionalmente para evitar llamadas innecesarias
+  // Prioridad: 1. Búsqueda por nombre, 2. Filtro por especie, 3. Todos los personajes
+  const searchQuery = useSearchCharacters(trimmedSearch)
   const charactersQuery = useCharacters()
   const charactersBySpeciesQuery = useCharactersBySpecies(apiSpecies || '')
 
   // Determinar qué query usar según el filtro
-  // Si shouldUseSpeciesQuery es true, usar charactersBySpeciesQuery
-  // Si es false, usar charactersQuery (y charactersBySpeciesQuery estará deshabilitado)
-  const { data, isLoading, error } = shouldUseSpeciesQuery
-    ? charactersBySpeciesQuery
-    : charactersQuery
+  // Prioridad: 1. Búsqueda por nombre, 2. Filtro por especie, 3. Todos los personajes
+  let activeQuery
+  if (hasSearch) {
+    activeQuery = searchQuery
+  } else if (shouldUseSpeciesQuery) {
+    activeQuery = charactersBySpeciesQuery
+  } else {
+    activeQuery = charactersQuery
+  }
+
+  const { data, isLoading, error } = activeQuery
 
   /* @name charactersFilteredByCharacter
   @description: Filtrar personajes por Character (All/Starred/Others) - se aplica en cliente
@@ -93,19 +105,48 @@ export function useFilteredCharacters(
   })
 
   /* @name filteredCharacters
-  @description: Si el filtro es 'alien', filtrar en cliente (excluir "Human")
-  Si es 'human' o 'all', ya viene filtrado de la API o no necesita filtro adicional
+  @description: Aplicar filtros adicionales en cliente sobre los resultados:
+  - Si hay búsqueda: refinar búsqueda (empieza con) y aplicar TODOS los filtros (Character y Specie)
+  - Si no hay búsqueda: aplicar filtros según lógica normal
   */
   const filteredCharacters = useMemo(() => {
-    if (specieFilter === SpecieFilterValues.ALIEN) {
-      // Filtrar alien en cliente (excluir "Human")
-      return charactersFilteredByCharacter.filter(
-        character => character.species.toLowerCase() !== 'human'
+    let result = charactersFilteredByCharacter
+
+    // Si hay búsqueda, refinar resultados de API (solo nombres que empiezan con el texto)
+    if (hasSearch) {
+      const searchLower = trimmedSearch.toLowerCase()
+      result = result.filter(character =>
+        character.name.toLowerCase().startsWith(searchLower)
+      )
+
+      // Cuando hay búsqueda, aplicar TODOS los filtros de Specie en cliente
+      if (specieFilter === SpecieFilterValues.HUMAN) {
+        // Filtrar solo humanos
+        result = result.filter(
+          character =>
+            character.species.toLowerCase() ===
+            SpecieApiValues.HUMAN.toLowerCase()
+        )
+      } else if (specieFilter === SpecieFilterValues.ALIEN) {
+        // Filtrar alien (excluir humanos)
+        result = result.filter(
+          character =>
+            character.species.toLowerCase() !==
+            SpecieApiValues.HUMAN.toLowerCase()
+        )
+      }
+      // Si es 'all', no filtrar por especie
+    } else if (specieFilter === SpecieFilterValues.ALIEN) {
+      // Sin búsqueda: aplicar filtro de Specie solo si es 'alien' (los demás vienen de API)
+      result = result.filter(
+        character =>
+          character.species.toLowerCase() !==
+          SpecieApiValues.HUMAN.toLowerCase()
       )
     }
-    // Para 'all' y 'human', ya viene filtrado de la API o no necesita filtro
-    return charactersFilteredByCharacter
-  }, [charactersFilteredByCharacter, specieFilter])
+
+    return result
+  }, [charactersFilteredByCharacter, specieFilter, hasSearch, trimmedSearch])
 
   return {
     filteredCharacters,

@@ -8,6 +8,7 @@ export const ICONS: Record<string, string> = {
   filter: 'hugeicons:filter-vertical',
   search_01: 'hugeicons:search-01',
   selection_03: 'hugeicons:cursor-magic-selection-03',
+  close: 'hugeicons:remove-circle',
 
   // Estado y carga
   loading: 'svg-spinners:ring-resize',

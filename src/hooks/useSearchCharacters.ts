@@ -46,12 +46,12 @@ export function useSearchCharacters(query: string): UseSearchCharactersReturn {
   const { data, isLoading, error } = useQuery({
     queryKey: ['characters', 'search', debouncedQuery],
     queryFn: () => searchCharacters(debouncedQuery),
-    enabled: !!debouncedQuery && debouncedQuery.length > 0,
+    enabled: debouncedQuery.length > 0,
   })
 
   return {
-    data: data || null,
+    data: data ?? null,
     isLoading,
-    error: error || null,
+    error: error ?? null,
   }
 }

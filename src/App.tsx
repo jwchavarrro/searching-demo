@@ -39,9 +39,17 @@ function App() {
   // Implement context
   const { selectedCharacterName } = useSelectedCharacter()
 
+  /* @name handleSearchChange
+  @description: Manejador para búsqueda en tiempo real mientras el usuario escribe
+  Se ejecuta inmediatamente cuando cambia el valor del input
+  */
+  const handleSearchChange = (value: string) => {
+    setAppliedSearchValue(value)
+  }
+
   /* @name handleFilterApply
   @description: Manejador para aplicar los filtros cuando se presiona el botón Filter
-  Solo aquí se actualizan los filtros aplicados y se dispara la nueva consulta
+  Actualiza todos los filtros aplicados (search, character y specie)
   */
   const handleFilterApply = (filters: {
     search: string
@@ -69,6 +77,7 @@ function App() {
             specieFilter={appliedSpecieFilter}
             characterOptions={FILTER_CHARACTER_OPTIONS}
             specieOptions={FILTER_SPECIE_OPTIONS}
+            onSearchChange={handleSearchChange}
             onFilterApply={handleFilterApply}
           />
         </header>
@@ -76,13 +85,17 @@ function App() {
         {/* Personajes favoritos y personajes */}
         <main className="sidebar-main">
           <section className="sidebar-section sidebar-section-starred">
-            <CharactersStarredList />
+            <CharactersStarredList
+              searchValue={appliedSearchValue}
+              specieFilter={appliedSpecieFilter}
+            />
           </section>
 
           <section className="sidebar-section sidebar-section-characters">
             <CharactersList
               characterFilter={appliedCharacterFilter}
               specieFilter={appliedSpecieFilter}
+              searchValue={appliedSearchValue}
             />
           </section>
         </main>
