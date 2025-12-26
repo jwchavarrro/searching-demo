@@ -59,7 +59,6 @@ function App() {
     Number(appliedSpecieFilter !== SpecieFilterValues.ALL)
   const hasAdvancedFilters = advancedFiltersCount >= 1
 
-
   // Handlers
   /* @name handleSearchChange
   @description: Manejador para búsqueda en tiempo real mientras el usuario escribe
