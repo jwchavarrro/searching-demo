@@ -3,9 +3,12 @@
  * @description: Fragmento para renderizar el listado de personajes marcados como favoritos
  */
 
+import { useMemo } from 'react'
+
 // Import of components custom
-import { CardA, Message } from '@/components/atomic-desing/molecules'
 import { Text } from '@/components/atomic-desing/atoms'
+import { SortOrder } from '@/fragments/components'
+import { CardA, Message } from '@/components/atomic-desing/molecules'
 
 // Import of context
 import { useCharactersStarred, useSelectedCharacter } from '@/context'
@@ -20,7 +23,6 @@ import {
   SpecieFilterValues,
   SpecieApiValues,
 } from '@/fragments/components/filter/utils'
-import { useMemo } from 'react'
 
 interface CharactersStarredListProps {
   readonly searchValue?: string
@@ -97,10 +99,13 @@ export function CharactersStarredList({
 
   return (
     <div className="min-h-0 space-y-2">
-      <Text
-        text={`STARRED CHARACTERS (${filteredStarredCharacters.length})`}
-        weight="semibold"
-      />
+      <div className="flex items-center justify-between">
+        <Text
+          text={`STARRED CHARACTERS (${filteredStarredCharacters.length})`}
+          weight="semibold"
+        />
+        <SortOrder />
+      </div>
       <div>
         {filteredStarredCharacters.map((character: CharacterType) => (
           <CardA

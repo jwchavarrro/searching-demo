@@ -4,8 +4,9 @@
  */
 
 // Import of components custom
-import { CardA, Message } from '@/components/atomic-desing/molecules'
+import { SortOrder } from '@/fragments/components'
 import { Text } from '@/components/atomic-desing/atoms'
+import { CardA, Message } from '@/components/atomic-desing/molecules'
 
 // Import of hooks
 import { useFilteredCharacters } from './hooks'
@@ -105,10 +106,13 @@ export function CharactersList({
 
   return (
     <div className="min-h-0 space-y-2">
-      <Text
-        text={`CHARACTERS (${filteredCharacters.length})`}
-        weight="semibold"
-      />
+      <div className="flex items-center justify-between">
+        <Text
+          text={`CHARACTERS (${filteredCharacters.length})`}
+          weight="semibold"
+        />
+        <SortOrder />
+      </div>
       <div>
         {filteredCharacters.length > 0 &&
           filteredCharacters.map((character: CharacterType) => (
