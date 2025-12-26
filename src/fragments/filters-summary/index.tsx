@@ -22,66 +22,56 @@ import {
 import { cn } from '@/utils/cn'
 
 export interface FiltersSummaryProps {
-  readonly resultsCount: number
-  readonly searchValue?: string
+  readonly charactersCount: number
+  readonly starredCount: number
   readonly characterFilter?: CharacterFilterType
   readonly specieFilter?: SpecieFilterType
   readonly className?: string
 }
 
-/* @name countActiveFilters
-@description: Cuenta cuántos filtros están activos (diferentes de los valores por defecto)
-*/
-function countActiveFilters(
-  searchValue: string,
+function countAdvancedFilters(
   characterFilter: CharacterFilterType,
   specieFilter: SpecieFilterType
 ): number {
-  let count = 0
-
-  // Contar búsqueda si tiene valor
-  if (searchValue.trim().length > 0) {
-    count++
-  }
-
-  // Contar filtro de Character si no es el valor por defecto (OTHERS)
-  if (characterFilter !== CharacterFilterValues.OTHERS) {
-    count++
-  }
-
-  // Contar filtro de Specie si no es 'all'
-  if (specieFilter !== SpecieFilterValues.ALL) {
-    count++
-  }
-
-  return count
+  return (
+    Number(characterFilter !== CharacterFilterValues.OTHERS) +
+    Number(specieFilter !== SpecieFilterValues.ALL)
+  )
 }
 
 export function FiltersSummary({
-  resultsCount,
-  searchValue = '',
+  charactersCount,
+  starredCount,
   characterFilter = CharacterFilterValues.OTHERS,
   specieFilter = SpecieFilterValues.ALL,
   className,
 }: FiltersSummaryProps) {
-  const activeFiltersCount = useMemo(
-    () => countActiveFilters(searchValue, characterFilter, specieFilter),
-    [searchValue, characterFilter, specieFilter]
+  const resultsCount = useMemo(
+    () => charactersCount + starredCount,
+    [charactersCount, starredCount]
   )
+
+  const activeFiltersCount = useMemo(
+    () => countAdvancedFilters(characterFilter, specieFilter),
+    [characterFilter, specieFilter]
+  )
+
+  // Early return si no hay nada que mostrar
+  if (resultsCount === 0 && activeFiltersCount === 0) {
+    return null
+  }
 
   return (
     <div
       className={cn('flex items-center justify-between gap-4 py-2', className)}
     >
       {/* Results count */}
-      {resultsCount > 0 && (
-        <Text
-          text={`${resultsCount} ${resultsCount === 1 ? 'Result' : 'Results'}`}
-          size="xs"
-          weight="semibold"
-          className="text-primary-60"
-        />
-      )}
+      <Text
+        text={`${resultsCount} ${resultsCount === 1 ? 'Result' : 'Results'}`}
+        size="xs"
+        weight="semibold"
+        className="text-primary-600"
+      />
 
       {/* Active filters badge */}
       {activeFiltersCount > 0 && (

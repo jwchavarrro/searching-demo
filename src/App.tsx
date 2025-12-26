@@ -20,6 +20,7 @@ import {
   DetailsCharacter,
   CharactersStarredList,
   FiltersSummary,
+  useTotalResults,
 } from '@/fragments'
 
 // Import of context
@@ -40,6 +41,26 @@ function App() {
   // Implement context
   const { selectedCharacterName } = useSelectedCharacter()
 
+  // Implement custom hooks
+  /* @name totalResults
+  @description: Obtiene el conteo total de resultados (personajes + starred)
+  */
+  const { charactersCount, starredCount } = useTotalResults({
+    searchValue: appliedSearchValue,
+    characterFilter: appliedCharacterFilter,
+    specieFilter: appliedSpecieFilter,
+  })
+
+  /* @name hasAdvancedFilters
+  @description: Verifica si hay más de un filtro avanzado aplicado (Character y Specie)
+  */
+  const advancedFiltersCount =
+    Number(appliedCharacterFilter !== CharacterFilterValues.OTHERS) +
+    Number(appliedSpecieFilter !== SpecieFilterValues.ALL)
+  const hasAdvancedFilters = advancedFiltersCount >= 1
+
+
+  // Handlers
   /* @name handleSearchChange
   @description: Manejador para búsqueda en tiempo real mientras el usuario escribe
   Se ejecuta inmediatamente cuando cambia el valor del input
@@ -85,13 +106,15 @@ function App() {
 
         {/* Personajes favoritos y personajes */}
         <main className="sidebar-main">
-          {/* Inform: Results filter */}
-          <FiltersSummary
-            resultsCount={0}
-            searchValue={appliedSearchValue}
-            characterFilter={appliedCharacterFilter}
-            specieFilter={appliedSpecieFilter}
-          />
+          {/* Inform: Results filter  */}
+          {hasAdvancedFilters && (
+            <FiltersSummary
+              charactersCount={charactersCount}
+              starredCount={starredCount}
+              characterFilter={appliedCharacterFilter}
+              specieFilter={appliedSpecieFilter}
+            />
+          )}
 
           {/* Personajes favoritos */}
           <section className="sidebar-section sidebar-section-starred">
