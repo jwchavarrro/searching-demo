@@ -85,7 +85,10 @@ function App() {
         {/* Personajes favoritos y personajes */}
         <main className="sidebar-main">
           <section className="sidebar-section sidebar-section-starred">
-            <CharactersStarredList />
+            <CharactersStarredList
+              searchValue={appliedSearchValue}
+              specieFilter={appliedSpecieFilter}
+            />
           </section>
 
           <section className="sidebar-section sidebar-section-characters">
