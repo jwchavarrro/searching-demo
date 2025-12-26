@@ -174,6 +174,7 @@ export const Filter = ({
                   <Button
                     variant="ghost"
                     size="icon"
+                    onClick={() => setIsPopoverOpen(false)}
                     className="hover:bg-primary-100 text-primary-700 md:size-8"
                     aria-label="Close filters"
                   >
