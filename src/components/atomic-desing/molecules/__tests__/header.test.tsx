@@ -1,13 +1,19 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { Header } from '../header'
 
 describe('Header', () => {
+  const defaultIsStarred = {
+    status: false,
+    onIconClick: vi.fn(),
+  }
+
   it('renderiza el header correctamente', () => {
     render(
       <Header
         avatar={{ avatar: { src: '/avatar.jpg', alt: 'Usuario' } }}
         title={{ title: 'Título del Header' }}
+        isStarred={defaultIsStarred}
       />
     )
     expect(screen.getByText('Título del Header')).toBeInTheDocument()
@@ -18,6 +24,7 @@ describe('Header', () => {
       <Header
         avatar={{ avatar: { src: '/avatar.jpg', alt: 'Usuario' } }}
         title={{ title: 'Título' }}
+        isStarred={defaultIsStarred}
       />
     )
     const img = container.querySelector('img')
@@ -31,6 +38,7 @@ describe('Header', () => {
       <Header
         avatar={{ avatar: { initials: 'AB' } }}
         title={{ title: 'Mi Título' }}
+        isStarred={defaultIsStarred}
       />
     )
     const heading = container.querySelector('h1')
@@ -44,6 +52,7 @@ describe('Header', () => {
         <Header
           avatar={{ avatar: { initials: 'AB' } }}
           title={{ title: 'Título' }}
+          isStarred={defaultIsStarred}
           className="flex flex-col items-center gap-2"
         />
       )
@@ -59,6 +68,7 @@ describe('Header', () => {
         <Header
           avatar={{ avatar: { initials: 'AB' } }}
           title={{ title: 'Título', align: 'center' }}
+          isStarred={defaultIsStarred}
         />
       )
       const heading = container.querySelector('h1')
@@ -79,6 +89,7 @@ describe('Header', () => {
             },
           }}
           title={{ title: 'Título' }}
+          isStarred={defaultIsStarred}
         />
       )
       const img = container.querySelector('img')
@@ -92,6 +103,7 @@ describe('Header', () => {
         <Header
           avatar={{ avatar: { initials: 'JP', size: 'lg' } }}
           title={{ title: 'Título' }}
+          isStarred={defaultIsStarred}
         />
       )
       expect(screen.getByText('JP')).toBeInTheDocument()
@@ -109,6 +121,7 @@ describe('Header', () => {
             size: 'xl',
             className: 'title-custom',
           }}
+          isStarred={defaultIsStarred}
         />
       )
       const heading = container.querySelector('h2')
@@ -122,6 +135,7 @@ describe('Header', () => {
         <Header
           avatar={{ avatar: { initials: 'AB' } }}
           title={{ title: 'Título' }}
+          isStarred={defaultIsStarred}
         />
       )
       const heading = container.querySelector('h1')
@@ -135,6 +149,7 @@ describe('Header', () => {
         <Header
           avatar={{ avatar: { initials: 'AB' } }}
           title={{ title: 'Título' }}
+          isStarred={defaultIsStarred}
           className="custom-header"
         />
       )
@@ -147,6 +162,7 @@ describe('Header', () => {
         <Header
           avatar={{ avatar: { initials: 'AB' } }}
           title={{ title: 'Título' }}
+          isStarred={defaultIsStarred}
           className="custom-header flex flex-col items-center gap-2 border-2"
         />
       )
@@ -176,6 +192,7 @@ describe('Header', () => {
             size: '3xl',
             className: 'title-class',
           }}
+          isStarred={defaultIsStarred}
           className="header-class"
         />
       )

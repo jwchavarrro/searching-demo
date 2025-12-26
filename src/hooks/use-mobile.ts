@@ -32,14 +32,19 @@ export const useIsMobile = () => {
   useEffect(() => {
     // Solo ejecutar en el cliente
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+      const width = globalThis.window?.innerWidth ?? 0
+      setIsMobile(width < MOBILE_BREAKPOINT)
     }
 
     // Verificar inmediatamente
     checkMobile()
 
     // Configurar el listener usando matchMedia para mejor rendimiento
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
+    const mql = globalThis.window?.matchMedia(
+      `(max-width: ${MOBILE_BREAKPOINT - 1}px)`
+    )
+    if (!mql) return
+
     const onChange = () => {
       checkMobile()
     }

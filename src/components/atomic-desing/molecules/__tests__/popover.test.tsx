@@ -231,7 +231,6 @@ describe('Popover', () => {
       expect(content).toHaveClass('shadow')
     })
 
-
     describe('side', () => {
       it('usa bottom por defecto', async () => {
         renderPopover({ open: true })

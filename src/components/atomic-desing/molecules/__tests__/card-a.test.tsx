@@ -3,12 +3,18 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { CardA } from '../card-a'
 
 describe('CardA', () => {
+  const defaultIsStarred = {
+    status: false,
+    onIconClick: vi.fn(),
+  }
+
   it('renderiza el componente correctamente', () => {
     const { container } = render(
       <CardA
         avatar={{ src: '/avatar.jpg', alt: 'Usuario' }}
         title={{ title: 'Jerry Smith' }}
         description={{ text: 'Human' }}
+        isStarred={defaultIsStarred}
       />
     )
     const wrapper = container.querySelector('div')
@@ -21,6 +27,7 @@ describe('CardA', () => {
         avatar={{ src: '/avatar.jpg', alt: 'Usuario' }}
         title={{ title: 'Jerry Smith' }}
         description={{ text: 'Human' }}
+        isStarred={defaultIsStarred}
       />
     )
     const img = container.querySelector('img')
@@ -35,6 +42,7 @@ describe('CardA', () => {
         avatar={{ initials: 'AB' }}
         title={{ title: 'Jerry Smith' }}
         description={{ text: 'Human' }}
+        isStarred={defaultIsStarred}
       />
     )
     expect(screen.getByText('Jerry Smith')).toBeInTheDocument()
@@ -46,6 +54,7 @@ describe('CardA', () => {
         avatar={{ initials: 'AB' }}
         title={{ title: 'Jerry Smith' }}
         description={{ text: 'Human' }}
+        isStarred={defaultIsStarred}
       />
     )
     expect(screen.getByText('Human')).toBeInTheDocument()
@@ -58,6 +67,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const button = container.querySelector('button')
@@ -70,6 +80,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const button = container.querySelector('button')
@@ -87,7 +98,10 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
-          onIconClick={handleIconClick}
+          isStarred={{
+            status: false,
+            onIconClick: handleIconClick,
+          }}
         />
       )
       const button = container.querySelector('button')
@@ -111,7 +125,10 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
-          onIconClick={handleIconClick}
+          isStarred={{
+            status: false,
+            onIconClick: handleIconClick,
+          }}
         />
       )
       const button = container.querySelector('button')
@@ -127,6 +144,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const div = container.querySelector('div')
@@ -141,6 +159,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const div = container.querySelector('div')
@@ -155,6 +174,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const div = container.querySelector('div')
@@ -169,6 +189,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       // Buscar el div que contiene el título (h3)
@@ -194,6 +215,7 @@ describe('CardA', () => {
           }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const img = container.querySelector('img')
@@ -208,6 +230,7 @@ describe('CardA', () => {
           avatar={{ initials: 'JP', size: 'lg' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       expect(screen.getByText('JP')).toBeInTheDocument()
@@ -221,6 +244,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith', level: 3, size: 'base' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const heading = container.querySelector('h3')
@@ -236,6 +260,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const heading = container.querySelector('h3')
@@ -250,6 +275,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human', size: 'sm', weight: 'normal' }}
+          isStarred={defaultIsStarred}
         />
       )
       const text = container.querySelector('p')
@@ -265,6 +291,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const text = container.querySelector('p')
@@ -279,6 +306,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const button = container.querySelector('button')
@@ -291,6 +319,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const button = container.querySelector('button')
@@ -304,6 +333,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
         />
       )
       const button = container.querySelector('button')
@@ -319,6 +349,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
           className="custom-card"
         />
       )
@@ -332,6 +363,7 @@ describe('CardA', () => {
           avatar={{ initials: 'AB' }}
           title={{ title: 'Jerry Smith' }}
           description={{ text: 'Human' }}
+          isStarred={defaultIsStarred}
           className="custom-card border-2"
         />
       )
@@ -364,7 +396,10 @@ describe('CardA', () => {
             size: 'sm',
             weight: 'normal',
           }}
-          onIconClick={handleIconClick}
+          isStarred={{
+            status: false,
+            onIconClick: handleIconClick,
+          }}
           className="card-class"
         />
       )
