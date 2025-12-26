@@ -24,7 +24,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 
 // Constants
 const POPOVER_PADDING = 8
-const POPOVER_GAP = 8
+const POPOVER_GAP = 10
 
 interface PopoverContextValue {
   open: boolean
@@ -307,8 +307,16 @@ export const PopoverContent = ({
     const referenceRect = referenceElement.getBoundingClientRect()
     const contentRect = contentRef.current.getBoundingClientRect()
 
-    // En mobile, no aplicar gap si se especifica mobileWidth
-    const useGap = !(isMobile && mobileWidth !== undefined)
+    // Solo desactivar gap/padding si está en mobile Y se pasaron mobileWidth="100vw" y mobileHeight="100vh"
+    const isFullScreenMobile =
+      isMobile &&
+      mobileWidth !== undefined &&
+      mobileHeight !== undefined &&
+      (String(mobileWidth) === '100vw' || String(mobileWidth) === '100%') &&
+      (String(mobileHeight) === '100vh' || String(mobileHeight) === '100%')
+
+    // Aplicar gap solo si NO es pantalla completa en mobile
+    const useGap = !isFullScreenMobile
     const { top, left } = calculatePositionBySide(
       side,
       align,
@@ -329,8 +337,8 @@ export const PopoverContent = ({
         contentRef.current.style.left = `${relativeLeft}px`
       }
     } else {
-      // En mobile, no aplicar padding si se especifica mobileWidth
-      const usePadding = !(isMobile && mobileWidth !== undefined)
+      // Aplicar padding solo si NO es pantalla completa en mobile
+      const usePadding = !isFullScreenMobile
       const { top: constrainedTop, left: constrainedLeft } =
         constrainToViewport(top, left, contentRect, usePadding)
 
@@ -339,7 +347,15 @@ export const PopoverContent = ({
         contentRef.current.style.left = `${constrainedLeft}px`
       }
     }
-  }, [side, align, triggerRef, renderInParent, mobileWidth, isMobile])
+  }, [
+    side,
+    align,
+    triggerRef,
+    renderInParent,
+    mobileWidth,
+    mobileHeight,
+    isMobile,
+  ])
 
   // Determinar dónde renderizar el portal
   useEffect(() => {

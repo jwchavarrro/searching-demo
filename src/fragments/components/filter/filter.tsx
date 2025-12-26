@@ -167,8 +167,8 @@ export const Filter = ({
               <Icon icon={ICONS.filter} className="size-4 md:size-5" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent align="center" side="bottom">
-            <div className="flex flex-col justify-between gap-2">
+          <PopoverContent mobileWidth="100vw" mobileHeight="100vh">
+            <div className="flex h-full flex-col justify-between gap-2">
               <div className="space-y-4">
                 {/* Character Filter Section */}
                 <div className="space-y-2">
