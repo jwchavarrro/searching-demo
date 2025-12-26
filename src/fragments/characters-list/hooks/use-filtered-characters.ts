@@ -1,6 +1,6 @@
 /**
  * useFilteredCharacters.ts
- * @description: Hook personalizado para obtener y filtrar personajes según el filtro de Character y Specie
+ * @description: Hook personalizado para obtener y filtrar personajes según el filtro de Character, Specie y Gender
  */
 
 import { useMemo } from 'react'
