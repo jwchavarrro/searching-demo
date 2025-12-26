@@ -5,6 +5,7 @@
 
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AnimatePresence, motion } from 'motion/react'
 
 // Import of components custom
 import { Text } from '@/components/atomic-desing/atoms'
@@ -164,29 +165,42 @@ export function CharactersStarredList({
         />
         <SortOrder sortOrder={sortOrder} onSortChange={onSortChange} />
       </div>
-      <div>
-        {sortedStarredCharacters.map((character: CharacterType) => (
-          <CardA
-            key={character.id}
-            as="button"
-            onClick={() => handleCharacterSelect(character.name)}
-            avatar={{
-              src: character.image,
-              alt: character.name,
-              size: 'lg',
-            }}
-            title={{
-              title: character.name,
-            }}
-            description={{
-              text: character.species,
-            }}
-            isStarred={{
-              status: isCharacterStarred(character.id),
-              onIconClick: () => handleCharacterStarred(character),
-            }}
-          />
-        ))}
+      <div className="space-y-2">
+        <AnimatePresence>
+          {sortedStarredCharacters.map((character: CharacterType) => (
+            <motion.div
+              key={character.id}
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -20, scale: 0.95 }}
+              transition={{
+                duration: 0.3,
+                ease: [0.4, 0, 0.2, 1],
+              }}
+              layout
+            >
+              <CardA
+                as="button"
+                onClick={() => handleCharacterSelect(character.name)}
+                avatar={{
+                  src: character.image,
+                  alt: character.name,
+                  size: 'lg',
+                }}
+                title={{
+                  title: character.name,
+                }}
+                description={{
+                  text: character.species,
+                }}
+                isStarred={{
+                  status: isCharacterStarred(character.id),
+                  onIconClick: () => handleCharacterStarred(character),
+                }}
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   )
