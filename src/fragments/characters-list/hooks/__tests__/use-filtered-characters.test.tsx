@@ -10,6 +10,7 @@ import { useFilteredCharacters } from '../use-filtered-characters'
 import {
   useCharacters,
   useCharactersBySpecies,
+  useCharactersByGender,
   useSearchCharacters,
 } from '@/hooks'
 import { useCharactersStarred } from '@/context'
@@ -19,6 +20,7 @@ import type { CharacterType } from '@/graphql/types'
 vi.mock('@/hooks', () => ({
   useCharacters: vi.fn(),
   useCharactersBySpecies: vi.fn(),
+  useCharactersByGender: vi.fn(),
   useSearchCharacters: vi.fn(),
 }))
 
@@ -97,6 +99,12 @@ describe('useFilteredCharacters', () => {
       error: null,
     })
 
+    vi.mocked(useCharactersByGender).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
     vi.mocked(useCharactersStarred).mockReturnValue({
       charactersStarred: [],
       setCharactersStarred: vi.fn(),
@@ -138,6 +146,12 @@ describe('useFilteredCharacters', () => {
     })
 
     vi.mocked(useCharactersBySpecies).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
+    vi.mocked(useCharactersByGender).mockReturnValue({
       data: null,
       isLoading: false,
       error: null,
@@ -187,6 +201,12 @@ describe('useFilteredCharacters', () => {
     })
 
     vi.mocked(useCharactersBySpecies).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
+    vi.mocked(useCharactersByGender).mockReturnValue({
       data: null,
       isLoading: false,
       error: null,
@@ -243,6 +263,12 @@ describe('useFilteredCharacters', () => {
       error: null,
     })
 
+    vi.mocked(useCharactersByGender).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
     vi.mocked(useCharactersStarred).mockReturnValue({
       charactersStarred: [mockCharacter1, mockCharacter2],
       setCharactersStarred: vi.fn(),
@@ -274,6 +300,12 @@ describe('useFilteredCharacters', () => {
     })
 
     vi.mocked(useCharactersBySpecies).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
+    vi.mocked(useCharactersByGender).mockReturnValue({
       data: null,
       isLoading: false,
       error: null,
@@ -311,6 +343,12 @@ describe('useFilteredCharacters', () => {
     })
 
     vi.mocked(useCharactersBySpecies).mockReturnValue({
+      data: null,
+      isLoading: false,
+      error: null,
+    })
+
+    vi.mocked(useCharactersByGender).mockReturnValue({
       data: null,
       isLoading: false,
       error: null,

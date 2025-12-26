@@ -47,7 +47,12 @@ export const SpecieApiValues = {
  * @name GenderFilterType
  * @description: Tipos de filtro para el género de personajes.
  */
-export type GenderFilterType = 'all' | 'male' | 'female' | 'genderless' | 'unknown'
+export type GenderFilterType =
+  | 'all'
+  | 'male'
+  | 'female'
+  | 'genderless'
+  | 'unknown'
 
 /**
  * @name GenderFilterValues

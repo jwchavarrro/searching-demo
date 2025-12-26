@@ -102,8 +102,7 @@ export function useTotalResults(
     if (genderFilter === GenderFilterValues.MALE) {
       result = result.filter(
         character =>
-          character.gender.toLowerCase() ===
-          GenderApiValues.MALE.toLowerCase()
+          character.gender.toLowerCase() === GenderApiValues.MALE.toLowerCase()
       )
     } else if (genderFilter === GenderFilterValues.FEMALE) {
       result = result.filter(

@@ -62,4 +62,3 @@ export function useFilterByGender({
     }
   }, [characters, genderFilter])
 }
-

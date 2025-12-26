@@ -150,7 +150,8 @@ export function useFilteredCharacters(
   */
   const charactersFilteredBySpecie = useFilterBySpecie({
     characters: charactersFilteredByCharacter,
-    specieFilter: hasSearch || !shouldUseSpeciesQuery ? specieFilter : undefined,
+    specieFilter:
+      hasSearch || !shouldUseSpeciesQuery ? specieFilter : undefined,
   })
 
   /* @name charactersFilteredByGender

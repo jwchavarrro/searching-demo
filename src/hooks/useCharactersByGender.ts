@@ -35,4 +35,3 @@ export function useCharactersByGender(
     error: error ?? null,
   }
 }
-
