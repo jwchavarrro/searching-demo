@@ -141,6 +141,7 @@ export const Filter = ({
         onChange={handleSearchChange}
         placeholder="Search or filter results"
       >
+        {/* Clear Search Button */}
         {hasSearchValue && (
           <Button
             type="button"
@@ -153,6 +154,8 @@ export const Filter = ({
             <Icon icon={ICONS.close} className="size-4 md:size-5" />
           </Button>
         )}
+
+        {/* Popover Trigger Button for filters */}
         <Popover open={isPopoverOpen} onOpenChange={handlePopoverOpenChange}>
           <PopoverTrigger>
             <Button
@@ -164,66 +167,80 @@ export const Filter = ({
               <Icon icon={ICONS.filter} className="size-4 md:size-5" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent
-            side="bottom"
-            align="end"
-            width="base"
-            className="p-2 md:p-5"
-          >
-            <div className="space-y-4">
-              {/* Character Filter Section */}
-              <div className="space-y-2">
-                <Text text="Character" size="sm" weight="medium" />
-                <div className="flex gap-2">
-                  {characterOptions.map(option => (
-                    <Button
-                      key={option.value}
-                      variant={
-                        localCharacterFilter === option.value
-                          ? 'default'
-                          : 'outline'
-                      }
-                      onClick={() => handleCharacterFilterClick(option.value)}
-                      className={cn(
-                        'min-w-0 flex-1',
-                        localCharacterFilter === option.value &&
-                          'bg-primary-100 text-primary-700 hover:bg-primary-200'
-                      )}
-                    >
-                      {option.label}
-                    </Button>
-                  ))}
+          <PopoverContent mobileWidth="100vw" mobileHeight="100vh">
+            <div className="flex h-full flex-col justify-between gap-5">
+              <div className="space-y-10">
+                <div className="grid grid-cols-2 items-center gap-2 md:hidden">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hover:bg-primary-100 text-primary-700 md:size-8"
+                    aria-label="Close filters"
+                  >
+                    <Icon
+                      icon={ICONS.arrow_left_02}
+                      className="size-4 md:size-5"
+                    />
+                  </Button>
+                  <Text text="Filters" size="sm" weight="medium" />
                 </div>
-              </div>
+                <div className="space-y-8 md:space-y-5">
+                  {/* Character Filter Section */}
+                  <div className="space-y-2">
+                    <Text text="Character" size="sm" weight="medium" />
+                    <div className="flex items-center justify-between gap-2">
+                      {characterOptions.map(option => (
+                        <Button
+                          key={option.value}
+                          variant={
+                            localCharacterFilter === option.value
+                              ? 'default'
+                              : 'outline'
+                          }
+                          onClick={() =>
+                            handleCharacterFilterClick(option.value)
+                          }
+                          className={cn(
+                            'min-w-0 flex-1',
+                            localCharacterFilter === option.value &&
+                              'bg-primary-100 text-primary-700 hover:bg-primary-200'
+                          )}
+                        >
+                          {option.label}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
 
-              {/* Specie Filter Section */}
-              <div className="space-y-2">
-                <Text text="Specie" size="sm" weight="medium" />
-                <div className="flex gap-2">
-                  {specieOptions.map(option => (
-                    <Button
-                      key={option.value}
-                      variant={
-                        localSpecieFilter === option.value
-                          ? 'default'
-                          : 'outline'
-                      }
-                      onClick={() => handleSpecieFilterClick(option.value)}
-                      className={cn(
-                        'min-w-0 flex-1',
-                        localSpecieFilter === option.value &&
-                          'bg-primary-100 text-primary-700 hover:bg-primary-200'
-                      )}
-                    >
-                      {option.label}
-                    </Button>
-                  ))}
+                  {/* Specie Filter Section */}
+                  <div className="space-y-2">
+                    <Text text="Specie" size="sm" weight="medium" />
+                    <div className="flex items-center justify-between gap-2">
+                      {specieOptions.map(option => (
+                        <Button
+                          key={option.value}
+                          variant={
+                            localSpecieFilter === option.value
+                              ? 'default'
+                              : 'outline'
+                          }
+                          onClick={() => handleSpecieFilterClick(option.value)}
+                          className={cn(
+                            'min-w-0 flex-1',
+                            localSpecieFilter === option.value &&
+                              'bg-primary-100 text-primary-700 hover:bg-primary-200'
+                          )}
+                        >
+                          {option.label}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* Apply Filter Button */}
               <Button
-                variant="secondary"
                 size="base"
                 onClick={handleFilterApply}
                 className="w-full"

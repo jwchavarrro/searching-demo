@@ -25,6 +25,22 @@ vi.mock('@iconify/react', async () => {
   }
 })
 
+// Mock de window.matchMedia para tests
+// Usamos globalThis.window para evitar warnings de ESLint
+Object.defineProperty(globalThis.window, 'matchMedia', {
+  writable: true,
+  value: vi.fn().mockImplementation(query => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: vi.fn(), // deprecated
+    removeListener: vi.fn(), // deprecated
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+  })),
+})
+
 // Limpiar timers después de cada test para evitar errores asíncronos
 afterEach(() => {
   vi.clearAllTimers()

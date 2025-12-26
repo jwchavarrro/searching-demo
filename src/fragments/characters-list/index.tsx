@@ -132,8 +132,6 @@ export function CharactersList({
               key={character.id}
               as="button"
               onClick={() => setSelectedCharacter(character.name)}
-              isStarred={isCharacterStarred(character.id)}
-              onIconClick={() => handleCharacterStarred(character)}
               avatar={{
                 src: character.image,
                 alt: character.name,
@@ -144,6 +142,10 @@ export function CharactersList({
               }}
               description={{
                 text: character.species,
+              }}
+              isStarred={{
+                status: isCharacterStarred(character.id),
+                onIconClick: () => handleCharacterStarred(character),
               }}
             />
           ))}

@@ -28,7 +28,7 @@ import { DETAILS_CHARACTER_TEXT } from '@/fragments'
 export const DetailsCharacter = () => {
   // Implement context
   const { selectedCharacterName, setSelectedCharacter } = useSelectedCharacter()
-  const { isCharacterStarred } = useCharactersStarred()
+  const { isCharacterStarred, handleCharacterStarred } = useCharactersStarred()
 
   /* @name selectedCharacter
   @description: Obtener datos del personaje por nombre
@@ -60,6 +60,9 @@ export const DetailsCharacter = () => {
     )
   }
 
+  /* @name if (isLoading)
+  @description: Validar si está cargando el personaje
+  */
   if (isLoading) {
     return (
       <Message
@@ -70,6 +73,9 @@ export const DetailsCharacter = () => {
     )
   }
 
+  /* @name if (error || !selectedCharacter)
+  @description: Validar si hay un error al cargar el personaje
+  */
   if (error || !selectedCharacter) {
     return (
       <Message
@@ -86,7 +92,7 @@ export const DetailsCharacter = () => {
   return (
     <motion.div
       className="relative h-full space-y-5"
-      initial={{ opacity: 0, y: 100 }}
+      initial={{ opacity: 0, y: '-100%' }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: 'easeInOut' }}
     >
@@ -109,10 +115,14 @@ export const DetailsCharacter = () => {
           icon: isStarred ? ICONS.heart : undefined,
         }}
         title={{ title: selectedCharacter.name }}
+        isStarred={{
+          status: isStarred,
+          onIconClick: () => handleCharacterStarred(selectedCharacter),
+        }}
       />
 
       {/* Details character */}
-      <main className="flex flex-col gap-5">
+      <main className="grid grid-cols-1 gap-5">
         {DETAILS_CHARACTER_TEXT.map((field, index) => {
           /* @name fieldValue
           @description: Obtener el valor del campo del personaje
