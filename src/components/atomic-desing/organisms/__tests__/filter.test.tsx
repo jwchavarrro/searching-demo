@@ -6,18 +6,22 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { Filter, type CharacterFilter, type SpecieFilter } from '../filter'
+import { Filter, type FilterOption } from '../filter'
+import type {
+  CharacterFilterType,
+  SpecieFilterType,
+} from '../filter/utils/types'
 
-const defaultCharacterOptions = [
-  { value: 'all' as CharacterFilter, label: 'All' },
-  { value: 'starred' as CharacterFilter, label: 'Starred' },
-  { value: 'others' as CharacterFilter, label: 'Others' },
+const defaultCharacterOptions: FilterOption<CharacterFilterType>[] = [
+  { value: 'all', label: 'All' },
+  { value: 'starred', label: 'Starred' },
+  { value: 'others', label: 'Others' },
 ]
 
-const defaultSpecieOptions = [
-  { value: 'all' as SpecieFilter, label: 'All' },
-  { value: 'human' as SpecieFilter, label: 'Human' },
-  { value: 'alien' as SpecieFilter, label: 'Alien' },
+const defaultSpecieOptions: FilterOption<SpecieFilterType>[] = [
+  { value: 'all', label: 'All' },
+  { value: 'human', label: 'Human' },
+  { value: 'alien', label: 'Alien' },
 ]
 
 describe('Filter', () => {
@@ -83,18 +87,17 @@ describe('Filter', () => {
       expect(input).toHaveValue('test search')
     })
 
-    it('llama a onSearchChange cuando se escribe en el input', async () => {
-      const handleSearchChange = vi.fn()
+    it('actualiza el valor local cuando se escribe en el input', async () => {
       render(
         <Filter
-          onSearchChange={handleSearchChange}
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
         />
       )
       const input = screen.getByPlaceholderText('Search or filter results')
       await userEvent.type(input, 'test')
-      expect(handleSearchChange).toHaveBeenCalled()
+      // El valor se actualiza localmente, pero no se llama ningún callback
+      expect(input).toHaveValue('test')
     })
 
     it('actualiza el valor del input cuando se escribe', async () => {
@@ -226,13 +229,13 @@ describe('Filter', () => {
       expect(allButton).toHaveClass('bg-primary-100')
     })
 
-    it('llama a onCharacterFilterChange cuando se selecciona una opción', async () => {
-      const handleCharacterFilterChange = vi.fn()
+    it('actualiza el filtro local cuando se selecciona una opción', async () => {
+      const handleFilterApply = vi.fn()
       render(
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
-          onCharacterFilterChange={handleCharacterFilterChange}
+          onFilterApply={handleFilterApply}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -245,8 +248,22 @@ describe('Filter', () => {
       const starredButton = screen.getByText('Starred')
       await userEvent.click(starredButton)
 
+      // El filtro se actualiza localmente, pero no se llama el callback hasta hacer clic en Filter
       await waitFor(() => {
-        expect(handleCharacterFilterChange).toHaveBeenCalledWith('starred')
+        const button = starredButton.closest('button')
+        expect(button).toHaveClass('bg-primary-100')
+      })
+
+      // Hacer clic en Filter para aplicar los cambios
+      const applyButton = screen.getByText('Filter')
+      await userEvent.click(applyButton)
+
+      await waitFor(() => {
+        expect(handleFilterApply).toHaveBeenCalledWith({
+          search: '',
+          character: 'starred',
+          specie: 'all',
+        })
       })
     })
 
@@ -324,13 +341,13 @@ describe('Filter', () => {
       })
     })
 
-    it('llama a onSpecieFilterChange cuando se selecciona una opción', async () => {
-      const handleSpecieFilterChange = vi.fn()
+    it('actualiza el filtro local cuando se selecciona una opción', async () => {
+      const handleFilterApply = vi.fn()
       render(
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
-          onSpecieFilterChange={handleSpecieFilterChange}
+          onFilterApply={handleFilterApply}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -343,8 +360,22 @@ describe('Filter', () => {
       const humanButton = screen.getByText('Human')
       await userEvent.click(humanButton)
 
+      // El filtro se actualiza localmente, pero no se llama el callback hasta hacer clic en Filter
       await waitFor(() => {
-        expect(handleSpecieFilterChange).toHaveBeenCalledWith('human')
+        const button = humanButton.closest('button')
+        expect(button).toHaveClass('bg-primary-100')
+      })
+
+      // Hacer clic en Filter para aplicar los cambios
+      const applyButton = screen.getByText('Filter')
+      await userEvent.click(applyButton)
+
+      await waitFor(() => {
+        expect(handleFilterApply).toHaveBeenCalledWith({
+          search: '',
+          character: 'all',
+          specie: 'human',
+        })
       })
     })
 
@@ -438,9 +469,6 @@ describe('Filter', () => {
 
   describe('Integración', () => {
     it('funciona correctamente con todas las props', async () => {
-      const handleSearchChange = vi.fn()
-      const handleCharacterFilterChange = vi.fn()
-      const handleSpecieFilterChange = vi.fn()
       const handleFilterApply = vi.fn()
 
       render(
@@ -450,9 +478,6 @@ describe('Filter', () => {
           specieFilter="alien"
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
-          onSearchChange={handleSearchChange}
-          onCharacterFilterChange={handleCharacterFilterChange}
-          onSpecieFilterChange={handleSpecieFilterChange}
           onFilterApply={handleFilterApply}
         />
       )
@@ -473,37 +498,31 @@ describe('Filter', () => {
       const othersButton = screen.getByText('Others')
       await userEvent.click(othersButton)
 
-      await waitFor(() => {
-        expect(handleCharacterFilterChange).toHaveBeenCalledWith('others')
-      })
-
       // Cambiar filtro de Specie
       const humanButton = screen.getByText('Human')
       await userEvent.click(humanButton)
-
-      await waitFor(() => {
-        expect(handleSpecieFilterChange).toHaveBeenCalledWith('human')
-      })
 
       // Aplicar filtros
       const applyButton = screen.getByText('Filter')
       await userEvent.click(applyButton)
 
       await waitFor(() => {
-        expect(handleFilterApply).toHaveBeenCalled()
+        expect(handleFilterApply).toHaveBeenCalledWith({
+          search: 'test', // El valor inicial se mantiene porque no lo cambiamos
+          character: 'others',
+          specie: 'human',
+        })
       })
     })
 
     it('maneja múltiples cambios de filtro correctamente', async () => {
-      const handleCharacterFilterChange = vi.fn()
-      const handleSpecieFilterChange = vi.fn()
+      const handleFilterApply = vi.fn()
 
       render(
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
-          onCharacterFilterChange={handleCharacterFilterChange}
-          onSpecieFilterChange={handleSpecieFilterChange}
+          onFilterApply={handleFilterApply}
         />
       )
 
@@ -516,26 +535,26 @@ describe('Filter', () => {
 
       // Cambiar a Starred
       await userEvent.click(screen.getByText('Starred'))
-      await waitFor(() => {
-        expect(handleCharacterFilterChange).toHaveBeenCalledWith('starred')
-      })
 
       // Cambiar a Others
       await userEvent.click(screen.getByText('Others'))
-      await waitFor(() => {
-        expect(handleCharacterFilterChange).toHaveBeenCalledWith('others')
-      })
 
       // Cambiar a Human
       await userEvent.click(screen.getByText('Human'))
-      await waitFor(() => {
-        expect(handleSpecieFilterChange).toHaveBeenCalledWith('human')
-      })
 
       // Cambiar a Alien
       await userEvent.click(screen.getByText('Alien'))
+
+      // Aplicar filtros
+      const applyButton = screen.getByText('Filter')
+      await userEvent.click(applyButton)
+
       await waitFor(() => {
-        expect(handleSpecieFilterChange).toHaveBeenCalledWith('alien')
+        expect(handleFilterApply).toHaveBeenCalledWith({
+          search: '',
+          character: 'others',
+          specie: 'alien',
+        })
       })
     })
   })

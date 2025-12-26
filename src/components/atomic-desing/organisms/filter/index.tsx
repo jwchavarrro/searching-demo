@@ -20,50 +20,72 @@ import {
 import { cn } from '@/utils/cn'
 import { ICONS } from '@/config'
 
-export type CharacterFilter = 'all' | 'starred' | 'others'
-export type SpecieFilter = 'all' | 'human' | 'alien'
+// Import of types
+import {
+  type CharacterFilterType,
+  type SpecieFilterType,
+  CharacterFilterValues,
+  SpecieFilterValues,
+} from './utils/types'
 
-export interface FilterOption<T extends string> {
+export interface FilterOption<
+  T extends CharacterFilterType | SpecieFilterType,
+> {
   value: T
   label: string
 }
 
 export interface FilterProps {
   searchValue?: string
+  characterFilter?: CharacterFilterType
+  specieFilter?: SpecieFilterType
+  characterOptions: FilterOption<CharacterFilterType>[]
+  specieOptions: FilterOption<SpecieFilterType>[]
   onSearchChange?: (value: string) => void
-  characterFilter?: CharacterFilter
-  specieFilter?: SpecieFilter
-  characterOptions: FilterOption<CharacterFilter>[]
-  specieOptions: FilterOption<SpecieFilter>[]
-  onCharacterFilterChange?: (filter: CharacterFilter) => void
-  onSpecieFilterChange?: (filter: SpecieFilter) => void
   onFilterApply?: (filters: {
     search: string
-    character: CharacterFilter
-    specie: SpecieFilter
+    character: CharacterFilterType
+    specie: SpecieFilterType
   }) => void
   className?: string
 }
 
 export const Filter = ({
   searchValue = '',
-  onSearchChange,
-  characterFilter = 'all',
-  specieFilter = 'all',
+  characterFilter = CharacterFilterValues.ALL,
+  specieFilter = SpecieFilterValues.ALL,
   characterOptions,
   specieOptions,
-  onCharacterFilterChange,
-  onSpecieFilterChange,
+  onSearchChange,
   onFilterApply,
   className,
 }: FilterProps) => {
+  // States local
   const [localSearch, setLocalSearch] = useState(searchValue)
   const [localCharacterFilter, setLocalCharacterFilter] =
-    useState<CharacterFilter>(characterFilter)
+    useState<CharacterFilterType>(characterFilter)
   const [localSpecieFilter, setLocalSpecieFilter] =
-    useState<SpecieFilter>(specieFilter)
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+    useState<SpecieFilterType>(specieFilter)
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false)
 
+  // Sincronizar estado local con props cuando se abre el popover
+  const handlePopoverOpenChange = useCallback(
+    (open: boolean) => {
+      setIsPopoverOpen(open)
+      if (open) {
+        // Al abrir, sincronizar con los valores aplicados actuales
+        setLocalSearch(searchValue)
+        setLocalCharacterFilter(characterFilter)
+        setLocalSpecieFilter(specieFilter)
+      }
+    },
+    [searchValue, characterFilter, specieFilter]
+  )
+
+  /* @name handleSearchChange
+  @description: Manejador para búsqueda en tiempo real mientras el usuario escribe
+  Se ejecuta inmediatamente cuando cambia el valor del input
+  */
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value
@@ -73,22 +95,26 @@ export const Filter = ({
     [onSearchChange]
   )
 
+  /* @name handleCharacterFilterClick
+  @description: Manejador para filtrar por personaje
+  */
   const handleCharacterFilterClick = useCallback(
-    (filter: CharacterFilter) => {
+    (filter: CharacterFilterType) => {
       setLocalCharacterFilter(filter)
-      onCharacterFilterChange?.(filter)
     },
-    [onCharacterFilterChange]
+    []
   )
 
-  const handleSpecieFilterClick = useCallback(
-    (filter: SpecieFilter) => {
-      setLocalSpecieFilter(filter)
-      onSpecieFilterChange?.(filter)
-    },
-    [onSpecieFilterChange]
-  )
+  /* @name handleSpecieFilterClick
+  @description: Manejador para filtrar por especie
+  */
+  const handleSpecieFilterClick = useCallback((filter: SpecieFilterType) => {
+    setLocalSpecieFilter(filter)
+  }, [])
 
+  /* @name handleFilterApply
+  @description: Manejador para aplicar los filtros cuando se presiona el botón Filter
+  */
   const handleFilterApply = useCallback(() => {
     onFilterApply?.({
       search: localSearch,
@@ -98,6 +124,16 @@ export const Filter = ({
     setIsPopoverOpen(false)
   }, [localSearch, localCharacterFilter, localSpecieFilter, onFilterApply])
 
+  /* @name handleClearSearch
+  @description: Manejador para limpiar la búsqueda cuando se presiona el botón Clear
+  */
+  const handleClearSearch = useCallback(() => {
+    setLocalSearch('')
+    onSearchChange?.('')
+  }, [onSearchChange])
+
+  const hasSearchValue = localSearch.trim().length > 0
+
   return (
     <div className={cn('w-full', className)}>
       <Input
@@ -105,7 +141,19 @@ export const Filter = ({
         onChange={handleSearchChange}
         placeholder="Search or filter results"
       >
-        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+        {hasSearchValue && (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={handleClearSearch}
+            className="hover:bg-primary-100 text-gray hover:text-black md:size-8"
+            aria-label="Limpiar búsqueda"
+          >
+            <Icon icon={ICONS.close} className="size-4 md:size-5" />
+          </Button>
+        )}
+        <Popover open={isPopoverOpen} onOpenChange={handlePopoverOpenChange}>
           <PopoverTrigger>
             <Button
               variant="ghost"
