@@ -21,7 +21,7 @@ import type { CharacterType } from '@/graphql/types'
 import type {
   CharacterFilterType,
   SpecieFilterType,
-} from '@/components/atomic-desing/organisms'
+} from '@/fragments/components/filter/utils'
 
 interface CharactersListProps {
   readonly characterFilter?: CharacterFilterType

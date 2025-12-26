@@ -12,11 +12,11 @@ import { Text, Badge } from '@/components/atomic-desing/atoms'
 import type {
   CharacterFilterType,
   SpecieFilterType,
-} from '@/components/atomic-desing/organisms'
+} from '@/fragments/components/filter/utils'
 import {
   CharacterFilterValues,
   SpecieFilterValues,
-} from '@/components/atomic-desing/organisms'
+} from '@/fragments/components/filter/utils'
 
 // Import of utils
 import { cn } from '@/utils/cn'
