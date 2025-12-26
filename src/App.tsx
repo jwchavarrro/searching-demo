@@ -16,6 +16,10 @@ import {
   SpecieFilterValues,
 } from '@/fragments/components/filter'
 import {
+  type SortOrderType,
+  SortOrderValues,
+} from '@/fragments/components/sort-order/utils'
+import {
   CharactersList,
   DetailsCharacter,
   CharactersStarredList,
@@ -37,6 +41,9 @@ function App() {
     useState<CharacterFilterType>(CharacterFilterValues.OTHERS)
   const [appliedSpecieFilter, setAppliedSpecieFilter] =
     useState<SpecieFilterType>(SpecieFilterValues.ALL)
+  const [appliedSortOrder, setAppliedSortOrder] = useState<SortOrderType>(
+    SortOrderValues.ASC
+  )
 
   // Implement context
   const { selectedCharacterName } = useSelectedCharacter()
@@ -81,6 +88,13 @@ function App() {
     setAppliedCharacterFilter(filters.character)
     setAppliedSpecieFilter(filters.specie)
   }
+
+  /* @name handleSortChange
+  @description: Manejador para cambiar el orden de los personajes
+  */
+  const handleSortChange = (order: SortOrderType) => {
+    setAppliedSortOrder(order)
+  }
   return (
     <motion.div
       className="app"
@@ -120,6 +134,8 @@ function App() {
             <CharactersStarredList
               searchValue={appliedSearchValue}
               specieFilter={appliedSpecieFilter}
+              sortOrder={appliedSortOrder}
+              onSortChange={handleSortChange}
             />
           </section>
 
@@ -129,6 +145,8 @@ function App() {
               characterFilter={appliedCharacterFilter}
               specieFilter={appliedSpecieFilter}
               searchValue={appliedSearchValue}
+              sortOrder={appliedSortOrder}
+              onSortChange={handleSortChange}
             />
           </section>
         </main>

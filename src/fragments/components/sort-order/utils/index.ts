@@ -3,5 +3,4 @@
  * @description: Exportaciones de todos los utils
  */
 
-export * from './constants'
-export * from './functions'
+export * from './types'
