@@ -19,6 +19,9 @@ import { createPortal } from 'react-dom'
 // Import of utils
 import { cn } from '@/utils/cn'
 
+// Import of custom hooks
+import { useIsMobile } from '@/hooks/use-mobile'
+
 // Constants
 const POPOVER_PADDING = 8
 const POPOVER_GAP = 8
@@ -124,6 +127,11 @@ export interface PopoverContentProps extends HTMLAttributes<HTMLDivElement> {
   className?: string
   align?: PopoverAlign
   side?: PopoverSide
+  renderInParent?: boolean
+  width?: string | number
+  height?: string | number
+  mobileWidth?: string | number
+  mobileHeight?: string | number
 }
 
 const calculateHorizontalPosition = (
@@ -160,27 +168,29 @@ const calculatePositionBySide = (
   side: PopoverSide,
   align: PopoverAlign,
   triggerRect: DOMRect,
-  contentRect: DOMRect
+  contentRect: DOMRect,
+  useGap: boolean = true
 ): { top: number; left: number } => {
   let top = 0
   let left = 0
+  const gap = useGap ? POPOVER_GAP : 0
 
   // Calcular posición según side
   switch (side) {
     case 'top':
-      top = triggerRect.top - contentRect.height - POPOVER_GAP
+      top = triggerRect.top - contentRect.height - gap
       left = calculateHorizontalPosition(align, triggerRect, contentRect)
       break
     case 'bottom':
-      top = triggerRect.bottom + POPOVER_GAP
+      top = triggerRect.bottom + gap
       left = calculateHorizontalPosition(align, triggerRect, contentRect)
       break
     case 'left':
-      left = triggerRect.left - contentRect.width - POPOVER_GAP
+      left = triggerRect.left - contentRect.width - gap
       top = calculateVerticalPosition(align, triggerRect, contentRect)
       break
     case 'right':
-      left = triggerRect.right + POPOVER_GAP
+      left = triggerRect.right + gap
       top = calculateVerticalPosition(align, triggerRect, contentRect)
       break
   }
@@ -191,29 +201,60 @@ const calculatePositionBySide = (
 const constrainToViewport = (
   top: number,
   left: number,
-  contentRect: DOMRect
+  contentRect: DOMRect,
+  usePadding: boolean = true
 ): { top: number; left: number } => {
+  const padding = usePadding ? POPOVER_PADDING : 0
+  const viewportWidth = globalThis.window?.innerWidth ?? 0
+  const viewportHeight = globalThis.window?.innerHeight ?? 0
   const constrainedLeft = Math.max(
-    POPOVER_PADDING,
-    Math.min(left, window.innerWidth - contentRect.width - POPOVER_PADDING)
+    padding,
+    Math.min(left, viewportWidth - contentRect.width - padding)
   )
   const constrainedTop = Math.max(
-    POPOVER_PADDING,
-    Math.min(top, window.innerHeight - contentRect.height - POPOVER_PADDING)
+    padding,
+    Math.min(top, viewportHeight - contentRect.height - padding)
   )
 
   return { top: constrainedTop, left: constrainedLeft }
 }
 
+// Buscar el contenedor padre más cercano con position: relative
+const findRelativeParent = (
+  element: HTMLElement | null
+): HTMLElement | null => {
+  if (!element) return null
+
+  let parent = element.parentElement
+  while (parent) {
+    const style = globalThis.window?.getComputedStyle(parent)
+    if (style?.position === 'relative' || style?.position === 'absolute') {
+      return parent
+    }
+    parent = parent.parentElement
+  }
+  return null
+}
+
 export const PopoverContent = ({
   className,
   children,
-  align = 'center',
+  align = 'end',
   side = 'bottom',
+  renderInParent = false,
+  width,
+  height,
+  mobileWidth,
+  mobileHeight,
   ...props
 }: PopoverContentProps) => {
   const { open, onOpenChange, triggerRef } = usePopoverContext()
+  const isMobile = useIsMobile()
   const contentRef = useRef<HTMLDivElement>(null)
+  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(
+    null
+  )
+  const parentContainerRef = useRef<HTMLElement | null>(null)
 
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
@@ -226,16 +267,21 @@ export const PopoverContent = ({
 
   const handleClickOutside = useCallback(
     (e: MouseEvent) => {
+      // Si renderInParent, usar el contenedor padre; sino usar triggerRef
+      const referenceElement =
+        renderInParent && parentContainerRef.current
+          ? parentContainerRef.current
+          : triggerRef.current
       if (
         contentRef.current &&
-        triggerRef.current &&
+        referenceElement &&
         !contentRef.current.contains(e.target as Node) &&
-        !triggerRef.current.contains(e.target as Node)
+        !referenceElement.contains(e.target as Node)
       ) {
         onOpenChange(false)
       }
     },
-    [onOpenChange, triggerRef]
+    [onOpenChange, triggerRef, renderInParent]
   )
 
   useEffect(() => {
@@ -251,32 +297,76 @@ export const PopoverContent = ({
   }, [open, handleEscape, handleClickOutside])
 
   const updatePosition = useCallback(() => {
-    if (!triggerRef.current || !contentRef.current) return
+    // Si renderInParent, usar el contenedor padre; sino usar triggerRef
+    const referenceElement =
+      renderInParent && parentContainerRef.current
+        ? parentContainerRef.current
+        : triggerRef.current
+    if (!referenceElement || !contentRef.current) return
 
-    const triggerRect = triggerRef.current.getBoundingClientRect()
+    const referenceRect = referenceElement.getBoundingClientRect()
     const contentRect = contentRef.current.getBoundingClientRect()
 
+    // En mobile, no aplicar gap si se especifica mobileWidth
+    const useGap = !(isMobile && mobileWidth !== undefined)
     const { top, left } = calculatePositionBySide(
       side,
       align,
-      triggerRect,
-      contentRect
+      referenceRect,
+      contentRect,
+      useGap
     )
 
-    const { top: constrainedTop, left: constrainedLeft } = constrainToViewport(
-      top,
-      left,
-      contentRect
-    )
+    // Si renderInParent, calcular posición relativa al contenedor
+    if (renderInParent && parentContainerRef.current) {
+      const containerRect = parentContainerRef.current.getBoundingClientRect()
+      // Posición relativa al contenedor
+      const relativeTop = top - containerRect.top
+      const relativeLeft = left - containerRect.left
 
-    if (contentRef.current) {
-      contentRef.current.style.top = `${constrainedTop}px`
-      contentRef.current.style.left = `${constrainedLeft}px`
+      if (contentRef.current) {
+        contentRef.current.style.top = `${relativeTop}px`
+        contentRef.current.style.left = `${relativeLeft}px`
+      }
+    } else {
+      // En mobile, no aplicar padding si se especifica mobileWidth
+      const usePadding = !(isMobile && mobileWidth !== undefined)
+      const { top: constrainedTop, left: constrainedLeft } =
+        constrainToViewport(top, left, contentRect, usePadding)
+
+      if (contentRef.current) {
+        contentRef.current.style.top = `${constrainedTop}px`
+        contentRef.current.style.left = `${constrainedLeft}px`
+      }
     }
-  }, [side, align, triggerRef])
+  }, [side, align, triggerRef, renderInParent, mobileWidth, isMobile])
+
+  // Determinar dónde renderizar el portal
+  useEffect(() => {
+    if (renderInParent && triggerRef.current) {
+      // Buscar el contenedor padre con position: relative
+      const relativeParent = findRelativeParent(triggerRef.current)
+      if (relativeParent) {
+        parentContainerRef.current = relativeParent
+        setPortalContainer(relativeParent)
+      } else {
+        // Fallback a document.body si no encuentra contenedor relativo
+        parentContainerRef.current = null
+        setPortalContainer(document.body)
+      }
+    } else {
+      parentContainerRef.current = null
+      setPortalContainer(document.body)
+    }
+  }, [renderInParent, triggerRef])
 
   useEffect(() => {
-    if (!open || !triggerRef.current || !contentRef.current) return
+    // Si renderInParent, usar el contenedor padre; sino usar triggerRef
+    const referenceElement =
+      renderInParent && parentContainerRef.current
+        ? parentContainerRef.current
+        : triggerRef.current
+    if (!open || !referenceElement || !contentRef.current) return
 
     updatePosition()
     window.addEventListener('resize', updatePosition)
@@ -286,9 +376,38 @@ export const PopoverContent = ({
       window.removeEventListener('resize', updatePosition)
       window.removeEventListener('scroll', updatePosition, true)
     }
-  }, [open, updatePosition, triggerRef])
+  }, [open, updatePosition, triggerRef, renderInParent])
 
-  if (!open) return null
+  // Calcular estilos de ancho y alto
+  const getWidthStyle = useCallback((): React.CSSProperties => {
+    const style: React.CSSProperties = {}
+
+    // Helper para convertir valores a string CSS
+    const toCssValue = (value: string | number): string =>
+      typeof value === 'number' ? `${value}px` : value
+
+    if (isMobile && mobileWidth !== undefined) {
+      // En mobile, usar mobileWidth
+      style.width = toCssValue(mobileWidth)
+
+      // En mobile, altura: mobileHeight si está definido, sino 100vh por defecto
+      const heightValue = mobileHeight ?? '100vh'
+      style.height =
+        typeof heightValue === 'string' ? heightValue : toCssValue(heightValue)
+    } else {
+      // En desktop
+      if (width !== undefined) {
+        style.width = toCssValue(width)
+      }
+      if (height !== undefined) {
+        style.height = toCssValue(height)
+      }
+    }
+
+    return style
+  }, [width, height, mobileWidth, mobileHeight, isMobile])
+
+  if (!open || !portalContainer) return null
 
   return createPortal(
     <div
@@ -300,10 +419,11 @@ export const PopoverContent = ({
         'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
         className
       )}
+      style={getWidthStyle()}
       {...props}
     >
       {children}
     </div>,
-    document.body
+    portalContainer
   )
 }
