@@ -22,16 +22,22 @@ import { ICONS } from '@/config'
 
 // Import of types
 import type { CharacterType } from '@/graphql/types'
-import type { SpecieFilterType } from '@/fragments/components/filter/utils'
+import type {
+  SpecieFilterType,
+  GenderFilterType,
+} from '@/fragments/components/filter/utils'
 import {
   SpecieFilterValues,
   SpecieApiValues,
+  GenderFilterValues,
+  GenderApiValues,
 } from '@/fragments/components/filter/utils'
 import type { SortOrderType } from '@/fragments/components/sort-order/utils'
 
 interface CharactersStarredListProps {
   readonly searchValue?: string
   readonly specieFilter?: SpecieFilterType
+  readonly genderFilter?: GenderFilterType
   readonly sortOrder?: SortOrderType
   readonly onSortChange?: (order: SortOrderType) => void
 }
@@ -39,6 +45,7 @@ interface CharactersStarredListProps {
 export function CharactersStarredList({
   searchValue = '',
   specieFilter = SpecieFilterValues.ALL,
+  genderFilter = GenderFilterValues.ALL,
   sortOrder = 'asc',
   onSortChange,
 }: CharactersStarredListProps) {
@@ -92,8 +99,36 @@ export function CharactersStarredList({
     }
     // Si es 'all', no filtrar por especie
 
+    // Filtrar por género
+    if (genderFilter === GenderFilterValues.MALE) {
+      result = result.filter(
+        character =>
+          character.gender.toLowerCase() ===
+          GenderApiValues.MALE.toLowerCase()
+      )
+    } else if (genderFilter === GenderFilterValues.FEMALE) {
+      result = result.filter(
+        character =>
+          character.gender.toLowerCase() ===
+          GenderApiValues.FEMALE.toLowerCase()
+      )
+    } else if (genderFilter === GenderFilterValues.GENDERLESS) {
+      result = result.filter(
+        character =>
+          character.gender.toLowerCase() ===
+          GenderApiValues.GENDERLESS.toLowerCase()
+      )
+    } else if (genderFilter === GenderFilterValues.UNKNOWN) {
+      result = result.filter(
+        character =>
+          character.gender.toLowerCase() ===
+          GenderApiValues.UNKNOWN.toLowerCase()
+      )
+    }
+    // Si es 'all', no filtrar por género
+
     return result
-  }, [charactersStarred, hasSearch, trimmedSearch, specieFilter])
+  }, [charactersStarred, hasSearch, trimmedSearch, specieFilter, genderFilter])
 
   // Ordenar los personajes starred filtrados
   const sortedStarredCharacters = useSortedCharacters({

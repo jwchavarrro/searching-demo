@@ -265,7 +265,7 @@ export const Filter = ({
                   {/* Gender Filter Section */}
                   <div className="space-y-2">
                     <Text text="Gender" size="sm" weight="medium" />
-                    <div className="flex items-center justify-between gap-2">
+                    <div className="grid grid-cols-2 items-center gap-2">
                       {genderOptions.map(option => (
                         <Button
                           key={option.value}

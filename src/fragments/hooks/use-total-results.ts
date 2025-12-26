@@ -15,16 +15,20 @@ import { useCharactersStarred } from '@/context'
 import type {
   CharacterFilterType,
   SpecieFilterType,
+  GenderFilterType,
 } from '@/fragments/components/filter/utils'
 import {
   SpecieFilterValues,
   SpecieApiValues,
+  GenderFilterValues,
+  GenderApiValues,
 } from '@/fragments/components/filter/utils'
 
 export interface UseTotalResultsProps {
   readonly searchValue?: string
   readonly characterFilter?: CharacterFilterType
   readonly specieFilter?: SpecieFilterType
+  readonly genderFilter?: GenderFilterType
 }
 
 export interface UseTotalResultsReturn {
@@ -39,12 +43,18 @@ export interface UseTotalResultsReturn {
 export function useTotalResults(
   props?: UseTotalResultsProps
 ): UseTotalResultsReturn {
-  const { searchValue = '', characterFilter, specieFilter } = props || {}
+  const {
+    searchValue = '',
+    characterFilter,
+    specieFilter,
+    genderFilter,
+  } = props || {}
 
   // Obtener personajes filtrados
   const { filteredCharacters } = useFilteredCharacters({
     characterFilter,
     specieFilter,
+    genderFilter,
     searchValue,
   })
 
@@ -88,8 +98,36 @@ export function useTotalResults(
     }
     // Si es 'all', no filtrar por especie
 
+    // Filtrar por género
+    if (genderFilter === GenderFilterValues.MALE) {
+      result = result.filter(
+        character =>
+          character.gender.toLowerCase() ===
+          GenderApiValues.MALE.toLowerCase()
+      )
+    } else if (genderFilter === GenderFilterValues.FEMALE) {
+      result = result.filter(
+        character =>
+          character.gender.toLowerCase() ===
+          GenderApiValues.FEMALE.toLowerCase()
+      )
+    } else if (genderFilter === GenderFilterValues.GENDERLESS) {
+      result = result.filter(
+        character =>
+          character.gender.toLowerCase() ===
+          GenderApiValues.GENDERLESS.toLowerCase()
+      )
+    } else if (genderFilter === GenderFilterValues.UNKNOWN) {
+      result = result.filter(
+        character =>
+          character.gender.toLowerCase() ===
+          GenderApiValues.UNKNOWN.toLowerCase()
+      )
+    }
+    // Si es 'all', no filtrar por género
+
     return result.length
-  }, [charactersStarred, searchValue, specieFilter])
+  }, [charactersStarred, searchValue, specieFilter, genderFilter])
 
   const charactersCount = filteredCharacters.length
   const totalCount = charactersCount + starredCount
