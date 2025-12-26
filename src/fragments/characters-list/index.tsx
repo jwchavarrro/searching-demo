@@ -3,6 +3,8 @@
  * @description: Fragmento para renderizar el listado de personajes según el filtro de Character
  */
 
+import { useNavigate } from 'react-router-dom'
+
 // Import of components custom
 import { SortOrder } from '@/fragments/components'
 import { Text } from '@/components/atomic-desing/atoms'
@@ -60,6 +62,15 @@ export function CharactersList({
   // Implement context
   const { setSelectedCharacter } = useSelectedCharacter()
   const { handleCharacterStarred, isCharacterStarred } = useCharactersStarred()
+  const navigate = useNavigate()
+
+  // Handler para seleccionar un personaje
+  const handleCharacterSelect = (characterName: string) => {
+    setSelectedCharacter(characterName)
+    // Navegar a la ruta del personaje
+    const encodedName = encodeURIComponent(characterName)
+    navigate(`/character/${encodedName}`)
+  }
 
   if (isLoading) {
     return (
@@ -131,7 +142,7 @@ export function CharactersList({
             <CardA
               key={character.id}
               as="button"
-              onClick={() => setSelectedCharacter(character.name)}
+              onClick={() => handleCharacterSelect(character.name)}
               avatar={{
                 src: character.image,
                 alt: character.name,

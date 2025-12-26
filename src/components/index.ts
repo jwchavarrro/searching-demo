@@ -5,3 +5,4 @@
 
 export * from './atomic-desing/atoms'
 export * from './atomic-desing/molecules'
+export * from './layout'

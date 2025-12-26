@@ -6,6 +6,7 @@
 // Import of motion
 import { motion } from 'motion/react'
 import { Icon } from '@iconify/react'
+import { useParams, useNavigate } from 'react-router-dom'
 
 // Import of components custom
 import { Header, Message } from '@/components/atomic-desing/molecules'
@@ -26,8 +27,17 @@ import { capitalizeFirstLetter } from '@/utils'
 import { DETAILS_CHARACTER_TEXT } from '@/fragments'
 
 export const DetailsCharacter = () => {
+  // Obtener parámetro de la ruta
+  const { name: characterNameFromRoute } = useParams<{ name: string }>()
+  const navigate = useNavigate()
+
   // Implement context
   const { selectedCharacterName, setSelectedCharacter } = useSelectedCharacter()
+
+  // Priorizar el nombre de la ruta sobre el query param o el estado
+  const characterNameToUse = characterNameFromRoute
+    ? decodeURIComponent(characterNameFromRoute)
+    : selectedCharacterName
   const { isCharacterStarred, handleCharacterStarred } = useCharactersStarred()
 
   /* @name selectedCharacter
@@ -37,7 +47,7 @@ export const DetailsCharacter = () => {
     character: selectedCharacter,
     isLoading,
     error,
-  } = useCharacterByName(selectedCharacterName)
+  } = useCharacterByName(characterNameToUse)
 
   /* @name isStarred
   @description: Verificar si el personaje está marcado como favorito
@@ -46,10 +56,10 @@ export const DetailsCharacter = () => {
     ? isCharacterStarred(selectedCharacter.id)
     : false
 
-  /* @name if (!selectedCharacterName)
+  /* @name if (!characterNameToUse)
   @description: Validar si no hay un personaje seleccionado
   */
-  if (!selectedCharacterName) {
+  if (!characterNameToUse) {
     return (
       <Message
         icon={ICONS.selection_03}
@@ -99,7 +109,10 @@ export const DetailsCharacter = () => {
       <Button
         variant="ghost"
         size="icon"
-        onClick={() => setSelectedCharacter(null)}
+        onClick={() => {
+          setSelectedCharacter(null)
+          navigate('/')
+        }}
         className="text-primary-700 mb-2 md:hidden"
         aria-label="Close character details"
       >
