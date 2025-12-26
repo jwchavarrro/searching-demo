@@ -13,8 +13,10 @@ import {
   Filter,
   type CharacterFilterType,
   type SpecieFilterType,
+  type GenderFilterType,
   CharacterFilterValues,
   SpecieFilterValues,
+  GenderFilterValues,
 } from '@/fragments/components/filter'
 import {
   type SortOrderType,
@@ -31,7 +33,11 @@ import {
 import { useSelectedCharacter } from '@/context'
 
 // Import of utils
-import { FILTER_CHARACTER_OPTIONS, FILTER_SPECIE_OPTIONS } from '@/utils'
+import {
+  FILTER_CHARACTER_OPTIONS,
+  FILTER_SPECIE_OPTIONS,
+  FILTER_GENDER_OPTIONS,
+} from '@/utils'
 import { cn } from '@/utils/cn'
 
 export function MainLayout() {
@@ -41,6 +47,8 @@ export function MainLayout() {
     useState<CharacterFilterType>(CharacterFilterValues.OTHERS)
   const [appliedSpecieFilter, setAppliedSpecieFilter] =
     useState<SpecieFilterType>(SpecieFilterValues.ALL)
+  const [appliedGenderFilter, setAppliedGenderFilter] =
+    useState<GenderFilterType>(GenderFilterValues.ALL)
   const [appliedSortOrder, setAppliedSortOrder] = useState<SortOrderType>(
     SortOrderValues.ASC
   )
@@ -56,14 +64,16 @@ export function MainLayout() {
     searchValue: appliedSearchValue,
     characterFilter: appliedCharacterFilter,
     specieFilter: appliedSpecieFilter,
+    genderFilter: appliedGenderFilter,
   })
 
   /* @name hasAdvancedFilters
-  @description: Verifica si hay más de un filtro avanzado aplicado (Character y Specie)
+  @description: Verifica si hay más de un filtro avanzado aplicado (Character, Specie y Gender)
   */
   const advancedFiltersCount =
     Number(appliedCharacterFilter !== CharacterFilterValues.OTHERS) +
-    Number(appliedSpecieFilter !== SpecieFilterValues.ALL)
+    Number(appliedSpecieFilter !== SpecieFilterValues.ALL) +
+    Number(appliedGenderFilter !== GenderFilterValues.ALL)
   const hasAdvancedFilters = advancedFiltersCount >= 1
 
   // Handlers
@@ -77,16 +87,18 @@ export function MainLayout() {
 
   /* @name handleFilterApply
   @description: Manejador para aplicar los filtros cuando se presiona el botón Filter
-  Actualiza todos los filtros aplicados (search, character y specie)
+  Actualiza todos los filtros aplicados (search, character, specie y gender)
   */
   const handleFilterApply = (filters: {
     search: string
     character: CharacterFilterType
     specie: SpecieFilterType
+    gender: GenderFilterType
   }) => {
     setAppliedSearchValue(filters.search)
     setAppliedCharacterFilter(filters.character)
     setAppliedSpecieFilter(filters.specie)
+    setAppliedGenderFilter(filters.gender)
   }
 
   /* @name handleSortChange
@@ -111,8 +123,10 @@ export function MainLayout() {
             searchValue={appliedSearchValue}
             characterFilter={appliedCharacterFilter}
             specieFilter={appliedSpecieFilter}
+            genderFilter={appliedGenderFilter}
             characterOptions={FILTER_CHARACTER_OPTIONS}
             specieOptions={FILTER_SPECIE_OPTIONS}
+            genderOptions={FILTER_GENDER_OPTIONS}
             onSearchChange={handleSearchChange}
             onFilterApply={handleFilterApply}
           />
@@ -127,6 +141,7 @@ export function MainLayout() {
               starredCount={starredCount}
               characterFilter={appliedCharacterFilter}
               specieFilter={appliedSpecieFilter}
+              genderFilter={appliedGenderFilter}
             />
           )}
 
@@ -135,6 +150,7 @@ export function MainLayout() {
             <CharactersStarredList
               searchValue={appliedSearchValue}
               specieFilter={appliedSpecieFilter}
+              genderFilter={appliedGenderFilter}
               sortOrder={appliedSortOrder}
               onSortChange={handleSortChange}
             />
@@ -145,6 +161,7 @@ export function MainLayout() {
             <CharactersList
               characterFilter={appliedCharacterFilter}
               specieFilter={appliedSpecieFilter}
+              genderFilter={appliedGenderFilter}
               searchValue={appliedSearchValue}
               sortOrder={appliedSortOrder}
               onSortChange={handleSortChange}

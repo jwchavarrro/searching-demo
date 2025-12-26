@@ -12,10 +12,12 @@ import { Text, Badge } from '@/components/atomic-desing/atoms'
 import type {
   CharacterFilterType,
   SpecieFilterType,
+  GenderFilterType,
 } from '@/fragments/components/filter/utils'
 import {
   CharacterFilterValues,
   SpecieFilterValues,
+  GenderFilterValues,
 } from '@/fragments/components/filter/utils'
 
 // Import of utils
@@ -26,16 +28,19 @@ export interface FiltersSummaryProps {
   readonly starredCount: number
   readonly characterFilter?: CharacterFilterType
   readonly specieFilter?: SpecieFilterType
+  readonly genderFilter?: GenderFilterType
   readonly className?: string
 }
 
 function countAdvancedFilters(
   characterFilter: CharacterFilterType,
-  specieFilter: SpecieFilterType
+  specieFilter: SpecieFilterType,
+  genderFilter: GenderFilterType
 ): number {
   return (
     Number(characterFilter !== CharacterFilterValues.OTHERS) +
-    Number(specieFilter !== SpecieFilterValues.ALL)
+    Number(specieFilter !== SpecieFilterValues.ALL) +
+    Number(genderFilter !== GenderFilterValues.ALL)
   )
 }
 
@@ -44,6 +49,7 @@ export function FiltersSummary({
   starredCount,
   characterFilter = CharacterFilterValues.OTHERS,
   specieFilter = SpecieFilterValues.ALL,
+  genderFilter = GenderFilterValues.ALL,
   className,
 }: FiltersSummaryProps) {
   const resultsCount = useMemo(
@@ -52,8 +58,8 @@ export function FiltersSummary({
   )
 
   const activeFiltersCount = useMemo(
-    () => countAdvancedFilters(characterFilter, specieFilter),
-    [characterFilter, specieFilter]
+    () => countAdvancedFilters(characterFilter, specieFilter, genderFilter),
+    [characterFilter, specieFilter, genderFilter]
   )
 
   // Early return si no hay nada que mostrar

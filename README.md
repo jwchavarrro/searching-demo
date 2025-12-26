@@ -1,73 +1,71 @@
-# React + TypeScript + Vite
+# Searching Demo - Rick and Morty Characters
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación de búsqueda y filtrado de personajes de Rick and Morty desarrollada como prueba técnica.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologías
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** + **TypeScript**
+- **Vite** - Build tool
+- **GraphQL** - API de Rick and Morty
+- **Tailwind CSS** - Estilos
+- **React Query** - Gestión de estado del servidor
+- **Jotai** - Estado global
+- **React Router** - Navegación
+- **Vitest** - Testing
+- **Atomic Design** - Arquitectura de componentes
 
-## React Compiler
+## 📦 Instalación
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+```bash
+# Instalar dependencias
+bun install
 
-## Expanding the ESLint configuration
+# Ejecutar en desarrollo
+bun run dev
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Build de producción
+bun run build
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+# Ejecutar tests
+bun run test
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Quality check (lint + tests + build)
+bun run quality-check
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ✨ Características
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- 🔍 Búsqueda de personajes por nombre
+- 🎯 Filtros por especie y estado (starred/others)
+- ⭐ Sistema de favoritos (starred characters)
+- 📱 Diseño responsive
+- 🧪 Cobertura de tests: ~77%
+- 🎨 Componentes reutilizables con Atomic Design
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🏗️ Estructura del Proyecto
+
 ```
+src/
+├── components/          # Componentes UI (Atomic Design)
+├── fragments/          # Fragmentos de funcionalidad
+├── hooks/              # Custom hooks
+├── context/            # Estado global (Jotai)
+├── graphql/            # Queries y servicios GraphQL
+└── utils/              # Utilidades
+```
+
+## 🧪 Testing
+
+- **350 tests** pasando
+- **Vitest** + **Testing Library**
+- Cobertura de código incluida
+
+## 📝 Scripts Disponibles
+
+- `dev` - Servidor de desarrollo
+- `build` - Build de producción
+- `test` - Ejecutar tests
+- `test:ci` - Tests con cobertura
+- `lint` - Linter
+- `format` - Formatear código
+- `quality-check` - Verificación completa (lint + tests + build)

@@ -7,7 +7,11 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Filter, type FilterOption } from '../filter'
-import type { CharacterFilterType, SpecieFilterType } from '../utils/types'
+import type {
+  CharacterFilterType,
+  SpecieFilterType,
+  GenderFilterType,
+} from '../utils/types'
 
 const defaultCharacterOptions: FilterOption<CharacterFilterType>[] = [
   { value: 'all', label: 'All' },
@@ -21,6 +25,14 @@ const defaultSpecieOptions: FilterOption<SpecieFilterType>[] = [
   { value: 'alien', label: 'Alien' },
 ]
 
+const defaultGenderOptions: FilterOption<GenderFilterType>[] = [
+  { value: 'all', label: 'All' },
+  { value: 'male', label: 'Male' },
+  { value: 'female', label: 'Female' },
+  { value: 'genderless', label: 'Genderless' },
+  { value: 'unknown', label: 'Unknown' },
+]
+
 describe('Filter', () => {
   describe('Renderizado básico', () => {
     it('renderiza el componente correctamente', () => {
@@ -28,6 +40,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       expect(
@@ -40,6 +53,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const input = container.querySelector('input[type="text"]')
@@ -52,6 +66,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -63,6 +78,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
           className="custom-class"
         />
       )
@@ -78,6 +94,7 @@ describe('Filter', () => {
           searchValue="test search"
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const input = screen.getByPlaceholderText('Search or filter results')
@@ -89,6 +106,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const input = screen.getByPlaceholderText('Search or filter results')
@@ -102,6 +120,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const input = screen.getByPlaceholderText('Search or filter results')
@@ -116,6 +135,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       expect(screen.queryByText('Character')).not.toBeInTheDocument()
@@ -127,6 +147,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -142,6 +163,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -164,6 +186,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -185,6 +208,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -206,6 +230,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -232,6 +257,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
           onFilterApply={handleFilterApply}
         />
       )
@@ -260,6 +286,7 @@ describe('Filter', () => {
           search: '',
           character: 'starred',
           specie: 'all',
+          gender: 'all',
         })
       })
     })
@@ -269,6 +296,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -293,6 +321,7 @@ describe('Filter', () => {
           characterFilter="starred"
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -311,6 +340,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -327,6 +357,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -344,6 +375,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
           onFilterApply={handleFilterApply}
         />
       )
@@ -372,6 +404,7 @@ describe('Filter', () => {
           search: '',
           character: 'all',
           specie: 'human',
+          gender: 'all',
         })
       })
     })
@@ -382,6 +415,7 @@ describe('Filter', () => {
           specieFilter="human"
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -400,6 +434,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -419,6 +454,7 @@ describe('Filter', () => {
           specieFilter="human"
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
           onFilterApply={handleFilterApply}
         />
       )
@@ -437,6 +473,7 @@ describe('Filter', () => {
           search: 'rick',
           character: 'starred',
           specie: 'human',
+          gender: 'all',
         })
       })
     })
@@ -446,6 +483,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
         />
       )
       const filterButton = screen.getByLabelText('Open filters')
@@ -475,6 +513,7 @@ describe('Filter', () => {
           specieFilter="alien"
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
           onFilterApply={handleFilterApply}
         />
       )
@@ -508,6 +547,7 @@ describe('Filter', () => {
           search: 'test', // El valor inicial se mantiene porque no lo cambiamos
           character: 'others',
           specie: 'human',
+          gender: 'all',
         })
       })
     })
@@ -519,6 +559,7 @@ describe('Filter', () => {
         <Filter
           characterOptions={defaultCharacterOptions}
           specieOptions={defaultSpecieOptions}
+          genderOptions={defaultGenderOptions}
           onFilterApply={handleFilterApply}
         />
       )
@@ -551,6 +592,7 @@ describe('Filter', () => {
           search: '',
           character: 'others',
           specie: 'alien',
+          gender: 'all',
         })
       })
     })

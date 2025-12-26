@@ -6,6 +6,7 @@
 export { useCharacters } from './useCharacters'
 export { useSearchCharacters } from './useSearchCharacters'
 export { useCharactersBySpecies } from './useCharactersBySpecies'
+export { useCharactersByGender } from './useCharactersByGender'
 export { useCharacterByName } from './useCharacterByName'
 export { useUrlParam, useUrlParams } from './useUrlParam'
 
