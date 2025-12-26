@@ -8,6 +8,7 @@ import {
   SEARCH_CHARACTERS,
   GET_CHARACTERS,
   GET_CHARACTERS_BY_SPECIES,
+  GET_CHARACTERS_BY_GENDER,
 } from '@/graphql'
 
 // Import of types
@@ -64,6 +65,24 @@ export async function fetchCharactersBySpecies(
     return data.characters
   } catch {
     throw new Error('Error al obtener los personajes por especie')
+  }
+}
+
+/**
+ * @name fetchCharactersByGender
+ * @description: Obtiene personajes filtrados por género
+ */
+export async function fetchCharactersByGender(
+  gender: string
+): Promise<ApiResponseType<CharacterType>> {
+  try {
+    const data = await graphqlClient.request<{
+      characters: ApiResponseType<CharacterType>
+    }>(GET_CHARACTERS_BY_GENDER, { gender })
+
+    return data.characters
+  } catch {
+    throw new Error('Error al obtener los personajes por género')
   }
 }
 

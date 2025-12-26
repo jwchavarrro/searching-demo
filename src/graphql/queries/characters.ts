@@ -73,3 +73,26 @@ export const GET_CHARACTERS_BY_SPECIES = gql`
     }
   }
 `
+
+export const GET_CHARACTERS_BY_GENDER = gql`
+  query GetCharactersByGender($gender: String!) {
+    characters(filter: { gender: $gender }) {
+      info {
+        count
+        pages
+        next
+        prev
+      }
+      results {
+        id
+        name
+        image
+        species
+        status
+        type
+        gender
+        created
+      }
+    }
+  }
+`
