@@ -9,6 +9,7 @@ import { useMemo } from 'react'
 import {
   useCharacters,
   useCharactersBySpecies,
+  useCharactersByGender,
   useSearchCharacters,
 } from '@/hooks'
 
@@ -17,15 +18,19 @@ import type { CharacterType } from '@/graphql/types'
 import type {
   CharacterFilterType,
   SpecieFilterType,
+  GenderFilterType,
 } from '@/fragments/components/filter/utils'
 import {
   CharacterFilterValues,
   SpecieFilterValues,
   SpecieApiValues,
+  GenderFilterValues,
+  GenderApiValues,
 } from '@/fragments/components/filter/utils'
 
 // Import of custom hooks
 import { useFilterByCharacter } from './use-filter-by-character'
+import { useFilterByGender } from './use-filter-by-gender'
 
 interface UseFilteredCharactersReturn {
   filteredCharacters: CharacterType[]
@@ -37,6 +42,7 @@ interface UseFilteredCharactersReturn {
 interface UseFilteredCharactersProps {
   characterFilter?: CharacterFilterType
   specieFilter?: SpecieFilterType
+  genderFilter?: GenderFilterType
   searchValue?: string
 }
 
@@ -60,12 +66,40 @@ function convertSpecieFilterToApiValue(
   }
 }
 
+/**
+ * @name convertGenderFilterToApiValue
+ * @description: Convierte el filtro de Gender a valor para la API
+ * - 'all' -> undefined (usa GET_CHARACTERS)
+ * - 'male' -> "Male" (usa GET_CHARACTERS_BY_GENDER)
+ * - 'female' -> "Female" (usa GET_CHARACTERS_BY_GENDER)
+ * - 'genderless' -> "Genderless" (usa GET_CHARACTERS_BY_GENDER)
+ * - 'unknown' -> "unknown" (usa GET_CHARACTERS_BY_GENDER)
+ */
+function convertGenderFilterToApiValue(
+  genderFilter: GenderFilterType
+): string | undefined {
+  switch (genderFilter) {
+    case GenderFilterValues.MALE:
+      return GenderApiValues.MALE
+    case GenderFilterValues.FEMALE:
+      return GenderApiValues.FEMALE
+    case GenderFilterValues.GENDERLESS:
+      return GenderApiValues.GENDERLESS
+    case GenderFilterValues.UNKNOWN:
+      return GenderApiValues.UNKNOWN
+    case GenderFilterValues.ALL:
+    default:
+      return undefined
+  }
+}
+
 export function useFilteredCharacters(
   props?: UseFilteredCharactersProps
 ): UseFilteredCharactersReturn {
   const {
     characterFilter = CharacterFilterValues.OTHERS,
     specieFilter = SpecieFilterValues.ALL,
+    genderFilter = GenderFilterValues.ALL,
     searchValue = '',
   } = props || {}
 
@@ -73,23 +107,29 @@ export function useFilteredCharacters(
   const trimmedSearch = searchValue.trim()
   const hasSearch = trimmedSearch.length > 0
 
-  // Convertir el filtro de Specie a valor para la API
+  // Convertir los filtros a valores para la API
   const apiSpecies = convertSpecieFilterToApiValue(specieFilter)
+  const apiGender = convertGenderFilterToApiValue(genderFilter)
   const shouldUseSpeciesQuery = specieFilter === SpecieFilterValues.HUMAN
+  const shouldUseGenderQuery =
+    genderFilter !== GenderFilterValues.ALL && !hasSearch
 
   // Ejecutar hooks condicionalmente para evitar llamadas innecesarias
-  // Prioridad: 1. Búsqueda por nombre, 2. Filtro por especie, 3. Todos los personajes
+  // Prioridad: 1. Búsqueda por nombre, 2. Filtro por especie, 3. Filtro por género, 4. Todos los personajes
   const searchQuery = useSearchCharacters(trimmedSearch)
   const charactersQuery = useCharacters()
   const charactersBySpeciesQuery = useCharactersBySpecies(apiSpecies || '')
+  const charactersByGenderQuery = useCharactersByGender(apiGender || '')
 
   // Determinar qué query usar según el filtro
-  // Prioridad: 1. Búsqueda por nombre, 2. Filtro por especie, 3. Todos los personajes
+  // Prioridad: 1. Búsqueda por nombre, 2. Filtro por especie, 3. Filtro por género, 4. Todos los personajes
   let activeQuery
   if (hasSearch) {
     activeQuery = searchQuery
   } else if (shouldUseSpeciesQuery) {
     activeQuery = charactersBySpeciesQuery
+  } else if (shouldUseGenderQuery) {
+    activeQuery = charactersByGenderQuery
   } else {
     activeQuery = charactersQuery
   }
@@ -104,13 +144,21 @@ export function useFilteredCharacters(
     characterFilter,
   })
 
+  /* @name charactersFilteredByGender
+  @description: Filtrar personajes por Gender - se aplica en cliente cuando es necesario
+  */
+  const charactersFilteredByGender = useFilterByGender({
+    characters: charactersFilteredByCharacter,
+    genderFilter: hasSearch || !shouldUseGenderQuery ? genderFilter : undefined,
+  })
+
   /* @name filteredCharacters
   @description: Aplicar filtros adicionales en cliente sobre los resultados:
-  - Si hay búsqueda: refinar búsqueda (empieza con) y aplicar TODOS los filtros (Character y Specie)
+  - Si hay búsqueda: refinar búsqueda (empieza con) y aplicar TODOS los filtros (Character, Specie y Gender)
   - Si no hay búsqueda: aplicar filtros según lógica normal
   */
   const filteredCharacters = useMemo(() => {
-    let result = charactersFilteredByCharacter
+    let result = charactersFilteredByGender
 
     // Si hay búsqueda, refinar resultados de API (solo nombres que empiezan con el texto)
     if (hasSearch) {
@@ -146,7 +194,12 @@ export function useFilteredCharacters(
     }
 
     return result
-  }, [charactersFilteredByCharacter, specieFilter, hasSearch, trimmedSearch])
+  }, [
+    charactersFilteredByGender,
+    specieFilter,
+    hasSearch,
+    trimmedSearch,
+  ])
 
   return {
     filteredCharacters,

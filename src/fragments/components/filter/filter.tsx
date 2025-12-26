@@ -27,6 +27,7 @@ import {
   type GenderFilterType,
   CharacterFilterValues,
   SpecieFilterValues,
+  GenderFilterValues,
 } from './utils/types'
 
 export interface FilterOption<
@@ -40,13 +41,16 @@ export interface FilterProps {
   searchValue?: string
   characterFilter?: CharacterFilterType
   specieFilter?: SpecieFilterType
+  genderFilter?: GenderFilterType
   characterOptions: FilterOption<CharacterFilterType>[]
   specieOptions: FilterOption<SpecieFilterType>[]
+  genderOptions: FilterOption<GenderFilterType>[]
   onSearchChange?: (value: string) => void
   onFilterApply?: (filters: {
     search: string
     character: CharacterFilterType
     specie: SpecieFilterType
+    gender: GenderFilterType
   }) => void
   className?: string
 }
@@ -55,8 +59,10 @@ export const Filter = ({
   searchValue = '',
   characterFilter = CharacterFilterValues.ALL,
   specieFilter = SpecieFilterValues.ALL,
+  genderFilter = GenderFilterValues.ALL,
   characterOptions,
   specieOptions,
+  genderOptions,
   onSearchChange,
   onFilterApply,
   className,
@@ -67,6 +73,8 @@ export const Filter = ({
     useState<CharacterFilterType>(characterFilter)
   const [localSpecieFilter, setLocalSpecieFilter] =
     useState<SpecieFilterType>(specieFilter)
+  const [localGenderFilter, setLocalGenderFilter] =
+    useState<GenderFilterType>(genderFilter)
   const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false)
 
   // Sincronizar estado local con props cuando se abre el popover
@@ -78,9 +86,10 @@ export const Filter = ({
         setLocalSearch(searchValue)
         setLocalCharacterFilter(characterFilter)
         setLocalSpecieFilter(specieFilter)
+        setLocalGenderFilter(genderFilter)
       }
     },
-    [searchValue, characterFilter, specieFilter]
+    [searchValue, characterFilter, specieFilter, genderFilter]
   )
 
   /* @name handleSearchChange
@@ -113,6 +122,13 @@ export const Filter = ({
     setLocalSpecieFilter(filter)
   }, [])
 
+  /* @name handleGenderFilterClick
+  @description: Manejador para filtrar por género
+  */
+  const handleGenderFilterClick = useCallback((filter: GenderFilterType) => {
+    setLocalGenderFilter(filter)
+  }, [])
+
   /* @name handleFilterApply
   @description: Manejador para aplicar los filtros cuando se presiona el botón Filter
   */
@@ -121,9 +137,16 @@ export const Filter = ({
       search: localSearch,
       character: localCharacterFilter,
       specie: localSpecieFilter,
+      gender: localGenderFilter,
     })
     setIsPopoverOpen(false)
-  }, [localSearch, localCharacterFilter, localSpecieFilter, onFilterApply])
+  }, [
+    localSearch,
+    localCharacterFilter,
+    localSpecieFilter,
+    localGenderFilter,
+    onFilterApply,
+  ])
 
   /* @name handleClearSearch
   @description: Manejador para limpiar la búsqueda cuando se presiona el botón Clear
@@ -230,6 +253,31 @@ export const Filter = ({
                           className={cn(
                             'min-w-0 flex-1',
                             localSpecieFilter === option.value &&
+                              'bg-primary-100 text-primary-700 hover:bg-primary-200'
+                          )}
+                        >
+                          {option.label}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Gender Filter Section */}
+                  <div className="space-y-2">
+                    <Text text="Gender" size="sm" weight="medium" />
+                    <div className="flex items-center justify-between gap-2">
+                      {genderOptions.map(option => (
+                        <Button
+                          key={option.value}
+                          variant={
+                            localGenderFilter === option.value
+                              ? 'default'
+                              : 'outline'
+                          }
+                          onClick={() => handleGenderFilterClick(option.value)}
+                          className={cn(
+                            'min-w-0 flex-1',
+                            localGenderFilter === option.value &&
                               'bg-primary-100 text-primary-700 hover:bg-primary-200'
                           )}
                         >
