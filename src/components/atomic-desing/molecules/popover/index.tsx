@@ -81,7 +81,6 @@ export const Popover = ({
 
 type PopoverAlign = 'start' | 'center' | 'end'
 type PopoverSide = 'top' | 'right' | 'bottom' | 'left'
-type PopoverWidth = 'sm' | 'base' | 'lg' | 'xl' | 'full'
 
 export interface PopoverTriggerProps {
   asChild?: true
@@ -125,19 +124,7 @@ export interface PopoverContentProps extends HTMLAttributes<HTMLDivElement> {
   className?: string
   align?: PopoverAlign
   side?: PopoverSide
-  width?: PopoverWidth | number
-  mobileWidth?: PopoverWidth | number
 }
-
-const WIDTH_CLASSES = {
-  sm: 'w-48',
-  base: 'w-72',
-  lg: 'w-96',
-  xl: 'w-[28rem]',
-  full: 'w-full',
-} as const
-
-type WidthKey = keyof typeof WIDTH_CLASSES
 
 const calculateHorizontalPosition = (
   align: PopoverAlign,
@@ -223,8 +210,6 @@ export const PopoverContent = ({
   children,
   align = 'center',
   side = 'bottom',
-  width = 'base',
-  mobileWidth,
   ...props
 }: PopoverContentProps) => {
   const { open, onOpenChange, triggerRef } = usePopoverContext()
@@ -303,53 +288,18 @@ export const PopoverContent = ({
     }
   }, [open, updatePosition, triggerRef])
 
-  const getWidthClasses = useCallback((): string => {
-    const baseWidth =
-      typeof width === 'number' ? '' : WIDTH_CLASSES[width as WidthKey]
-
-    if (!mobileWidth) {
-      return baseWidth
-    }
-
-    const mobileW =
-      typeof mobileWidth === 'number'
-        ? ''
-        : WIDTH_CLASSES[mobileWidth as WidthKey]
-
-    return mobileW ? `${mobileW} md:${baseWidth}` : baseWidth
-  }, [width, mobileWidth])
-
-  const getWidthStyle = useCallback((): React.CSSProperties => {
-    const style: React.CSSProperties = {}
-
-    if (typeof width === 'number') {
-      style.width = `${width}px`
-    }
-
-    if (mobileWidth && typeof mobileWidth === 'number') {
-      style.width = `${mobileWidth}px`
-      if (typeof width === 'number') {
-        style.width = `${width}px`
-      }
-    }
-
-    return style
-  }, [width, mobileWidth])
-
   if (!open) return null
 
   return createPortal(
     <div
       ref={contentRef}
       className={cn(
-        'border-gray/10 absolute z-50 rounded-md border bg-white p-4 shadow',
+        'border-gray/10 absolute z-50 rounded-md border bg-white p-5 shadow',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
         'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
-        getWidthClasses(),
         className
       )}
-      style={getWidthStyle()}
       {...props}
     >
       {children}

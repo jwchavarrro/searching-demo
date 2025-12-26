@@ -227,65 +227,10 @@ describe('Popover', () => {
       expect(content).toHaveClass('rounded-md')
       expect(content).toHaveClass('border')
       expect(content).toHaveClass('bg-white')
-      expect(content).toHaveClass('p-4')
+      expect(content).toHaveClass('p-5')
       expect(content).toHaveClass('shadow')
     })
 
-    describe('width', () => {
-      it('aplica el ancho base por defecto (w-72)', async () => {
-        renderPopover({ open: true })
-        await waitForContent()
-
-        const content = expectContentVisible()
-        expect(content).toHaveClass('w-72')
-      })
-
-      it.each([
-        ['sm', 'w-48'],
-        ['lg', 'w-96'],
-        ['xl', 'w-[28rem]'],
-        ['full', 'w-full'],
-      ] as const)('aplica el ancho %s', async (width, expectedClass) => {
-        renderPopover({ open: true, contentProps: { width } })
-        await waitForContent()
-
-        const content = expectContentVisible()
-        expect(content).toHaveClass(expectedClass)
-      })
-
-      it('aplica ancho numérico personalizado', async () => {
-        renderPopover({ open: true, contentProps: { width: 400 } })
-        await waitForContent()
-
-        const content = expectContentVisible()
-        expect(content).toHaveStyle({ width: '400px' })
-      })
-    })
-
-    describe('mobileWidth', () => {
-      it('aplica mobileWidth cuando se proporciona', async () => {
-        renderPopover({
-          open: true,
-          contentProps: { width: 'lg', mobileWidth: 'full' },
-        })
-        await waitForContent()
-
-        const content = expectContentVisible()
-        expect(content).toHaveClass('w-full')
-        expect(content).toHaveClass('md:w-96')
-      })
-
-      it('aplica mobileWidth numérico', async () => {
-        renderPopover({
-          open: true,
-          contentProps: { width: 'base', mobileWidth: 300 },
-        })
-        await waitForContent()
-
-        const content = expectContentVisible()
-        expect(content).toHaveStyle({ width: '300px' })
-      })
-    })
 
     describe('side', () => {
       it('usa bottom por defecto', async () => {
@@ -353,12 +298,11 @@ describe('Popover', () => {
       it('combina clases personalizadas con las clases por defecto', async () => {
         renderPopover({
           open: true,
-          contentProps: { width: 'lg', side: 'top', className: 'custom-class' },
+          contentProps: { side: 'top', className: 'custom-class' },
         })
         await waitForContent()
 
         const content = expectContentVisible()
-        expect(content).toHaveClass('w-96')
         expect(content).toHaveClass('custom-class')
       })
     })
@@ -370,16 +314,12 @@ describe('Popover', () => {
           contentProps: {
             side: 'right',
             align: 'start',
-            width: 'lg',
-            mobileWidth: 'full',
             className: 'custom',
           },
         })
         await waitForContent()
 
         const content = expectContentVisible()
-        expect(content).toHaveClass('w-full')
-        expect(content).toHaveClass('md:w-96')
         expect(content).toHaveClass('custom')
       })
     })
