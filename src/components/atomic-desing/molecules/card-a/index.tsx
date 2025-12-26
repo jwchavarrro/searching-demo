@@ -89,7 +89,7 @@ export const CardA = ({
       >
         <Icon
           className={cn(
-            'text-gray/50 size-6 md:size-7',
+            'text-gray/50 size-4 md:size-7',
             isStarred && 'text-secondary-600'
           )}
           icon={isStarred ? ICONS.heart : ICONS.heart_outline}
