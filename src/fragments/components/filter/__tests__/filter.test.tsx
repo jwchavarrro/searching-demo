@@ -7,10 +7,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Filter, type FilterOption } from '../filter'
-import type {
-  CharacterFilterType,
-  SpecieFilterType,
-} from '../filter/utils/types'
+import type { CharacterFilterType, SpecieFilterType } from '../utils/types'
 
 const defaultCharacterOptions: FilterOption<CharacterFilterType>[] = [
   { value: 'all', label: 'All' },

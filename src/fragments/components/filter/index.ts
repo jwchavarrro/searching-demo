@@ -4,4 +4,4 @@
  */
 
 export * from './filter'
-export * from './filter/utils'
+export * from './utils'

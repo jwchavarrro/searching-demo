@@ -15,11 +15,11 @@ import { ICONS } from '@/config'
 
 // Import of types
 import type { CharacterType } from '@/graphql/types'
-import type { SpecieFilterType } from '@/components/atomic-desing/organisms'
+import type { SpecieFilterType } from '@/fragments/components/filter/utils'
 import {
   SpecieFilterValues,
   SpecieApiValues,
-} from '@/components/atomic-desing/organisms/filter/utils'
+} from '@/fragments/components/filter/utils'
 import { useMemo } from 'react'
 
 interface CharactersStarredListProps {

@@ -17,12 +17,12 @@ import type { CharacterType } from '@/graphql/types'
 import type {
   CharacterFilterType,
   SpecieFilterType,
-} from '@/components/atomic-desing/organisms/filter/utils'
+} from '@/fragments/components/filter/utils'
 import {
   CharacterFilterValues,
   SpecieFilterValues,
   SpecieApiValues,
-} from '@/components/atomic-desing/organisms/filter/utils'
+} from '@/fragments/components/filter/utils'
 
 // Import of custom hooks
 import { useFilterByCharacter } from './use-filter-by-character'
