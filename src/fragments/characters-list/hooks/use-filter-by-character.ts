@@ -10,8 +10,8 @@ import { useCharactersStarred } from '@/context'
 
 // Import of types
 import type { CharacterType } from '@/graphql/types'
-import type { CharacterFilterType } from '@/components/atomic-desing/organisms/filter/utils'
-import { CharacterFilterValues } from '@/components/atomic-desing/organisms/filter/utils'
+import type { CharacterFilterType } from '@/fragments/components/filter/utils'
+import { CharacterFilterValues } from '@/fragments/components/filter/utils'
 
 interface UseFilterByCharacterProps {
   characters: CharacterType[]

@@ -3,9 +3,15 @@
  * @description: Fragmento para renderizar el listado de personajes marcados como favoritos
  */
 
+import { useMemo } from 'react'
+
 // Import of components custom
-import { CardA, Message } from '@/components/atomic-desing/molecules'
 import { Text } from '@/components/atomic-desing/atoms'
+import { SortOrder } from '@/fragments/components'
+import { CardA, Message } from '@/components/atomic-desing/molecules'
+
+// Import of hooks
+import { useSortedCharacters } from '@/fragments/hooks'
 
 // Import of context
 import { useCharactersStarred, useSelectedCharacter } from '@/context'
@@ -15,21 +21,25 @@ import { ICONS } from '@/config'
 
 // Import of types
 import type { CharacterType } from '@/graphql/types'
-import type { SpecieFilterType } from '@/components/atomic-desing/organisms'
+import type { SpecieFilterType } from '@/fragments/components/filter/utils'
 import {
   SpecieFilterValues,
   SpecieApiValues,
-} from '@/components/atomic-desing/organisms/filter/utils'
-import { useMemo } from 'react'
+} from '@/fragments/components/filter/utils'
+import type { SortOrderType } from '@/fragments/components/sort-order/utils'
 
 interface CharactersStarredListProps {
   readonly searchValue?: string
   readonly specieFilter?: SpecieFilterType
+  readonly sortOrder?: SortOrderType
+  readonly onSortChange?: (order: SortOrderType) => void
 }
 
 export function CharactersStarredList({
   searchValue = '',
   specieFilter = SpecieFilterValues.ALL,
+  sortOrder = 'asc',
+  onSortChange,
 }: CharactersStarredListProps) {
   // Implement context
   const { handleCharacterStarred, isCharacterStarred, charactersStarred } =
@@ -75,6 +85,12 @@ export function CharactersStarredList({
     return result
   }, [charactersStarred, hasSearch, trimmedSearch, specieFilter])
 
+  // Ordenar los personajes starred filtrados
+  const sortedStarredCharacters = useSortedCharacters({
+    characters: filteredStarredCharacters,
+    sortOrder,
+  })
+
   if (!charactersStarred || charactersStarred.length === 0) {
     return (
       <Message
@@ -85,7 +101,7 @@ export function CharactersStarredList({
     )
   }
 
-  if (filteredStarredCharacters.length === 0) {
+  if (sortedStarredCharacters.length === 0) {
     return (
       <Message
         icon={ICONS.alert}
@@ -97,12 +113,15 @@ export function CharactersStarredList({
 
   return (
     <div className="min-h-0 space-y-2">
-      <Text
-        text={`STARRED CHARACTERS (${filteredStarredCharacters.length})`}
-        weight="semibold"
-      />
+      <div className="flex items-center justify-between">
+        <Text
+          text={`STARRED CHARACTERS (${sortedStarredCharacters.length})`}
+          weight="semibold"
+        />
+        <SortOrder sortOrder={sortOrder} onSortChange={onSortChange} />
+      </div>
       <div>
-        {filteredStarredCharacters.map((character: CharacterType) => (
+        {sortedStarredCharacters.map((character: CharacterType) => (
           <CardA
             key={character.id}
             as="button"

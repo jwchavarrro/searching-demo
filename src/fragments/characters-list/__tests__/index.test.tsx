@@ -11,11 +11,16 @@ import { Provider } from 'jotai'
 import { CharactersList } from '../index'
 import { useFilteredCharacters } from '../hooks'
 import { useCharactersStarred, useSelectedCharacter } from '@/context'
+import { useSortedCharacters } from '@/fragments/hooks'
 import type { CharacterType } from '@/graphql/types'
 
 // Mock de los hooks
 vi.mock('../hooks', () => ({
   useFilteredCharacters: vi.fn(),
+}))
+
+vi.mock('@/fragments/hooks', () => ({
+  useSortedCharacters: vi.fn(),
 }))
 
 vi.mock('@/context', () => ({
@@ -66,6 +71,10 @@ const createWrapper = () => {
 describe('CharactersList', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    // Mock por defecto de useSortedCharacters que retorna los personajes sin cambios
+    vi.mocked(useSortedCharacters).mockImplementation(
+      ({ characters }) => characters
+    )
   })
 
   it('debe mostrar un mensaje de carga cuando está cargando', () => {
@@ -218,6 +227,11 @@ describe('CharactersList', () => {
       },
     })
 
+    vi.mocked(useSortedCharacters).mockReturnValue([
+      mockCharacter1,
+      mockCharacter2,
+    ])
+
     vi.mocked(useCharactersStarred).mockReturnValue({
       charactersStarred: [],
       setCharactersStarred: vi.fn(),
@@ -238,5 +252,59 @@ describe('CharactersList', () => {
     expect(screen.getByText('CHARACTERS (2)')).toBeInTheDocument()
     expect(screen.getByText('Rick Sanchez')).toBeInTheDocument()
     expect(screen.getByText('Morty Smith')).toBeInTheDocument()
+  })
+
+  it('debe ordenar los personajes cuando se proporciona sortOrder', () => {
+    const setSelectedCharacter = vi.fn()
+    const handleCharacterStarred = vi.fn()
+    const handleSortChange = vi.fn()
+
+    vi.mocked(useFilteredCharacters).mockReturnValue({
+      filteredCharacters: [mockCharacter1, mockCharacter2],
+      isLoading: false,
+      error: null,
+      data: {
+        results: [mockCharacter1, mockCharacter2],
+        info: {
+          count: 2,
+          pages: 1,
+          next: null,
+          prev: null,
+        },
+      },
+    })
+
+    // Mock para ordenar descendente (Z-A)
+    vi.mocked(useSortedCharacters).mockReturnValue([
+      mockCharacter2,
+      mockCharacter1,
+    ])
+
+    vi.mocked(useCharactersStarred).mockReturnValue({
+      charactersStarred: [],
+      setCharactersStarred: vi.fn(),
+      addCharacter: vi.fn(),
+      removeCharacter: vi.fn(),
+      handleCharacterStarred,
+      isCharacterStarred: vi.fn(() => false),
+      count: 0,
+    })
+
+    vi.mocked(useSelectedCharacter).mockReturnValue({
+      selectedCharacterName: null,
+      setSelectedCharacter,
+    })
+
+    render(
+      <CharactersList sortOrder="desc" onSortChange={handleSortChange} />,
+      { wrapper: createWrapper() }
+    )
+
+    expect(screen.getByText('CHARACTERS (2)')).toBeInTheDocument()
+    // Verificar que useSortedCharacters fue llamado con sortOrder="desc"
+    expect(useSortedCharacters).toHaveBeenCalledWith({
+      characters: [mockCharacter1, mockCharacter2],
+      sortOrder: 'desc',
+    })
   })
 })

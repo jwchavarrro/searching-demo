@@ -7,8 +7,8 @@ import { useMemo } from 'react'
 
 // Import of types
 import type { CharacterType } from '@/graphql/types'
-import type { SpecieFilterType } from '@/components/atomic-desing/organisms/filter/utils'
-import { SpecieFilterValues } from '@/components/atomic-desing/organisms/filter/utils'
+import type { SpecieFilterType } from '@/fragments/components/filter/utils'
+import { SpecieFilterValues } from '@/fragments/components/filter/utils'
 
 interface UseFilterBySpecieProps {
   characters: CharacterType[]

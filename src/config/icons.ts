@@ -20,4 +20,6 @@ export const ICONS: Record<string, string> = {
 
   // Navegación
   arrow_left_02: 'hugeicons:arrow-left-02',
+  arrow_up_02: 'hugeicons:arrow-up-02',
+  arrow_down_02: 'hugeicons:arrow-down-02',
 } as const
