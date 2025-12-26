@@ -25,12 +25,14 @@ import type { CharacterType } from '@/graphql/types'
 import type {
   CharacterFilterType,
   SpecieFilterType,
+  GenderFilterType,
 } from '@/fragments/components/filter/utils'
 import type { SortOrderType } from '@/fragments/components/sort-order/utils'
 
 interface CharactersListProps {
   readonly characterFilter?: CharacterFilterType
   readonly specieFilter?: SpecieFilterType
+  readonly genderFilter?: GenderFilterType
   readonly searchValue?: string
   readonly sortOrder?: SortOrderType
   readonly onSortChange?: (order: SortOrderType) => void
@@ -39,17 +41,19 @@ interface CharactersListProps {
 export function CharactersList({
   characterFilter = 'others',
   specieFilter = 'all',
+  genderFilter = 'all',
   searchValue = '',
   sortOrder = 'asc',
   onSortChange,
 }: CharactersListProps) {
   // Implement custom hooks
   /* @name useFilteredCharacters
-  @description: Hook para obtener los personajes filtrados según búsqueda, Character y Specie
+  @description: Hook para obtener los personajes filtrados según búsqueda, Character, Specie y Gender
   */
   const { filteredCharacters, isLoading, error, data } = useFilteredCharacters({
     characterFilter,
     specieFilter,
+    genderFilter,
     searchValue,
   })
 
