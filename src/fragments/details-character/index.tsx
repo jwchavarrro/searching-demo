@@ -179,7 +179,7 @@ export const DetailsCharacter = () => {
             return (
               <div className="border-gray/20 space-y-2 border-t pt-4">
                 <Text
-                  text="* Note: The comment will ONLY be saved for starred characters."
+                  text="* Note: Comments are only kept while a character is starred. If you remove a character from starred, its comment will be deleted, and if you add it again, you will need to write a new comment."
                   size="xs"
                 />
                 <Comment

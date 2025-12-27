@@ -77,6 +77,7 @@ export const Comment = ({
 
   return (
     <div className={cn('space-y-2', className)} data-character-id={characterId}>
+      {/* Title and edit button */}
       <div className="flex items-center gap-2">
         <Text text="Comment" weight="bold" size="base" />
         {hasComment && !isEditing && (
@@ -91,6 +92,7 @@ export const Comment = ({
         )}
       </div>
 
+      {/* Comment textarea and buttons */}
       <div className="max-w-2xl space-y-2">
         <Textarea
           value={isEditing ? comment : initialComment}
