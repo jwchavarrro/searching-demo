@@ -53,7 +53,7 @@ export const SortOrder = ({
     >
       <Icon
         icon={isAscending ? ICONS.az : ICONS.za}
-        className="size-4 transition-transform md:size-5"
+        className="size-4 md:size-5"
       />
     </Button>
   )

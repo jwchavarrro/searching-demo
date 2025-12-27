@@ -58,6 +58,7 @@ export const Comment = ({
   @description: Manejador para editar el comentario
   */
   const handleEdit = () => {
+    setComment(initialComment)
     setIsEditing(true)
   }
 
@@ -75,23 +76,29 @@ export const Comment = ({
   const hasComment = !!initialComment
 
   return (
-    <div className={cn(className)} data-character-id={characterId}>
-      <div className="flex items-center">
+    <div className={cn('space-y-2', className)} data-character-id={characterId}>
+      <div className="flex items-center gap-2">
         <Text text="Comment" weight="bold" size="base" />
         {hasComment && !isEditing && (
-          <Button variant="ghost" size="icon" onClick={handleEdit}>
-            <Icon icon={ICONS.update_02} />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-primary-100 text-primary-700 border-transparent hover:border-transparent md:size-7"
+            onClick={handleEdit}
+          >
+            <Icon icon={ICONS.update_02} className="size-5" />
           </Button>
         )}
       </div>
 
-      {isEditing ? (
-        <div className="max-w-2xl space-y-2">
-          <Textarea
-            value={comment}
-            onChange={e => setComment(e.target.value)}
-          />
-          <div className="flex justify-end gap-2">
+      <div className="max-w-2xl space-y-2">
+        <Textarea
+          value={isEditing ? comment : initialComment}
+          onChange={e => setComment(e.target.value)}
+          disabled={!isEditing}
+        />
+        {isEditing && (
+          <div className="flex flex-col gap-2 md:flex-row md:justify-end">
             {hasComment && (
               <Button variant="outline" onClick={handleCancel}>
                 Cancel
@@ -106,10 +113,8 @@ export const Comment = ({
               Save
             </Button>
           </div>
-        </div>
-      ) : (
-        <div>{hasComment && <Text text={initialComment} size="lg" />}</div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
