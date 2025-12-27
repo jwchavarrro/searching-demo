@@ -11,6 +11,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 // Import of components custom
 import { Header, Message } from '@/components/atomic-desing/molecules'
 import { Button, Text } from '@/components/atomic-desing/atoms'
+import { CommentSection } from '@/fragments/components/comment-section'
 
 // Import of hooks
 import { useCharacterByName } from '@/hooks'
@@ -27,18 +28,26 @@ import { capitalizeFirstLetter } from '@/utils'
 import { DETAILS_CHARACTER_TEXT } from '@/fragments'
 
 export const DetailsCharacter = () => {
+  // Hooks
+  const navigate = useNavigate()
+  
   // Obtener parámetro de la ruta
   const { name: characterNameFromRoute } = useParams<{ name: string }>()
-  const navigate = useNavigate()
 
   // Implement context
   const { selectedCharacterName, setSelectedCharacter } = useSelectedCharacter()
 
-  // Priorizar el nombre de la ruta sobre el query param o el estado
   const characterNameToUse = characterNameFromRoute
     ? decodeURIComponent(characterNameFromRoute)
     : selectedCharacterName
-  const { isCharacterStarred, handleCharacterStarred } = useCharactersStarred()
+
+  const {
+    isCharacterStarred,
+    handleCharacterStarred,
+    getCharacterComment,
+    updateCharacterComment,
+    removeCharacterComment,
+  } = useCharactersStarred()
 
   /* @name selectedCharacter
   @description: Obtener datos del personaje por nombre
@@ -162,6 +171,27 @@ export const DetailsCharacter = () => {
             </div>
           )
         })}
+
+        {/* Comment section - solo visible si el personaje está starred */}
+        {isStarred &&
+          selectedCharacter &&
+          (() => {
+            const characterId = selectedCharacter.id
+            const currentComment = getCharacterComment(characterId) || ''
+            return (
+              <div className="border-gray/20 border-t pt-5">
+                <CommentSection
+                  key={`${characterId}-${currentComment}`}
+                  characterId={characterId}
+                  initialComment={currentComment}
+                  onSave={comment =>
+                    updateCharacterComment(characterId, comment)
+                  }
+                  onDelete={() => removeCharacterComment(characterId)}
+                />
+              </div>
+            )
+          })()}
       </main>
     </motion.div>
   )
