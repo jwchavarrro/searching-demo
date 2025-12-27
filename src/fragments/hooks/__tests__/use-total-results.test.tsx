@@ -99,6 +99,9 @@ describe('useTotalResults', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useTotalResults(), {
@@ -126,6 +129,9 @@ describe('useTotalResults', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useTotalResults(), {
@@ -153,6 +159,9 @@ describe('useTotalResults', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 2,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useTotalResults(), {
@@ -180,6 +189,9 @@ describe('useTotalResults', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 2,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useTotalResults(), {
@@ -207,6 +219,9 @@ describe('useTotalResults', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 3,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(
@@ -236,6 +251,9 @@ describe('useTotalResults', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 3,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(
@@ -265,6 +283,9 @@ describe('useTotalResults', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 3,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(
@@ -294,6 +315,9 @@ describe('useTotalResults', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 3,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(

@@ -24,21 +24,29 @@ import type { CharacterType } from '@/graphql/types'
 // Import of utils
 import { ICONS } from '@/config'
 import { capitalizeFirstLetter } from '@/utils'
-import { DETAILS_CHARACTER_TEXT } from '@/fragments'
+import { DETAILS_CHARACTER_TEXT, Comment } from '@/fragments'
 
 export const DetailsCharacter = () => {
+  // Hooks
+  const navigate = useNavigate()
+
   // Obtener parámetro de la ruta
   const { name: characterNameFromRoute } = useParams<{ name: string }>()
-  const navigate = useNavigate()
 
   // Implement context
   const { selectedCharacterName, setSelectedCharacter } = useSelectedCharacter()
 
-  // Priorizar el nombre de la ruta sobre el query param o el estado
   const characterNameToUse = characterNameFromRoute
     ? decodeURIComponent(characterNameFromRoute)
     : selectedCharacterName
-  const { isCharacterStarred, handleCharacterStarred } = useCharactersStarred()
+
+  const {
+    isCharacterStarred,
+    handleCharacterStarred,
+    getCharacterComment,
+    updateCharacterComment,
+    removeCharacterComment,
+  } = useCharactersStarred()
 
   /* @name selectedCharacter
   @description: Obtener datos del personaje por nombre
@@ -162,6 +170,30 @@ export const DetailsCharacter = () => {
             </div>
           )
         })}
+
+        {selectedCharacter &&
+          isStarred &&
+          (() => {
+            const characterId = selectedCharacter.id
+            const currentComment = getCharacterComment(characterId) || ''
+            return (
+              <div className="border-gray/20 space-y-2 border-t pt-4">
+                <Text
+                  text="* Note: Comments are only kept while a character is starred. If you remove a character from starred, its comment will be deleted, and if you add it again, you will need to write a new comment."
+                  size="xs"
+                />
+                <Comment
+                  key={`${characterId}-${currentComment}`}
+                  characterId={characterId}
+                  initialComment={currentComment}
+                  onSave={comment =>
+                    updateCharacterComment(characterId, comment)
+                  }
+                  onDelete={() => removeCharacterComment(characterId)}
+                />
+              </div>
+            )
+          })()}
       </main>
     </motion.div>
   )
