@@ -24,4 +24,9 @@ export const ICONS: Record<string, string> = {
   arrow_left_02: 'hugeicons:arrow-left-02',
   arrow_up_02: 'hugeicons:arrow-up-02',
   arrow_down_02: 'hugeicons:arrow-down-02',
+
+  // CRUD
+  create: 'hugeicons:plus-sign-square',
+  update_02: 'hugeicons:pencil-edit-02',
+  delete_01: 'hugeicons:delete-01',
 } as const

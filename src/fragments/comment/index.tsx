@@ -4,6 +4,7 @@
  */
 
 import { useState } from 'react'
+import { Icon } from '@iconify/react'
 
 // Import of components custom
 import { Textarea, Text, Button } from '@/components/atomic-desing/atoms'
@@ -11,9 +12,8 @@ import { Textarea, Text, Button } from '@/components/atomic-desing/atoms'
 // Import of utils
 import { cn } from '@/utils/cn'
 import { ICONS } from '@/config'
-import { Icon } from '@iconify/react'
 
-export interface CommentSectionProps {
+export interface CommentProps {
   characterId: number
   initialComment?: string
   onSave: (comment: string) => void
@@ -21,13 +21,13 @@ export interface CommentSectionProps {
   className?: string
 }
 
-export const CommentSection = ({
+export const Comment = ({
   characterId,
   initialComment = '',
   onSave,
   onDelete,
   className,
-}: CommentSectionProps) => {
+}: CommentProps) => {
   // State Generals
   const [comment, setComment] = useState(initialComment)
   const [isEditing, setIsEditing] = useState(!initialComment)
@@ -75,45 +75,40 @@ export const CommentSection = ({
   const hasComment = !!initialComment
 
   return (
-    <div className={cn('space-y-3', className)} data-character-id={characterId}>
-      <div className="flex items-center justify-between">
-        <Text text="Comentario" weight="bold" size="base" />
+    <div className={cn(className)} data-character-id={characterId}>
+      <div className="flex items-center">
+        <Text text="Comment" weight="bold" size="base" />
         {hasComment && !isEditing && (
           <Button variant="ghost" size="icon" onClick={handleEdit}>
-            <Icon icon={ICONS.arrow_up_02} />
+            <Icon icon={ICONS.update_02} />
           </Button>
         )}
       </div>
 
       {isEditing ? (
-        <div className="space-y-2">
+        <div className="max-w-2xl space-y-2">
           <Textarea
             value={comment}
             onChange={e => setComment(e.target.value)}
           />
           <div className="flex justify-end gap-2">
             {hasComment && (
-              <Button variant="outline" size="sm" onClick={handleCancel}>
+              <Button variant="outline" onClick={handleCancel}>
                 Cancel
               </Button>
             )}
             {hasComment && onDelete && (
-              <Button variant="destructive" size="sm" onClick={handleDelete}>
+              <Button variant="destructive" onClick={handleDelete}>
                 Delete
               </Button>
             )}
-            <Button
-              variant="default"
-              size="sm"
-              onClick={handleSave}
-              disabled={!comment.trim()}
-            >
+            <Button onClick={handleSave} disabled={!comment.trim()}>
               Save
             </Button>
           </div>
         </div>
       ) : (
-        <div>{hasComment && <Text text={initialComment} size="base" />}</div>
+        <div>{hasComment && <Text text={initialComment} size="lg" />}</div>
       )}
     </div>
   )

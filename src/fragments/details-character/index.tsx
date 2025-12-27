@@ -11,7 +11,6 @@ import { useParams, useNavigate } from 'react-router-dom'
 // Import of components custom
 import { Header, Message } from '@/components/atomic-desing/molecules'
 import { Button, Text } from '@/components/atomic-desing/atoms'
-import { CommentSection } from '@/fragments/components/comment-section'
 
 // Import of hooks
 import { useCharacterByName } from '@/hooks'
@@ -25,7 +24,7 @@ import type { CharacterType } from '@/graphql/types'
 // Import of utils
 import { ICONS } from '@/config'
 import { capitalizeFirstLetter } from '@/utils'
-import { DETAILS_CHARACTER_TEXT } from '@/fragments'
+import { DETAILS_CHARACTER_TEXT, Comment } from '@/fragments'
 
 export const DetailsCharacter = () => {
   // Hooks
@@ -172,15 +171,18 @@ export const DetailsCharacter = () => {
           )
         })}
 
-        {/* Comment section - solo visible si el personaje está starred */}
-        {isStarred &&
-          selectedCharacter &&
+        {selectedCharacter &&
+          isStarred &&
           (() => {
             const characterId = selectedCharacter.id
             const currentComment = getCharacterComment(characterId) || ''
             return (
-              <div className="border-gray/20 border-t pt-5">
-                <CommentSection
+              <div className="border-gray/20 space-y-2 border-t pt-4">
+                <Text
+                  text="* Note: The comment will ONLY be saved for starred characters."
+                  size="xs"
+                />
+                <Comment
                   key={`${characterId}-${currentComment}`}
                   characterId={characterId}
                   initialComment={currentComment}

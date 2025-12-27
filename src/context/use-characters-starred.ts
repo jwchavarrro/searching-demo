@@ -3,7 +3,6 @@
  * @description: Hook para manejar el estado del listado de personajes marcados como favoritos usando Jotai
  */
 
-// Import of context
 import { atomWithStorage, useAtom } from '@/context'
 
 // Import of types
@@ -28,15 +27,6 @@ export const useCharactersStarred = () => {
   const [characterComments, setCharacterComments] = useAtom(
     characterCommentsAtom
   )
-
-  // Helper para eliminar un comentario
-  const deleteComment = (characterId: number) => {
-    setCharacterComments(prev => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { [characterId]: _, ...rest } = prev
-      return rest
-    })
-  }
 
   const addCharacter = (character: CharacterType) => {
     setCharactersStarred(prev => {
@@ -70,11 +60,29 @@ export const useCharactersStarred = () => {
 
   const count = charactersStarred.length
 
-  // Funciones para comentarios
+  /* Comentarios */
+
+  /* @name deleteComment
+  @description: Eliminar un comentario
+  */
+  const deleteComment = (characterId: number) => {
+    setCharacterComments(prev => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [characterId]: _, ...rest } = prev
+      return rest
+    })
+  }
+
+  /* @name getCharacterComment
+  @description: Obtener un comentario
+  */
   const getCharacterComment = (characterId: number): string | undefined => {
     return characterComments[characterId]
   }
 
+  /* @name updateCharacterComment
+  @description: Actualizar un comentario
+  */
   const updateCharacterComment = (
     characterId: number,
     comment: string
@@ -90,6 +98,9 @@ export const useCharactersStarred = () => {
     }
   }
 
+  /* @name removeCharacterComment
+  @description: Eliminar un comentario
+  */
   const removeCharacterComment = (characterId: number): void => {
     deleteComment(characterId)
   }
