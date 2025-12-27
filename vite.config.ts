@@ -13,7 +13,7 @@ export default defineConfig({
     },
   },
   build: {
-    chunkSizeWarningLimit: 600,
+    chunkSizeWarningLimit: 600, // Para efecto de solo uso de demo
   },
   test: {
     globals: true,
