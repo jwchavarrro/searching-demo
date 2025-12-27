@@ -93,7 +93,7 @@ export const Comment = ({
       </div>
 
       {/* Comment textarea and buttons */}
-      <div className="max-w-2xl space-y-2">
+      <div className="max-w-4xl space-y-2">
         <Textarea
           value={isEditing ? comment : initialComment}
           onChange={e => setComment(e.target.value)}
