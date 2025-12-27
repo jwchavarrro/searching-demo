@@ -113,6 +113,9 @@ describe('useFilteredCharacters', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useFilteredCharacters(), {
@@ -165,6 +168,9 @@ describe('useFilteredCharacters', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useFilteredCharacters(), {
@@ -220,6 +226,9 @@ describe('useFilteredCharacters', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 1,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useFilteredCharacters(), {
@@ -277,6 +286,9 @@ describe('useFilteredCharacters', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 2,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useFilteredCharacters(), {
@@ -319,6 +331,9 @@ describe('useFilteredCharacters', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useFilteredCharacters(), {
@@ -362,6 +377,9 @@ describe('useFilteredCharacters', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useFilteredCharacters(), {

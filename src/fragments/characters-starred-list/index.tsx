@@ -157,15 +157,15 @@ export function CharactersStarredList({
   }
 
   return (
-    <div className="min-h-0 space-y-2">
-      <div className="flex items-center justify-between">
+    <div className="min-h-0 w-full max-w-full space-y-2 overflow-x-hidden">
+      <div className="flex min-w-0 items-center justify-between">
         <Text
           text={`STARRED CHARACTERS (${sortedStarredCharacters.length})`}
           weight="semibold"
         />
         <SortOrder sortOrder={sortOrder} onSortChange={onSortChange} />
       </div>
-      <div className="space-y-2">
+      <div className="w-full max-w-full space-y-2 overflow-x-hidden">
         <AnimatePresence>
           {sortedStarredCharacters.map((character: CharacterType) => (
             <motion.div
@@ -178,6 +178,7 @@ export function CharactersStarredList({
                 ease: [0.4, 0, 0.2, 1],
               }}
               layout
+              className="w-full max-w-full overflow-x-hidden"
             >
               <CardA
                 as="button"

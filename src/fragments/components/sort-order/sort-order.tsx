@@ -52,8 +52,8 @@ export const SortOrder = ({
       aria-label={isAscending ? 'Sort ascending' : 'Sort descending'}
     >
       <Icon
-        icon={isAscending ? ICONS.arrow_up_02 : ICONS.arrow_down_02}
-        className="size-4 transition-transform md:size-5"
+        icon={isAscending ? ICONS.az : ICONS.za}
+        className="size-4 md:size-5"
       />
     </Button>
   )

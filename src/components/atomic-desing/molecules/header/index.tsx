@@ -9,6 +9,7 @@ import {
   Button,
   Title,
   type TitleProps,
+  Text,
 } from '@/components/atomic-desing/atoms'
 import {
   AvatarButton,
@@ -37,7 +38,7 @@ export const Header = ({
   className,
 }: HeaderProps) => {
   return (
-    <div className={cn('grid grid-cols-2 items-center gap-5', className)}>
+    <div className={cn('grid items-center gap-5 md:grid-cols-2', className)}>
       {/* Column #1: Avatar and title */}
       <div>
         <AvatarButton {...avatar} />
@@ -45,7 +46,11 @@ export const Header = ({
       </div>
 
       {/* Column #2: Star button */}
-      <div className="flex justify-end">
+      <div className="flex items-center justify-end gap-2">
+        <Text
+          text={`${isStarred.status ? 'Remove' : 'Add'} starred`}
+          size="xs"
+        />
         <Button
           variant="ghost"
           size="icon"

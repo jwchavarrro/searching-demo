@@ -93,6 +93,9 @@ describe('CharactersList', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(() => false),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     vi.mocked(useSelectedCharacter).mockReturnValue({
@@ -122,6 +125,9 @@ describe('CharactersList', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(() => false),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     vi.mocked(useSelectedCharacter).mockReturnValue({
@@ -160,6 +166,9 @@ describe('CharactersList', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(() => false),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     vi.mocked(useSelectedCharacter).mockReturnValue({
@@ -196,6 +205,9 @@ describe('CharactersList', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(() => false),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     vi.mocked(useSelectedCharacter).mockReturnValue({
@@ -240,6 +252,9 @@ describe('CharactersList', () => {
       handleCharacterStarred,
       isCharacterStarred: vi.fn(() => false),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     vi.mocked(useSelectedCharacter).mockReturnValue({
@@ -288,6 +303,9 @@ describe('CharactersList', () => {
       handleCharacterStarred,
       isCharacterStarred: vi.fn(() => false),
       count: 0,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     vi.mocked(useSelectedCharacter).mockReturnValue({
