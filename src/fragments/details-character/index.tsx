@@ -30,7 +30,7 @@ import { DETAILS_CHARACTER_TEXT } from '@/fragments'
 export const DetailsCharacter = () => {
   // Hooks
   const navigate = useNavigate()
-  
+
   // Obtener parámetro de la ruta
   const { name: characterNameFromRoute } = useParams<{ name: string }>()
 
