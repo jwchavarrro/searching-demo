@@ -9,15 +9,34 @@ import { atomWithStorage, useAtom } from '@/context'
 // Import of types
 import type { CharacterType } from '@/graphql/types'
 
+// Almacenar personajes starred
 const charactersStarredAtom = atomWithStorage<CharacterType[]>(
   'characters-starred',
   []
+)
+
+// Almacenar comentarios: characterId -> comment
+const characterCommentsAtom = atomWithStorage<Record<number, string>>(
+  'characters-comments',
+  {}
 )
 
 export const useCharactersStarred = () => {
   const [charactersStarred, setCharactersStarred] = useAtom(
     charactersStarredAtom
   )
+  const [characterComments, setCharacterComments] = useAtom(
+    characterCommentsAtom
+  )
+
+  // Helper para eliminar un comentario
+  const deleteComment = (characterId: number) => {
+    setCharacterComments(prev => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [characterId]: _, ...rest } = prev
+      return rest
+    })
+  }
 
   const addCharacter = (character: CharacterType) => {
     setCharactersStarred(prev => {
@@ -31,12 +50,14 @@ export const useCharactersStarred = () => {
 
   const removeCharacter = (characterId: number) => {
     setCharactersStarred(prev => prev.filter(char => char.id !== characterId))
+    deleteComment(characterId)
   }
 
   const handleCharacterStarred = (character: CharacterType) => {
     setCharactersStarred(prev => {
       const isStarred = prev.some(char => char.id === character.id)
       if (isStarred) {
+        deleteComment(character.id)
         return prev.filter(char => char.id !== character.id)
       }
       return [...prev, character]
@@ -49,6 +70,30 @@ export const useCharactersStarred = () => {
 
   const count = charactersStarred.length
 
+  // Funciones para comentarios
+  const getCharacterComment = (characterId: number): string | undefined => {
+    return characterComments[characterId]
+  }
+
+  const updateCharacterComment = (
+    characterId: number,
+    comment: string
+  ): void => {
+    const trimmed = comment.trim()
+    if (trimmed === '') {
+      deleteComment(characterId)
+    } else {
+      setCharacterComments(prev => ({
+        ...prev,
+        [characterId]: trimmed,
+      }))
+    }
+  }
+
+  const removeCharacterComment = (characterId: number): void => {
+    deleteComment(characterId)
+  }
+
   return {
     charactersStarred,
     setCharactersStarred,
@@ -57,5 +102,8 @@ export const useCharactersStarred = () => {
     handleCharacterStarred,
     isCharacterStarred,
     count,
+    getCharacterComment,
+    updateCharacterComment,
+    removeCharacterComment,
   }
 }
