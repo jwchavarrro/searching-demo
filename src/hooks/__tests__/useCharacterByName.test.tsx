@@ -112,6 +112,9 @@ describe('useCharacterByName', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 1,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useCharacterByName('Rick Sanchez'), {
@@ -133,6 +136,9 @@ describe('useCharacterByName', () => {
       handleCharacterStarred: vi.fn(),
       isCharacterStarred: vi.fn(),
       count: 1,
+      getCharacterComment: vi.fn(),
+      updateCharacterComment: vi.fn(),
+      removeCharacterComment: vi.fn(),
     })
 
     const { result } = renderHook(() => useCharacterByName('rick sanchez'), {
