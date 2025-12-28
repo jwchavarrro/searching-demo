@@ -78,22 +78,37 @@ export const Comment = ({
   return (
     <div className={cn('space-y-2', className)} data-character-id={characterId}>
       {/* Title and edit button */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between gap-2">
         <Text text="Comment" weight="bold" size="base" />
         {hasComment && !isEditing && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="hover:bg-primary-100 text-primary-700 border-transparent hover:border-transparent md:size-7"
-            onClick={handleEdit}
-          >
-            <Icon icon={ICONS.update_02} className="size-5" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <Text text="Actions |" size="xs" />
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="hover:bg-primary-100 text-primary-700 border-transparent hover:border-transparent md:size-7"
+                onClick={handleEdit}
+              >
+                <Icon icon={ICONS.update_02} className="size-5" />
+              </Button>
+              {onDelete && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hover:bg-primary-100 text-destructive border-transparent hover:border-transparent md:size-7"
+                  onClick={handleDelete}
+                >
+                  <Icon icon={ICONS.delete_01} className="size-5" />
+                </Button>
+              )}
+            </div>
+          </div>
         )}
       </div>
 
       {/* Comment textarea and buttons */}
-      <div className="max-w-4xl space-y-2">
+      <div className="space-y-2">
         <Textarea
           value={isEditing ? comment : initialComment}
           onChange={e => setComment(e.target.value)}
@@ -104,11 +119,6 @@ export const Comment = ({
             {hasComment && (
               <Button variant="outline" onClick={handleCancel}>
                 Cancel
-              </Button>
-            )}
-            {hasComment && onDelete && (
-              <Button variant="destructive" onClick={handleDelete}>
-                Delete
               </Button>
             )}
             <Button onClick={handleSave} disabled={!comment.trim()}>
