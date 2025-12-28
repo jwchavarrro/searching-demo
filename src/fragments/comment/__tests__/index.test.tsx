@@ -95,8 +95,11 @@ describe('Comment', () => {
           onSave={mockOnSave}
         />
       )
-      const editButton = screen.getByRole('button', { name: '' })
-      expect(editButton).toBeInTheDocument()
+      const editButton = screen.getByTestId('iconify-icon')
+      expect(editButton).toHaveAttribute(
+        'data-icon',
+        'hugeicons:pencil-edit-02'
+      )
     })
 
     it('no muestra los botones de acción cuando está en modo lectura', () => {
@@ -109,7 +112,6 @@ describe('Comment', () => {
       )
       expect(screen.queryByText('Save')).not.toBeInTheDocument()
       expect(screen.queryByText('Cancel')).not.toBeInTheDocument()
-      expect(screen.queryByText('Delete')).not.toBeInTheDocument()
     })
   })
 
@@ -124,15 +126,17 @@ describe('Comment', () => {
         />
       )
 
-      const editButton = screen.getByRole('button', { name: '' })
-      await user.click(editButton)
+      const editIcon = screen.getByTestId('iconify-icon')
+      const editButton = editIcon.closest('button')
+      expect(editButton).toBeInTheDocument()
+      await user.click(editButton!)
 
       const textarea = screen.getByRole('textbox')
       expect(textarea).not.toBeDisabled()
       expect(screen.getByText('Save')).toBeInTheDocument()
     })
 
-    it('muestra los botones Save, Cancel y Delete cuando está editando un comentario existente', async () => {
+    it('muestra los botones Save y Cancel cuando está editando un comentario existente', async () => {
       const user = userEvent.setup()
       render(
         <Comment
@@ -143,12 +147,15 @@ describe('Comment', () => {
         />
       )
 
-      const editButton = screen.getByRole('button', { name: '' })
-      await user.click(editButton)
+      const editIcons = screen.getAllByTestId('iconify-icon')
+      const editIcon = editIcons.find(
+        icon => icon.getAttribute('data-icon') === 'hugeicons:pencil-edit-02'
+      )
+      const editButton = editIcon?.closest('button')
+      await user.click(editButton!)
 
       expect(screen.getByText('Save')).toBeInTheDocument()
       expect(screen.getByText('Cancel')).toBeInTheDocument()
-      expect(screen.getByText('Delete')).toBeInTheDocument()
     })
 
     it('sincroniza el valor del textarea con initialComment al entrar en modo edición', async () => {
@@ -161,8 +168,9 @@ describe('Comment', () => {
         />
       )
 
-      const editButton = screen.getByRole('button', { name: '' })
-      await user.click(editButton)
+      const editIcon = screen.getByTestId('iconify-icon')
+      const editButton = editIcon.closest('button')
+      await user.click(editButton!)
 
       const textarea = screen.getByRole('textbox')
       expect(textarea).toHaveValue('Comentario original')
@@ -250,8 +258,9 @@ describe('Comment', () => {
         />
       )
 
-      const editButton = screen.getByRole('button', { name: '' })
-      await user.click(editButton)
+      const editIcon = screen.getByTestId('iconify-icon')
+      const editButton = editIcon.closest('button')
+      await user.click(editButton!)
 
       const textarea = screen.getByRole('textbox')
       await user.clear(textarea)
@@ -275,8 +284,9 @@ describe('Comment', () => {
         />
       )
 
-      const editButton = screen.getByRole('button', { name: '' })
-      await user.click(editButton)
+      const editIcon = screen.getByTestId('iconify-icon')
+      const editButton = editIcon.closest('button')
+      await user.click(editButton!)
 
       const cancelButton = screen.getByText('Cancel')
       await user.click(cancelButton)
@@ -298,11 +308,13 @@ describe('Comment', () => {
         />
       )
 
-      const editButton = screen.getByRole('button', { name: '' })
-      await user.click(editButton)
-
-      const deleteButton = screen.getByText('Delete')
-      await user.click(deleteButton)
+      const deleteIcons = screen.getAllByTestId('iconify-icon')
+      const deleteIcon = deleteIcons.find(
+        icon => icon.getAttribute('data-icon') === 'hugeicons:delete-01'
+      )
+      const deleteButton = deleteIcon?.closest('button')
+      expect(deleteButton).toBeInTheDocument()
+      await user.click(deleteButton!)
 
       expect(mockOnDelete).toHaveBeenCalledTimes(1)
     })
@@ -318,11 +330,12 @@ describe('Comment', () => {
         />
       )
 
-      const editButton = screen.getByRole('button', { name: '' })
-      await user.click(editButton)
-
-      const deleteButton = screen.getByText('Delete')
-      await user.click(deleteButton)
+      const deleteIcons = screen.getAllByTestId('iconify-icon')
+      const deleteIcon = deleteIcons.find(
+        icon => icon.getAttribute('data-icon') === 'hugeicons:delete-01'
+      )
+      const deleteButton = deleteIcon?.closest('button')
+      await user.click(deleteButton!)
 
       const textarea = screen.getByRole('textbox')
       expect(textarea).toHaveValue('')
@@ -339,18 +352,18 @@ describe('Comment', () => {
         />
       )
 
-      const editButton = screen.getByRole('button', { name: '' })
-      await user.click(editButton)
-
-      const deleteButton = screen.getByText('Delete')
-      await user.click(deleteButton)
+      const deleteIcons = screen.getAllByTestId('iconify-icon')
+      const deleteIcon = deleteIcons.find(
+        icon => icon.getAttribute('data-icon') === 'hugeicons:delete-01'
+      )
+      const deleteButton = deleteIcon?.closest('button')
+      await user.click(deleteButton!)
 
       const textarea = screen.getByRole('textbox')
       expect(textarea).not.toBeDisabled()
     })
 
-    it('no muestra el botón Delete si onDelete no está definido', async () => {
-      const user = userEvent.setup()
+    it('no muestra el botón Delete si onDelete no está definido', () => {
       render(
         <Comment
           characterId={1}
@@ -359,10 +372,11 @@ describe('Comment', () => {
         />
       )
 
-      const editButton = screen.getByRole('button', { name: '' })
-      await user.click(editButton)
-
-      expect(screen.queryByText('Delete')).not.toBeInTheDocument()
+      const deleteIcons = screen.queryAllByTestId('iconify-icon')
+      const deleteIcon = deleteIcons.find(
+        icon => icon.getAttribute('data-icon') === 'hugeicons:delete-01'
+      )
+      expect(deleteIcon).toBeUndefined()
     })
   })
 
